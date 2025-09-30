@@ -8,9 +8,10 @@
     "dark": "#15803D"
   },
   "favicon": "/favicon.svg",
-  
   "navigation": {
-    "pages": ["index"],
+    "pages": [
+      "index"
+    ],
     "groups": [
       {
         "group": "Getting Started",
@@ -74,24 +75,14 @@
           "concepts/projects",
           "concepts/agents",
           "concepts/actions",
-          "concepts/flows",
-          {
-            "group": "Library",
-            "pages": [
-              "concepts/library/overview",
-              "concepts/library/triggers",
-              "concepts/library/modules",
-              "concepts/library/variables"
-            ]
-          }
+          "concepts/flows"
         ]
       },
       {
         "group": "Executions & Testing",
         "pages": [
           "executions/executions",
-          "executions/payloads",
-          "executions/evaluations"
+          "executions/payloads"
         ]
       },
       {
@@ -149,15 +140,18 @@
       },
       {
         "group": "Community",
-        "pages": ["community/join-discord"]
+        "pages": [
+          "community/join-discord"
+        ]
       },
       {
         "group": "Appendix",
-        "pages": ["appendix/quick-reference"]
+        "pages": [
+          "appendix/quick-reference"
+        ]
       }
     ]
   },
-
   "logo": {
     "light": "/images/PNG-04.png",
     "dark": "/images/PNG-04.png"
@@ -177,15 +171,15 @@
   },
   "contextual": {
     "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
+      "copy",
+      "view",
+      "chatgpt",
+      "claude",
+      "perplexity",
+      "mcp",
+      "cursor",
+      "vscode"
+    ]
   },
   "footer": {
     "socials": {

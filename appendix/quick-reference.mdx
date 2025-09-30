@@ -3,22 +3,21 @@ title: "Quick Reference"
 description: "Compact cheat sheet for everyday Triform tasks"
 ---
 
-# Quick Reference
-
-A compact cheat sheet for everyday Triform tasks.
-
 ## Navigation
+
 - Breadcrumbs (Top Bar): Jump between Org → Project → Component.
 - Home (logo): Go to Projects dashboard.
 - Profile: Switch Organization, view Org settings, log out.
 
 ## Canvas basics
+
 - Click: Select a Node.
 - Double‑click: Open Project/Agent/Flow internals.
 - Right‑click: Context actions on Canvas or Node.
 - Drag: Reposition Nodes to clarify flow.
 
 ## Building blocks
+
 - Project View: Top‑level Agents/Flows eligible for API/Schedule.
 - Agent Toolbox: Add tools (Actions/Flows/Agents) via ＋.
 - Flow View:
@@ -27,6 +26,7 @@ A compact cheat sheet for everyday Triform tasks.
   - Drag from a connection point to create Edges or new components.
 
 ## Properties Panel
+
 - Global → Variables: Project‑scoped configuration values.
 - Components → Definition: Intent, requirements, constraints.
 - Components → Content:
@@ -37,22 +37,26 @@ A compact cheat sheet for everyday Triform tasks.
 - Input & Output: Define ports, types, defaults; toggle Parallel.
 
 ## Executions
+
 - Start manually, via API/Schedule, or from another Node.
 - Each run is isolated, reproducible, and traceable.
 - Use Payloads to save examples and rerun tests quickly.
 
 ## Quotas at a glance
+
 - Execution‑Based: total runs, concurrency, duration, depth, recursion.
 - Resource‑Based: payload size, script size, stored Payloads, module size/deps.
 - API & Integrations: request rate, endpoint concurrency, schedules, publishes.
 - Account‑Specific: environments, variables/secrets, alert/evaluation counts.
 
 ## Deployment & exposure
+
 - Deploy (Top Bar) appears when local changes outpace last deploy.
 - Expose top‑level Agents/Flows as APIs or Schedules under Execute.
 - Manage API keys at the Project level.
 
 ## Troubleshooting quick wins
+
 - Mismatched I/O: Align port names and types on both ends.
 - Over‑large payload: Split into batches; toggle Parallel.
 - Rate limit (429): Retry with exponential backoff + jitter.

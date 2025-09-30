@@ -3,11 +3,8 @@ title: "Nodes"
 description: "Building blocks: properties, types, and lifecycle"
 ---
 
-# Nodes
-
-Nodes are Triform’s fundamental building blocks. Every piece of behavior—Agents, Flows, Actions, and even Projects as containers—appears as a Node on the Canvas.
-
 ## Properties of a Node
+
 - Inputs / Outputs — Typed connection points that define data contracts.
 - Definition — Purpose, requirements, constraints.
 - Content — Implementation/configuration (varies by Node type).
@@ -15,6 +12,7 @@ Nodes are Triform’s fundamental building blocks. Every piece of behavior—Age
 - Observability — Executions emit logs, traces, and metrics.
 
 ## Types of Nodes
+
 - Project — A scoped workspace that contains top‑level Agents/Flows.
 - Agent — LLM‑driven logic that can call tools (Actions, Flows, other Agents).
 - Flow — A directed graph of Nodes connected by Edges.
@@ -22,6 +20,7 @@ Nodes are Triform’s fundamental building blocks. Every piece of behavior—Age
 - Input / Output — Special Nodes that mark Flow boundaries.
 
 ## Lifecycle
+
 1. Draft — Define intent and I/O.
 2. Test — Use Payloads and small runs.
 3. Compose — Chain into Flows or add as Agent tools.

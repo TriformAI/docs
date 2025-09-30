@@ -3,11 +3,8 @@ title: "Agents"
 description: "LLM logic with prompts and tools; good patterns and observability"
 ---
 
-# Agents
-
-Agents combine an LLM with prompts and tools (Actions, Flows, or other Agents) to perform goal‑directed, agentic execution.
-
 ## Anatomy
+
 - Model configuration — Provider/model, temperature, top‑p, max tokens.
 - Prompts
   - System Prompt — Non‑negotiable instructions.
@@ -16,11 +13,13 @@ Agents combine an LLM with prompts and tools (Actions, Flows, or other Agents) t
 - Toolbox — The set of callable tools made available to the Agent.
 
 ## Good patterns
+
 - Keep System Prompts specific and outcome‑oriented.
 - Start with few high‑leverage tools; expand gradually.
 - Use Messages List when memory/context matters.
 
 ## Observability
+
 - Executions emit logs, traces, metrics for inspection.
 - Use Payloads to reproduce and compare runs after prompt changes.
 
