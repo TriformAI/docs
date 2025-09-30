@@ -46,9 +46,12 @@
             "pages": [
               "workspace/properties/overview",
               "workspace/properties/global-variables",
+              "workspace/properties/overview",
+              "workspace/properties/global-variables",
               {
                 "group": "Components",
                 "pages": [
+                  "workspace/properties/components/definition",
                   "workspace/properties/components/definition",
                   {
                     "group": "Content",
@@ -57,10 +60,16 @@
                       "workspace/properties/components/content/flows",
                       "workspace/properties/components/content/actions",
                       "workspace/properties/components/content/projects"
+                      "workspace/properties/components/content/agents",
+                      "workspace/properties/components/content/flows",
+                      "workspace/properties/components/content/actions",
+                      "workspace/properties/components/content/projects"
                     ]
                   }
                 ]
               },
+              "workspace/properties/execute",
+              "workspace/properties/input-output"
               "workspace/properties/execute",
               "workspace/properties/input-output"
             ]
