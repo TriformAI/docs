@@ -44,25 +44,25 @@
           {
             "group": "Properties Panel",
             "pages": [
-              "workspace/proppanel/overview",
-              "workspace/proppanel/global-variables",
+              "workspace/properties/overview",
+              "workspace/properties/global-variables",
               {
                 "group": "Components",
                 "pages": [
-                  "workspace/proppanel/components/definition",
+                  "workspace/properties/components/definition",
                   {
                     "group": "Content",
                     "pages": [
-                      "workspace/proppanel/components/content/agents",
-                      "workspace/proppanel/components/content/flows",
-                      "workspace/proppanel/components/content/actions",
-                      "workspace/proppanel/components/content/projects"
+                      "workspace/properties/components/content/agents",
+                      "workspace/properties/components/content/flows",
+                      "workspace/properties/components/content/actions",
+                      "workspace/properties/components/content/projects"
                     ]
                   }
                 ]
               },
-              "workspace/proppanel/execute",
-              "workspace/proppanel/input-output"
+              "workspace/properties/execute",
+              "workspace/properties/input-output"
             ]
           }
         ]
@@ -159,8 +159,8 @@
   },
 
   "logo": {
-    "light": "/logo/JPG-03.jpg",
-    "dark": "/logo/JPG-02.jpg"
+    "light": "/logo/light.jpg",
+    "dark": "/logo/dark.jpg"
   },
   "navbar": {
     "links": [
