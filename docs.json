@@ -1,11 +1,11 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "mint",
-  "name": "Mint Starter Kit",
+  "theme": "aspen",
+  "name": "Triform",
   "colors": {
     "primary": "#432dd7",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "light": "#DCC8FF",
+    "dark": "#7008E7"
   },
   "favicon": "/favicon.svg",
   "navigation": {
@@ -165,7 +165,7 @@
     ],
     "primary": {
       "type": "button",
-      "label": "Dashboard",
+      "label": "Canvas",
       "href": "https://app.triform.ai"
     }
   },
