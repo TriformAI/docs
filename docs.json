@@ -44,25 +44,25 @@
           {
             "group": "Properties Panel",
             "pages": [
-              "workspace/properties/overview",
-              "workspace/properties/global-variables",
+              "workspace/proppanel/overview",
+              "workspace/proppanel/global-variables",
               {
                 "group": "Components",
                 "pages": [
-                  "workspace/properties/components/definition",
+                  "workspace/proppanel/components/definition",
                   {
                     "group": "Content",
                     "pages": [
-                      "workspace/properties/components/content/agents",
-                      "workspace/properties/components/content/flows",
-                      "workspace/properties/components/content/actions",
-                      "workspace/properties/components/content/projects"
+                      "workspace/proppanel/components/content/agents",
+                      "workspace/proppanel/components/content/flows",
+                      "workspace/proppanel/components/content/actions",
+                      "workspace/proppanel/components/content/projects"
                     ]
                   }
                 ]
               },
-              "workspace/properties/execute",
-              "workspace/properties/input-output"
+              "workspace/proppanel/execute",
+              "workspace/proppanel/input-output"
             ]
           }
         ]
