@@ -8,79 +8,159 @@
     "dark": "#15803D"
   },
   "favicon": "/favicon.svg",
+  
   "navigation": {
-    "tabs": [
+    "pages": ["index"],
+    "groups": [
       {
-        "tab": "Guides",
-        "groups": [
+        "group": "Getting Started",
+        "pages": [
+          "getting-started/login",
+          "getting-started/workspace-overview"
+        ]
+      },
+      {
+        "group": "Workspace",
+        "pages": [
+          "workspace/top-bar",
           {
-            "group": "Getting started",
+            "group": "Canvas",
             "pages": [
-              "index",
-              "quickstart",
-              "development"
+              "workspace/canvas/overview",
+              "workspace/canvas/project-view",
+              "workspace/canvas/agent-toolbox",
+              {
+                "group": "Flow View",
+                "pages": [
+                  "workspace/canvas/flow-view/basics",
+                  "workspace/canvas/flow-view/io-nodes",
+                  "workspace/canvas/flow-view/create-connect",
+                  "workspace/canvas/flow-view/node-interactions"
+                ]
+              }
             ]
           },
+          "workspace/chat-panel",
           {
-            "group": "Customization",
+            "group": "Properties Panel",
             "pages": [
-              "essentials/settings",
-              "essentials/navigation"
-            ]
-          },
-          {
-            "group": "Writing content",
-            "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/reusable-snippets"
-            ]
-          },
-          {
-            "group": "AI tools",
-            "pages": [
-              "ai-tools/cursor",
-              "ai-tools/claude-code",
-              "ai-tools/windsurf"
+              "workspace/properties/overview",
+              "workspace/properties/global-variables",
+              {
+                "group": "Components",
+                "pages": [
+                  "workspace/properties/components/definition",
+                  {
+                    "group": "Content",
+                    "pages": [
+                      "workspace/properties/components/content/agents",
+                      "workspace/properties/components/content/flows",
+                      "workspace/properties/components/content/actions",
+                      "workspace/properties/components/content/projects"
+                    ]
+                  }
+                ]
+              },
+              "workspace/properties/execute",
+              "workspace/properties/input-output"
             ]
           }
         ]
       },
       {
-        "tab": "API reference",
-        "groups": [
+        "group": "Core Concepts",
+        "pages": [
+          "concepts/nodes",
+          "concepts/projects",
+          "concepts/agents",
+          "concepts/actions",
+          "concepts/flows",
           {
-            "group": "API documentation",
+            "group": "Library",
             "pages": [
-              "api-reference/introduction"
-            ]
-          },
-          {
-            "group": "Endpoint examples",
-            "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
+              "concepts/library/overview",
+              "concepts/library/triggers",
+              "concepts/library/modules",
+              "concepts/library/variables"
             ]
           }
         ]
+      },
+      {
+        "group": "Executions & Testing",
+        "pages": [
+          "executions/executions",
+          "executions/payloads",
+          "executions/evaluations"
+        ]
+      },
+      {
+        "group": "Project Administration",
+        "pages": [
+          "project-admin/projects-list",
+          "project-admin/deployments",
+          "project-admin/expose",
+          "project-admin/api-keys"
+        ]
+      },
+      {
+        "group": "Organizations & Accounts",
+        "pages": [
+          {
+            "group": "Organizations",
+            "pages": [
+              "orgs/overview",
+              "orgs/affiliations",
+              "orgs/roles-permissions",
+              "orgs/members",
+              "orgs/github-integration",
+              "orgs/billing-settings"
+            ]
+          },
+          {
+            "group": "Users",
+            "pages": [
+              "users/profile",
+              "users/authentication-sessions"
+            ]
+          },
+          "orgs/admin",
+          "accounts/admin"
+        ]
+      },
+      {
+        "group": "Quotas",
+        "pages": [
+          "quotas/index",
+          "quotas/execution-based",
+          "quotas/resource-based",
+          "quotas/api-integrations",
+          "quotas/account-specific"
+        ]
+      },
+      {
+        "group": "Roadmap",
+        "pages": [
+          "roadmap/monitoring",
+          "roadmap/alerts",
+          "roadmap/persistent-storage",
+          "roadmap/community-library"
+        ]
+      },
+      {
+        "group": "Community",
+        "pages": ["community/join-discord"]
+      },
+      {
+        "group": "Appendix",
+        "pages": ["appendix/quick-reference"]
       }
-    ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Blog",
-          "href": "https://discover.triform.ai",
-          "icon": "newspaper"
-        }
-      ]
-    }
+    ]
   },
+
   "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
+    "light": "/logo/JPG-03.jpg",
+    "dark": "/logo/JPG-02.jpg"
   },
   "navbar": {
     "links": [
