@@ -1,0 +1,252 @@
+---
+title: "Edit an Existing Project"
+description: "Modify and enhance Projects you've built or inherited"
+---
+
+## Overview
+
+This tutorial covers how to safely modify existing Projects, whether you created them, inherited them from teammates, or are exploring community templates.
+
+**Time required:** 15-20 minutes
+
+## Step 1: Open the Project
+
+1. Navigate to **Home** in the Top Bar
+2. Find your Project in the Projects list
+3. Click to open it on the Canvas
+
+You'll see the Project's component graph.
+
+## Step 2: Understand the structure
+
+Before making changes, map out what exists:
+
+1. **Review the Canvas** — Note all Flows, Agents, and Actions
+2. **Check dependencies** — See which components depend on others
+3. **Read documentation** — Look for README or descriptions
+4. **Ask Triton** — Type: _"Explain what this Project does"_
+
+Triton will analyze the structure and provide a summary.
+
+## Step 3: Identify what to change
+
+Common modification scenarios:
+
+### Adding a new feature
+
+**Example:** Add email notifications to a data processing pipeline
+
+1. Create a new Action: `send_email`
+2. Add it to the relevant Flow
+3. Connect it after the processing step
+4. Configure SMTP settings in Global Variables
+
+### Modifying an existing component
+
+**Example:** Update an Agent's prompt
+
+1. Select the Agent node
+2. Open Properties → Content
+3. Edit the System Prompt
+4. Save changes (auto-saved)
+5. Test with a sample payload
+
+### Replacing a component
+
+**Example:** Swap out an Action for a better implementation
+
+1. Create the new Action
+2. Ensure it has the same input/output schema
+3. Disconnect the old Action
+4. Connect the new one
+5. Delete the old Action
+6. Test thoroughly
+
+### Debugging an issue
+
+**Example:** A Flow is failing intermittently
+
+1. Go to Properties → Executions
+2. Find failed execution
+3. Examine logs and errors
+4. Identify the failing component
+5. Ask Triton: _"Why is this Action failing?"_
+6. Apply the fix
+7. Re-run execution
+
+## Step 4: Make the changes
+
+Let's walk through a specific example: **Adding retry logic to an API call**
+
+### Current state
+Your `fetch_data` Action sometimes fails due to network timeouts.
+
+### Goal
+Add automatic retry with exponential backoff.
+
+### Steps
+
+1. **Open the Action**
+   - Double-click the `fetch_data` node
+   - Review the current `Action.py`
+
+2. **Ask Triton for help**
+   - _"Add retry logic with exponential backoff to this Action"_
+   - Triton will update the code with a retry decorator
+
+3. **Review the changes**
+   ```python
+   from tenacity import retry, stop_after_attempt, wait_exponential
+   
+   @retry(
+       stop=stop_after_attempt(3),
+       wait=wait_exponential(multiplier=1, min=2, max=10)
+   )
+   def fetch_data(url: str) -> dict:
+       # existing implementation
+   ```
+
+4. **Update requirements.txt**
+   - Add `tenacity==8.2.3`
+
+5. **Test the change**
+   - Execute with a payload that previously failed
+   - Verify retries happen (check logs)
+   - Confirm eventual success
+
+## Step 5: Test your changes
+
+Always test modifications before deploying:
+
+### Unit test individual components
+
+1. Select the modified component
+2. Use Properties → Execute with test data
+3. Verify expected behavior
+
+### Integration test the full Flow
+
+1. Select the top-level Flow
+2. Execute with realistic payloads
+3. Check all outputs are correct
+
+### Edge case testing
+
+Test with:
+- Empty inputs
+- Maximum size inputs  
+- Invalid data
+- Network failures (if applicable)
+
+## Step 6: Document your changes
+
+Help your future self and teammates:
+
+1. **Update descriptions**
+   - Select the component
+   - Update the description field
+   - Note what changed and why
+
+2. **Update README**
+   - If the Project has a README, add notes
+   - Document new dependencies or requirements
+
+3. **Add comments in code**
+   - Explain non-obvious logic
+   - Note any workarounds or constraints
+
+## Step 7: Deploy the updates
+
+Once tested:
+
+1. Click **Deploy** in the Top Bar
+2. Select the environment
+3. Review changes (diff view if available)
+4. Add deployment notes
+5. Click **Deploy Now**
+
+For production Projects:
+- Deploy to staging first
+- Run smoke tests
+- Monitor for issues
+- Then deploy to production
+
+## Step 8: Monitor post-deployment
+
+After deploying:
+
+1. **Watch initial executions**
+   - Check the first few runs succeed
+   - Look for unexpected errors
+
+2. **Compare metrics**
+   - Success rate before vs. after
+   - Execution time
+   - Error types
+
+3. **Set up alerts**
+   - Get notified if new issues arise
+   - Track key metrics
+
+## Common modification patterns
+
+### Adding authentication
+
+1. Create Global Variable for API key
+2. Update relevant Actions to use the key
+3. Test with valid and invalid keys
+
+### Scaling for more data
+
+1. Identify bottlenecks (single-threaded Actions)
+2. Add parallel processing in Flows
+3. Implement batching if needed
+4. Test with large payloads
+
+### Improving error handling
+
+1. Add try-catch blocks in Actions
+2. Return structured error responses
+3. Add error routing in Flows
+4. Set up failure notifications
+
+### Optimizing performance
+
+1. Profile slow components
+2. Add caching where appropriate
+3. Reduce unnecessary data passing
+4. Parallelize independent operations
+
+## Best practices
+
+> **Version control** — Save the current state before major changes (export/backup)
+
+> **Small iterations** — Make one change at a time, test, then move on
+
+> **Ask for help** — Use Triton to explain complex parts before modifying
+
+> **Test thoroughly** — Don't skip testing, especially for production Projects
+
+> **Communicate** — If working in a team, coordinate changes
+
+## Troubleshooting
+
+**Problem:** Changes aren't taking effect  
+**Solution:** Ensure you saved, redeploy if already deployed, clear any caches
+
+**Problem:** Breaking existing functionality  
+**Solution:** Review execution logs, compare with previous version, test each component
+
+**Problem:** Can't understand the existing code  
+**Solution:** Ask Triton to explain it, check for documentation, trace execution flow
+
+**Problem:** Changes work locally but fail in production  
+**Solution:** Check environment differences, verify Global Variables are set, review logs
+
+## Next steps
+
+- [Edit a Specific Component](/tutorials/edit-a-specific-component)
+- [Integrate Project into Your App](/tutorials/integrate-project-into-your-app)
+- [Understanding Deployments](/concepts/deployments)
+- [Debugging Best Practices](/triton/debugging)
+

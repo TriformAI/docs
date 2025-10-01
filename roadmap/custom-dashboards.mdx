@@ -1,0 +1,358 @@
+---
+title: "Custom Dashboards"
+description: "Build personalized monitoring dashboards (Coming Soon)"
+---
+
+## Overview
+
+Create custom dashboards to monitor your Projects, track metrics, and visualize data exactly the way you need.
+
+**Status:** 🔮 Planned for Q4 2026
+
+## What are Custom Dashboards?
+
+Flexible, customizable views combining charts, metrics, logs, and execution data into personalized monitoring interfaces.
+
+## Key Features
+
+### Drag-and-Drop Builder
+
+**Visual dashboard creation:**
+- Drag widgets onto canvas
+- Resize and arrange freely
+- No code required
+- Real-time preview
+
+### Widget Library
+
+**Pre-built components:**
+- **Line chart** — Time series data
+- **Bar chart** — Comparisons
+- **Pie chart** — Proportions
+- **Table** — Raw data
+- **Number** — Single metric (big number)
+- **Gauge** — Visual indicator with thresholds
+- **Heatmap** — Distribution over time
+- **Markdown** — Custom text and links
+
+### Data Sources
+
+**Pull from multiple sources:**
+- Execution metrics (success rate, duration)
+- Custom metrics (your own tracked metrics)
+- Logs (error counts, patterns)
+- Cost data (LLM usage, API calls)
+- External APIs (via Actions)
+
+### Time Controls
+
+**Flexible time ranges:**
+- Last 5 minutes → Last 30 days
+- Custom date range
+- Real-time (auto-refresh)
+- Compare time periods
+
+### Variables
+
+**Make dashboards dynamic:**
+```
+Project: [dropdown selector]
+Environment: [staging | production]
+Time range: [last 24 hours]
+```
+
+**Widgets update based on variable selection**
+
+### Templates
+
+**Start quickly:**
+- Production Overview
+- Cost Monitoring
+- Quality Metrics
+- Customer Support KPIs
+- Developer Dashboard
+- Executive Summary
+
+**Or create from scratch**
+
+## Example Dashboards
+
+### Production Monitoring Dashboard
+
+**Row 1:**
+- Request rate (line chart)
+- Error rate (gauge, red if >5%)
+- Avg response time (number, ms)
+
+**Row 2:**
+- Success rate by Project (bar chart)
+- Error types (pie chart)
+- Recent errors (table)
+
+**Row 3:**
+- Execution timeline (area chart)
+- Cost by Project (stacked bar)
+- Active users (line chart)
+
+### Cost Analysis Dashboard
+
+**Row 1:**
+- Total cost today (big number)
+- vs. yesterday (% change)
+- Daily cost trend (line chart)
+
+**Row 2:**
+- Cost by Project (pie chart)
+- Cost by LLM model (bar chart)
+- Token usage trend (area chart)
+
+**Row 3:**
+- Top expensive executions (table)
+- Cost forecast (line chart)
+- Budget vs. actual (gauge)
+
+### Agent Quality Dashboard
+
+**Row 1:**
+- Avg response quality (gauge)
+- User satisfaction (line chart)
+- Thumbs up/down ratio (pie chart)
+
+**Row 2:**
+- Response time distribution (histogram)
+- Tool usage (bar chart)
+- Conversation volume (area chart)
+
+**Row 3:**
+- Recent feedback (table)
+- Quality by Agent (comparison)
+- Improvement over time (line chart)
+
+## Sharing and Collaboration
+
+### Share Dashboards
+
+**With your team:**
+- Share link (view-only or editable)
+- Embed in Slack/Discord
+- Email snapshots
+- Public URLs (optional)
+
+### Permissions
+
+**Control access:**
+- Organization members (all)
+- Specific users
+- Specific roles (Admin, Editor, Viewer)
+- Public (anyone with link)
+
+### Versioning
+
+**Track changes:**
+- Save dashboard versions
+- Restore previous versions
+- Compare changes
+- Clone and modify
+
+## Alerts from Dashboards
+
+**Set up alerts directly:**
+1. Click widget
+2. "Create Alert from This"
+3. Define threshold
+4. Choose notification channel
+5. Save
+
+**Example:** Alert when error rate widget shows >5%
+
+## Embedding
+
+**Embed in your apps:**
+```html
+<iframe
+  src="https://dashboards.triform.ai/embed/abc123?theme=dark"
+  width="100%"
+  height="600"
+></iframe>
+```
+
+**Embed options:**
+- Full dashboard or single widget
+- Light/dark theme
+- Auto-refresh interval
+- Hide/show controls
+
+## Mobile Support
+
+**Responsive dashboards:**
+- Automatic layout for mobile
+- Swipe between sections
+- Tap to drill down
+- Push notifications for alerts
+
+## API
+
+**Programmatic access:**
+```python
+from triform import Dashboards
+
+# Create dashboard
+dashboard = Dashboards.create(
+    name="My Dashboard",
+    widgets=[
+        {
+            "type": "line_chart",
+            "metric": "request_rate",
+            "position": {"x": 0, "y": 0, "w": 6, "h": 4}
+        },
+        {
+            "type": "gauge",
+            "metric": "error_rate",
+            "thresholds": [0, 1, 5],  # green, yellow, red
+            "position": {"x": 6, "y": 0, "w": 3, "h": 4}
+        }
+    ]
+)
+
+# Get dashboard data
+data = dashboard.get_data(
+    start_time="2025-10-01",
+    end_time="2025-10-02"
+)
+
+# Update dashboard
+dashboard.add_widget({
+    "type": "table",
+    "query": "SELECT * FROM executions WHERE status='failed'"
+})
+```
+
+## Export and Backup
+
+**Export dashboards:**
+- JSON format (import elsewhere)
+- PDF snapshot (for reports)
+- Image (PNG for sharing)
+- CSV data (for analysis)
+
+## Templates Gallery
+
+**Pre-built dashboards:**
+- Browse community templates
+- Clone and customize
+- Share your own
+- Rate and review
+
+## Advanced Features
+
+### Drill Down
+
+**Interactive exploration:**
+- Click chart → See raw data
+- Click metric → View logs
+- Click execution → Full trace
+
+### Annotations
+
+**Mark important events:**
+- Deployment markers
+- Incident annotations
+- Release notes
+- Custom notes
+
+### Comparison Mode
+
+**Side-by-side comparison:**
+- This week vs. last week
+- Staging vs. production
+- Agent v1 vs. v2
+- Before vs. after changes
+
+### Calculated Metrics
+
+**Create derived metrics:**
+```
+conversion_rate = (successful_orders / total_orders) * 100
+cost_per_success = total_cost / successful_executions
+```
+
+## Integrations
+
+**Connect external data:**
+- Google Analytics
+- Stripe (revenue data)
+- Custom APIs
+- Databases (read-only)
+
+## Use Cases
+
+### DevOps Monitoring
+
+**Track system health:**
+- Uptime and availability
+- Error rates and types
+- Performance metrics
+- Resource usage
+
+### Product Analytics
+
+**User behavior:**
+- Feature usage
+- User journey flows
+- Conversion funnels
+- Retention cohorts
+
+### Executive Reporting
+
+**High-level overview:**
+- Business KPIs
+- Cost trends
+- User growth
+- Revenue impact
+
+### Team Collaboration
+
+**Shared visibility:**
+- Current sprint metrics
+- Team performance
+- Project status
+- Blockers and issues
+
+## Pricing
+
+**Free tier:**
+- 3 dashboards
+- 10 widgets per dashboard
+- Basic widgets
+- Organization sharing only
+
+**Pro tier:**
+- 25 dashboards
+- Unlimited widgets
+- All widget types
+- Public sharing
+- Embedding
+
+**Enterprise:**
+- Unlimited dashboards
+- Advanced features
+- SSO for dashboard access
+- White-label embedding
+- Priority support
+
+## Timeline
+
+**Q4 2026:** Dashboard builder, basic widgets  
+**2027 Q1:** Advanced widgets, templates  
+**2027 Q2:** Mobile app, embedding
+
+## Get Notified
+
+**Sign up:** [triform.ai/dashboards-beta](https://triform.ai/dashboards-beta)
+
+## Questions?
+
+- [Join Discord](https://discord.gg/triform) #dashboards
+- Email: product@triform.ai
+- [Upvote this feature](/support/request-a-feature)
+

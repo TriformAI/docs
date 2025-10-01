@@ -1,0 +1,423 @@
+---
+title: "Executions"
+description: "Track and analyze Project runs with detailed execution logs"
+---
+
+## What is an Execution?
+
+An Execution is a single run of a Project, Flow, Agent, or Action. Every time you trigger a component, Triform creates an Execution record that tracks:
+
+- Input payload
+- Output results
+- Execution path taken
+- Timing for each step
+- Logs and errors
+- Resource usage
+
+## Why Executions matter
+
+Executions provide:
+
+**Observability** — See exactly what happened  
+**Debugging** — Trace errors to their source  
+**Performance** — Identify slow components  
+**Compliance** — Audit trail of all runs  
+**Testing** — Replay with saved payloads
+
+## Viewing Executions
+
+### In the UI
+
+1. Open your Project/Flow/Agent/Action
+2. Go to **Properties → Executions**
+3. See list of recent executions
+
+**Each entry shows:**
+- Execution ID
+- Timestamp
+- Status (success, failed, running)
+- Duration
+- Input/output preview
+
+### Execution details
+
+Click an execution to see:
+
+**Overview tab:**
+- Status and result
+- Start and end time
+- Total duration
+- Input and output payloads
+
+**Trace tab:**
+- Execution graph showing path taken
+- Node-by-node timing
+- Data flow between nodes
+
+**Logs tab:**
+- Debug, info, warning, error logs
+- Timestamps for each log entry
+- Source component for each log
+
+**Metrics tab:**
+- Token usage (for Agents)
+- API calls made
+- Memory usage
+- Cost breakdown
+
+## Execution statuses
+
+### Running
+
+Execution is currently in progress.
+
+**Visual:** Yellow indicator  
+**Actions:** Can cancel if needed  
+**View:** Live logs updating
+
+### Completed
+
+Execution finished successfully.
+
+**Visual:** Green indicator  
+**Result:** Output available  
+**View:** Full logs and metrics
+
+### Failed
+
+Execution encountered an error.
+
+**Visual:** Red indicator  
+**Error:** Details in logs  
+**Actions:** Debug, retry, or fix
+
+### Canceled
+
+Execution was manually stopped.
+
+**Visual:** Gray indicator  
+**Partial:** May have partial results  
+**Reason:** User-initiated or timeout
+
+### Timeout
+
+Execution exceeded time limit.
+
+**Visual:** Orange indicator  
+**Reason:** Configured timeout reached  
+**Actions:** Increase timeout or optimize
+
+## Execution trace
+
+The trace shows the path taken through your Flow.
+
+### Reading the trace
+
+**Graph visualization:**
+```
+Input (0.1s)
+  ↓
+Validate (0.3s) ✓
+  ↓
+Process (5.2s) ✓
+  ↓
+Format (0.4s) ✓
+  ↓
+Output (0.1s)
+```
+
+**Node colors:**
+- **Green** — Executed successfully
+- **Red** — Failed
+- **Gray** — Skipped
+- **Yellow** — Currently running
+
+### Inspecting nodes in trace
+
+Click a node to see:
+- Input received
+- Output produced
+- Logs from that step
+- Execution time
+- Errors (if any)
+
+### Understanding data flow
+
+Edges show data movement:
+
+**Bold edges** — Data flowed through  
+**Gray edges** — Not used (conditional paths)  
+**Red edges** — Error path taken
+
+## Execution logs
+
+### Log levels
+
+**Debug** — Detailed information for troubleshooting  
+**Info** — General informational messages  
+**Warning** — Something unexpected but not breaking  
+**Error** — Failures and exceptions
+
+### Filtering logs
+
+- By level (show only errors)
+- By component (logs from specific Action)
+- By time range
+- By keyword search
+
+### Common log patterns
+
+**Successful execution:**
+```
+[INFO] Execution started: exec_abc123
+[INFO] Input validated successfully
+[DEBUG] Fetching data from API
+[DEBUG] Received 42 items
+[INFO] Processing completed
+[INFO] Execution completed in 3.2s
+```
+
+**Failed execution:**
+```
+[INFO] Execution started: exec_xyz789
+[INFO] Input validated successfully
+[DEBUG] Fetching data from API
+[ERROR] ConnectionError: Failed to connect to api.example.com
+[ERROR] Execution failed in process_data Action
+```
+
+## Execution metrics
+
+### Performance metrics
+
+**Duration** — Total execution time  
+**Wait time** — Time in queue before starting  
+**Processing time** — Active computation time  
+**I/O time** — Network and database operations
+
+### Resource metrics
+
+**Token usage** — For LLM calls (Agents)  
+**API calls** — External service requests  
+**Memory** — Peak memory usage  
+**Storage** — Data written/read
+
+### Cost metrics
+
+**LLM costs** — GPT-4, Claude, etc. usage  
+**API costs** — Third-party service fees  
+**Compute costs** — Execution resource usage  
+**Total cost** — Sum of all costs
+
+## Replaying Executions
+
+Re-run an execution with the same input.
+
+### Why replay?
+
+- Test fixes for failed executions
+- Validate optimizations
+- Compare performance before/after changes
+- Regression testing
+
+### How to replay
+
+1. Open execution details
+2. Click **Replay**
+3. Optionally modify input
+4. Click **Execute**
+5. New execution starts with same/modified input
+
+### Comparing executions
+
+Compare two executions side-by-side:
+
+1. Select first execution
+2. Click **Compare**
+3. Select second execution
+4. View differences:
+   - Input/output changes
+   - Timing differences
+   - Different paths taken
+   - Error variations
+
+## Execution history
+
+### Viewing history
+
+**Recent executions** — Last 100 runs (default)  
+**Date range** — Custom time period  
+**Filtered** — By status, user, or component
+
+### History patterns
+
+**Success rate over time:**
+```
+Last 24 hours: 95% (190/200)
+Last 7 days:   92% (1,288/1,400)
+Last 30 days:  94% (5,640/6,000)
+```
+
+**Performance trends:**
+```
+Average duration:
+Today:     3.2s
+This week: 3.5s
+This month: 3.1s
+```
+
+**Common errors:**
+```
+TimeoutError: 15 occurrences
+ValidationError: 8 occurrences
+APIError: 3 occurrences
+```
+
+## Debugging with Executions
+
+### Scenario 1: Find why it failed
+
+1. Filter by status: Failed
+2. Find relevant execution
+3. Open trace
+4. Identify red node
+5. Check logs for that node
+6. Read error message
+7. Fix the issue
+
+### Scenario 2: Find performance bottleneck
+
+1. Open execution details
+2. View trace with timing
+3. Identify slowest node
+4. Check what it's doing
+5. Optimize (caching, parallelization, etc.)
+
+### Scenario 3: Understand unexpected output
+
+1. Open execution
+2. Trace data flow
+3. Click each node to see input/output
+4. Find where data diverged from expected
+5. Fix transformation or mapping
+
+### Scenario 4: Intermittent failures
+
+1. Filter to failed executions
+2. Compare with successful ones
+3. Look for patterns:
+   - Time of day?
+   - Input size?
+   - Specific values?
+4. Identify and fix root cause
+
+## Execution retention
+
+### Retention periods
+
+**Free tier:** 7 days  
+**Pro tier:** 30 days  
+**Enterprise:** 90 days or custom
+
+**After retention period:**
+- Execution details deleted
+- Summary stats retained
+- Can't replay or view logs
+
+### Archiving important executions
+
+**Mark as important:**
+1. Open execution
+2. Click star icon
+3. Execution won't be deleted
+
+**Export for long-term storage:**
+1. Select execution(s)
+2. Click Export
+3. Save JSON locally or to S3
+
+## Execution API
+
+Access executions programmatically.
+
+### List executions
+
+```bash
+GET /v1/projects/{project_id}/executions
+```
+
+**Response:**
+```json
+{
+  "executions": [
+    {
+      "id": "exec_abc123",
+      "status": "completed",
+      "duration_ms": 3200,
+      "started_at": "2025-10-01T10:30:00Z",
+      "completed_at": "2025-10-01T10:30:03Z"
+    }
+  ]
+}
+```
+
+### Get execution details
+
+```bash
+GET /v1/executions/{execution_id}
+```
+
+**Response:**
+```json
+{
+  "id": "exec_abc123",
+  "status": "completed",
+  "input": {"user_id": "123"},
+  "output": {"result": "success"},
+  "trace": [...],
+  "logs": [...],
+  "metrics": {...}
+}
+```
+
+### Cancel execution
+
+```bash
+POST /v1/executions/{execution_id}/cancel
+```
+
+## Best practices
+
+> **Log liberally** — Info for checkpoints, debug for details
+
+> **Use structured logs** — Include context (user_id, request_id)
+
+> **Monitor success rates** — Set up alerts for drops
+
+> **Review failed executions** — Don't let errors accumulate
+
+> **Replay for testing** — Use real data for regression tests
+
+> **Archive important runs** — Star critical executions
+
+## Troubleshooting
+
+**Problem:** Can't find an execution  
+**Solution:** Check date filters, ensure you're in the right Project
+
+**Problem:** Execution shows "running" but isn't progressing  
+**Solution:** May be stuck; cancel and retry. Check logs for where it stopped.
+
+**Problem:** Execution logs are empty  
+**Solution:** Check if logging is enabled in component settings
+
+**Problem:** Execution trace doesn't show all nodes  
+**Solution:** Some nodes may have been skipped due to conditional logic
+
+## Next steps
+
+- [Understanding Payloads](/concepts/payloads)
+- [Understanding Triggers](/concepts/triggers)
+- [Debugging with Triton](/triton/debugging)
+- [Monitoring (Roadmap)](/roadmap/monitoring)
+

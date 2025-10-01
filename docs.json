@@ -16,8 +16,28 @@
       {
         "group": "Getting Started",
         "pages": [
+          "getting-started/quickstart",
           "getting-started/login",
           "getting-started/workspace-overview"
+        ]
+      },
+      {
+        "group": "Tutorials",
+        "pages": [
+          "tutorials/build-a-new-project",
+          "tutorials/edit-an-existing-project",
+          "tutorials/edit-a-specific-component",
+          "tutorials/integrate-project-into-your-app"
+        ]
+      },
+      {
+        "group": "Triton",
+        "pages": [
+          "triton/overview",
+          "triton/defining",
+          "triton/building",
+          "triton/editing",
+          "triton/debugging"
         ]
       },
       {
@@ -30,15 +50,7 @@
               "workspace/canvas/overview",
               "workspace/canvas/project-view",
               "workspace/canvas/agent-toolbox",
-              {
-                "group": "Flow View",
-                "pages": [
-                  "workspace/canvas/flow-view/basics",
-                  "workspace/canvas/flow-view/io-nodes",
-                  "workspace/canvas/flow-view/create-connect",
-                  "workspace/canvas/flow-view/node-interactions"
-                ]
-              }
+              "workspace/canvas/flow-view"
             ]
           },
           "workspace/chat-panel",
@@ -47,60 +59,53 @@
             "pages": [
               "workspace/properties/overview",
               "workspace/properties/global-variables",
-              {
-                "group": "Components",
-                "pages": [
-                  "workspace/properties/components/definition",
-                  {
-                    "group": "Content",
-                    "pages": [
-                      "workspace/properties/components/content/agents",
-                      "workspace/properties/components/content/flows",
-                      "workspace/properties/components/content/actions",
-                      "workspace/properties/components/content/projects"
-                    ]
-                  }
-                ]
-              },
               "workspace/properties/execute",
-              "workspace/properties/input-output"
+              "workspace/properties/input-output",
+              {
+                "group": "Content",
+                "pages": [
+                  "workspace/properties/components/content/agents",
+                  "workspace/properties/components/content/flows",
+                  "workspace/properties/components/content/actions",
+                  "workspace/properties/components/content/projects"
+                ]
+              }
             ]
-          }
+          },
+          "workspace/navigation"
         ]
       },
       {
         "group": "Core Concepts",
         "pages": [
-          "concepts/nodes",
           "concepts/projects",
           "concepts/agents",
           "concepts/actions",
-          "concepts/flows"
-        ]
-      },
-      {
-        "group": "Executions & Testing",
-        "pages": [
-          "executions/executions",
-          "executions/payloads"
+          "concepts/flows",
+          "concepts/executions",
+          "concepts/payloads",
+          "concepts/triggers",
+          "concepts/variables",
+          "concepts/deployments",
+          "concepts/api-keys",
+          "concepts/requirements",
+          "concepts/glossary"
         ]
       },
       {
         "group": "Project Administration",
         "pages": [
-          "project-admin/projects-list",
-          "project-admin/deployments",
-          "project-admin/expose",
-          "project-admin/api-keys"
+          "project-admin/projects-list"
         ]
       },
       {
-        "group": "Organizations & Accounts",
+        "group": "Organizations & Users",
         "pages": [
           {
             "group": "Organizations",
             "pages": [
               "orgs/overview",
+              "orgs/admin",
               "orgs/affiliations",
               "orgs/roles-permissions",
               "orgs/members",
@@ -111,12 +116,9 @@
           {
             "group": "Users",
             "pages": [
-              "users/profile",
-              "users/authentication-sessions"
+              "users/account-settings"
             ]
-          },
-          "orgs/admin",
-          "accounts/admin"
+          }
         ]
       },
       {
@@ -130,24 +132,49 @@
         ]
       },
       {
+        "group": "Security",
+        "pages": [
+          "security/overview",
+          "security/data-retention",
+          "security/compliance"
+        ]
+      },
+      {
+        "group": "Changelog",
+        "pages": [
+          "changelog/index"
+        ]
+      },
+      {
         "group": "Roadmap",
         "pages": [
+          "roadmap/chat-client",
+          "roadmap/community-library",
           "roadmap/monitoring",
           "roadmap/alerts",
           "roadmap/persistent-storage",
-          "roadmap/community-library"
+          "roadmap/evaluations",
+          "roadmap/traces",
+          "roadmap/logs",
+          "roadmap/metrics",
+          "roadmap/custom-dashboards",
+          "roadmap/schedules"
         ]
       },
       {
-        "group": "Community",
+        "group": "Support",
         "pages": [
-          "community/join-discord"
+          "support/overview",
+          "support/faq",
+          "support/report-a-bug",
+          "support/request-a-feature",
+          "support/contact-us"
         ]
       },
       {
-        "group": "Appendix",
+        "group": "Status",
         "pages": [
-          "appendix/quick-reference"
+          "status/index"
         ]
       }
     ]
@@ -157,15 +184,14 @@
     "dark": "/images/PNG-04.png"
   },
   "navbar": {
-    "links": [
-      {
-        "label": "Support",
-        "href": "https://discord.gg/triform"
-      }
-    ],
+    "socials": {
+      "x": "https://x.com/triformai",
+      "discord": "https://discord.gg/triform",
+      "linkedin": "https://linkedin.com/company/triformai"
+    },
     "primary": {
       "type": "button",
-      "label": "Canvas",
+      "label": "Triform Platform",
       "href": "https://app.triform.ai"
     }
   },
@@ -173,9 +199,6 @@
     "options": [
       "copy",
       "view",
-      "chatgpt",
-      "claude",
-      "perplexity",
       "mcp",
       "cursor",
       "vscode"
@@ -187,5 +210,19 @@
       "discord": "https://discord.gg/triform",
       "linkedin": "https://linkedin.com/company/triformai"
     }
-  }
+  },
+  "redirects": [
+    {
+      "from": "/concepts/depployments",
+      "to": "/concepts/deployments"
+    },
+    {
+      "from": "/accounts/admin",
+      "to": "/users/admin"
+    },
+    {
+      "from": "/roadmap/alerting",
+      "to": "/roadmap/alerts"
+    }
+  ]
 }

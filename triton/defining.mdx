@@ -1,0 +1,326 @@
+---
+title: "Defining Projects with Triton"
+description: "Structure and plan your Projects through conversation"
+---
+
+## Overview
+
+Before building, it's helpful to define the high-level structure and goals of your Project. Triton can help you think through requirements, design decisions, and component architecture.
+
+## Starting a new Project definition
+
+### Describe the goal
+
+Begin with what you want to accomplish:
+
+**Examples:**
+- _"I need a system that monitors social media for brand mentions and sends alerts"_
+- _"I want to build a customer onboarding workflow that sends emails, provisions accounts, and notifies the team"_
+- _"I'm building a content moderation system that flags inappropriate posts"_
+
+Triton will ask clarifying questions:
+- What inputs does it need?
+- What outputs should it produce?
+- What external services will it use?
+- What's the expected volume/frequency?
+
+### Sketch the architecture
+
+Let Triton help you structure it:
+
+**You:** _"I want to build a research assistant that gathers information from multiple sources"_
+
+**Triton might propose:**
+```
+Project: Research Assistant
+├── Input: Research query, sources list
+├── Flow: Orchestration
+│   ├── Action: fetch_from_source (for each source)
+│   ├── Agent: synthesize_results
+│   └── Action: format_output
+└── Output: Formatted research report
+```
+
+You can then refine: _"Actually, add a validation step to filter low-quality sources first"_
+
+## Defining component types
+
+Triton helps you choose the right component for each task.
+
+### When to use Actions
+
+**Criteria:**
+- Deterministic logic
+- API calls
+- Data transformation
+- File operations
+
+**Ask:** _"Should this be an Action or an Agent?"_
+
+**Example:**  
+_"I need to validate email addresses and check if they're on our blocklist"_  
+**Triton:** This should be an Action—it's deterministic validation logic.
+
+### When to use Agents
+
+**Criteria:**
+- Natural language processing
+- Decision-making with context
+- Creative generation
+- Tool orchestration
+
+**Ask:** _"Do I need an Agent here?"_
+
+**Example:**  
+_"I need to read customer feedback and categorize it into themes"_  
+**Triton:** Yes, an Agent is appropriate—it requires understanding nuanced text.
+
+### When to use Flows
+
+**Criteria:**
+- Multi-step processes
+- Branching logic
+- Parallel operations
+- Composing other components
+
+**Ask:** _"How should I structure this workflow?"_
+
+**Example:**  
+_"I need to process uploads, validate them, store them, and notify users"_  
+**Triton:** Create a Flow with:
+1. Input (file upload)
+2. Validation Action
+3. Storage Action
+4. Notification Action
+5. Output (confirmation)
+
+## Defining inputs and outputs
+
+Be clear about data shapes upfront:
+
+### Input definition
+
+**You:** _"My Project will receive user requests"_
+
+**Triton:** _"What fields will each request have?"_
+
+**You:** _"User ID, request type, and optional parameters"_
+
+**Triton proposes:**
+```json
+{
+  "user_id": "string (required)",
+  "request_type": "enum: ['support', 'feature', 'bug'] (required)",
+  "parameters": "object (optional)",
+  "priority": "enum: ['low', 'medium', 'high'] (default: 'medium')"
+}
+```
+
+### Output definition
+
+**You:** _"It should return a status and details"_
+
+**Triton proposes:**
+```json
+{
+  "status": "enum: ['success', 'pending', 'failed']",
+  "message": "string",
+  "details": {
+    "ticket_id": "string",
+    "assigned_to": "string",
+    "estimated_resolution": "ISO 8601 datetime"
+  }
+}
+```
+
+## Defining dependencies
+
+Clarify what external resources you'll need:
+
+### API dependencies
+
+**You:** _"I need to integrate with Stripe and SendGrid"_
+
+**Triton notes:**
+- Actions will need `stripe` and `sendgrid` Python packages
+- Global Variables needed: `STRIPE_API_KEY`, `SENDGRID_API_KEY`
+- Rate limits to consider: Stripe (100/sec), SendGrid (varies by plan)
+
+### Data dependencies
+
+**You:** _"The system needs access to our product catalog"_
+
+**Triton asks:**
+- How is the catalog stored? (Database, API, file)
+- How often does it change?
+- Should we cache it?
+
+### Authentication requirements
+
+**You:** _"Users need to authenticate before making requests"_
+
+**Triton suggests:**
+- Add authentication Action or use built-in API key validation
+- Define user roles if needed
+- Handle token refresh if using OAuth
+
+## Defining error handling
+
+Plan for failures upfront:
+
+**You:** _"What if the API call fails?"_
+
+**Triton proposes:**
+- Retry logic with exponential backoff
+- Fallback to cached data if available
+- Return graceful error message
+- Log failure for monitoring
+
+**You:** _"What if the input is malformed?"_
+
+**Triton suggests:**
+- Validation Action at Flow entry
+- Return 400 error with clear message
+- Log validation failures
+
+## Defining scale and performance
+
+Think about volume:
+
+**You:** _"I expect about 1000 requests per day"_
+
+**Triton notes:**
+- Sequential processing is fine
+- No special optimization needed
+- Standard quotas should cover this
+
+**You:** _"Actually, 1000 requests per hour during peak times"_
+
+**Triton adjusts:**
+- Consider parallel processing
+- Add caching layer
+- Monitor for rate limits
+- Use batching where possible
+
+## Example: Complete definition session
+
+### You
+_"I want to build a meeting notes processor"_
+
+### Triton
+What should it do with the meeting notes?
+
+### You
+_"Take transcripts, extract action items, identify owners, and send reminders"_
+
+### Triton proposes
+
+**Project: Meeting Notes Processor**
+
+**Input:**
+```json
+{
+  "transcript": "string (long text)",
+  "participants": ["string"],
+  "meeting_date": "ISO 8601 datetime"
+}
+```
+
+**Components:**
+1. **Agent: extract_action_items**
+   - Input: transcript, participants
+   - Output: list of action items with owners and due dates
+   - Tools: none needed
+
+2. **Action: validate_participants**
+   - Input: participants list
+   - Output: validated participants with contact info
+   - External: Query user database
+
+3. **Action: send_reminders**
+   - Input: action items with owners
+   - Output: reminder status
+   - External: Email service (SendGrid)
+
+4. **Flow: orchestration**
+   - validate_participants → extract_action_items → send_reminders
+
+**Output:**
+```json
+{
+  "action_items": [
+    {
+      "description": "string",
+      "owner": "string",
+      "due_date": "ISO 8601 date",
+      "reminder_sent": "boolean"
+    }
+  ],
+  "summary": "string"
+}
+```
+
+**Dependencies:**
+- OpenAI/Anthropic API for Agent
+- SendGrid for emails
+- User database access
+
+**Error handling:**
+- If participant validation fails: continue with available participants
+- If email sending fails: log and retry later
+- If extraction fails: return transcript with error message
+
+### You
+_"Perfect! Let's build it."_
+
+### Triton
+I'll start with the `extract_action_items` Agent...
+
+## Best practices for defining
+
+> **Think through errors early** — It's easier to plan for failures than to add handling later
+
+> **Be specific about data types** — Clear schemas prevent integration issues
+
+> **Consider the happy path and edge cases** — Don't just think about perfect inputs
+
+> **Start simple, then elaborate** — Define core functionality before adding features
+
+> **Ask "what if"** — What if the API is down? What if input is huge? What if...
+
+## Common definition anti-patterns
+
+### ❌ Too vague
+_"Make something that does AI stuff with data"_
+
+### ✅ Specific
+_"Create a Project that takes CSV files, extracts customer sentiment from a 'feedback' column, and returns a summary with positive/negative/neutral counts"_
+
+---
+
+### ❌ Skipping error handling
+_"Just build it to work"_
+
+### ✅ Planning for failure
+_"Add retry logic for API calls, validation for inputs, and graceful degradation if the ML model is unavailable"_
+
+---
+
+### ❌ No clear boundaries
+_"It should do everything related to customers"_
+
+### ✅ Focused scope
+_"This Project handles customer onboarding: account creation, welcome email, initial setup wizard. Support and billing are separate Projects"_
+
+## Next steps
+
+Once you've defined your Project:
+
+1. [Build it with Triton](/triton/building)
+2. [Edit and refine components](/triton/editing)
+3. [Debug any issues](/triton/debugging)
+
+Or jump back to:
+- [Triton Overview](/triton/overview)
+- [Build a New Project Tutorial](/tutorials/build-a-new-project)
+

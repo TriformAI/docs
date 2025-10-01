@@ -1,0 +1,482 @@
+---
+title: "Deployments"
+description: "Publish Projects to staging and production environments"
+---
+
+## What is Deployment?
+
+Deployment is the process of publishing your Project to a live environment where it can be accessed via API, triggered by webhooks, or run on schedule. Think of it as taking your Project from development to production.
+
+## Environments
+
+Triform supports multiple deployment environments:
+
+### Development (Dev)
+
+Where you build and test.
+
+**Characteristics:**
+- Auto-saves all changes
+- No deployment needed
+- Execute directly from UI
+- Not accessible externally
+- Uses test credentials
+
+**Use for:** Active development, experimentation
+
+### Staging
+
+Pre-production testing environment.
+
+**Characteristics:**
+- Deployed version of your Project
+- Accessible via API (internal)
+- Uses staging credentials
+- Near-production configuration
+- Safe for testing
+
+**Use for:** Integration testing, QA, demos
+
+### Production
+
+Live environment for real traffic.
+
+**Characteristics:**
+- Deployed, stable version
+- Public API endpoint
+- Uses production credentials
+- Monitored and alerted
+- High availability
+
+**Use for:** Real users, production workloads
+
+## Deploying a Project
+
+### Via UI
+
+1. Open your Project
+2. Click **Deploy** in Top Bar
+3. Select environment: Staging or Production
+4. Review changes (diff from current deployment)
+5. Configure:
+   - Entry point (which Flow to expose)
+   - API endpoint path
+   - Authentication requirements
+   - Rate limits
+6. Add deployment notes
+7. Click **Deploy Now**
+
+Deployment takes 30-60 seconds. You'll see progress and status.
+
+### Via API
+
+```bash
+POST /v1/projects/{project_id}/deploy
+
+{
+  "environment": "production",
+  "entry_point": "main_flow",
+  "notes": "Deploy v2 with improved error handling"
+}
+```
+
+### Via CLI (if enabled)
+
+```bash
+triform deploy --project customer-support --env production
+```
+
+## Deployment configuration
+
+### Entry point
+
+The Flow that external requests will execute.
+
+**Example:**
+- Project has multiple Flows: `main`, `admin_only`, `internal_tools`
+- Deploy `main` Flow as the public API endpoint
+- Other Flows remain internal
+
+### Endpoint configuration
+
+**Path:** `/v1/your-org/project-name`
+
+**Custom paths:**
+- `/v1/your-org/custom-path`
+- `/v1/your-org/api/v2/endpoint`
+
+**HTTP methods:**
+- POST (most common)
+- GET (for read-only operations)
+- PUT, PATCH, DELETE (if needed)
+
+### Authentication
+
+**Options:**
+
+| Type | Description | Use Case |
+|------|-------------|----------|
+| API Key | Bearer token in header | Most common, good balance |
+| OAuth 2.0 | Industry-standard OAuth | User-specific actions |
+| HMAC | Signed requests | Webhooks, high security |
+| Public | No auth required | Public data, read-only |
+| Custom | Your own logic | Advanced scenarios |
+
+**Recommended:** Start with API Key, upgrade if needed.
+
+### Rate limiting
+
+Protect your deployment from abuse.
+
+**Configuration:**
+- Requests per second: 10
+- Requests per minute: 100
+- Requests per hour: 1000
+- Burst allowance: 20
+
+**Response when exceeded:**
+```json
+{
+  "error": "rate_limit_exceeded",
+  "message": "Too many requests",
+  "retry_after": 30
+}
+```
+
+**Status code:** 429 Too Many Requests
+
+### Timeout
+
+Maximum execution time before cancellation.
+
+**Defaults:**
+- Free tier: 30 seconds
+- Pro tier: 5 minutes
+- Enterprise: 30 minutes
+
+**If exceeded:** Execution is canceled, 504 Gateway Timeout returned.
+
+## Deployment workflow
+
+### 1. Build in Development
+
+Create and test your Project:
+
+```
+Dev → Build components → Test locally → Iterate
+```
+
+### 2. Deploy to Staging
+
+First deployment goes to staging:
+
+```
+Dev → Deploy to Staging → Integration tests → QA
+```
+
+**Checklist before deploying to staging:**
+- [ ] All components tested individually
+- [ ] Flows execute successfully with test data
+- [ ] Error handling in place
+- [ ] Logging configured
+- [ ] Secrets in Global Variables (not hardcoded)
+
+### 3. Test in Staging
+
+Validate in a production-like environment:
+
+```
+Staging → Run test suite → Load testing → Security scan
+```
+
+**Tests to run:**
+- Happy path scenarios
+- Error conditions
+- Edge cases
+- Performance under load
+- Security vulnerabilities
+
+### 4. Deploy to Production
+
+Once staging passes all tests:
+
+```
+Staging → Deploy to Production → Monitor → Celebrate
+```
+
+**Checklist before deploying to production:**
+- [ ] Staging tests passed
+- [ ] Performance acceptable
+- [ ] Team notified
+- [ ] Rollback plan ready
+- [ ] Monitoring configured
+- [ ] Alerts set up
+
+### 5. Monitor and Iterate
+
+Watch your deployment:
+
+```
+Production → Monitor metrics → Collect feedback → Improve
+```
+
+## Deployment strategies
+
+### Blue-Green Deployment
+
+Run two identical environments (blue and green).
+
+**Process:**
+1. Blue is currently live
+2. Deploy to Green
+3. Test Green
+4. Switch traffic from Blue to Green
+5. Blue becomes standby
+
+**Benefits:**
+- Zero downtime
+- Easy rollback (switch back)
+- Test production environment safely
+
+### Canary Deployment
+
+Gradually roll out to a percentage of traffic.
+
+**Process:**
+1. Deploy to 5% of traffic
+2. Monitor for issues
+3. If good, increase to 25%
+4. Then 50%
+5. Finally 100%
+
+**Benefits:**
+- Early issue detection
+- Limited blast radius
+- Data-driven rollout decisions
+
+### Rolling Deployment
+
+Update instances one at a time.
+
+**Process:**
+1. Update instance 1
+2. Verify it works
+3. Update instance 2
+4. Continue until all updated
+
+**Benefits:**
+- Always some instances running
+- Gradual rollout
+- Can pause if issues arise
+
+## Rollback
+
+Revert to a previous deployment if issues arise.
+
+### How to rollback
+
+1. Go to Project → Deployments
+2. View deployment history
+3. Select previous working deployment
+4. Click **Rollback**
+5. Confirm
+
+**Time to rollback:** 30-60 seconds
+
+### When to rollback
+
+- High error rate
+- Performance degradation
+- Critical bug discovered
+- Data corruption risk
+- Security vulnerability
+
+### Rollback considerations
+
+**What gets rolled back:**
+- Code (Actions, Flows, Agents)
+- Configuration
+- Entry points
+
+**What doesn't:**
+- Global Variables
+- Data created by new version
+- External system changes
+
+**After rollback:** Fix the issue, test thoroughly, redeploy.
+
+## Deployment history
+
+### Viewing history
+
+1. Go to Project → Deployments → History
+2. See list of all deployments
+
+**Each entry shows:**
+- Deployment ID
+- Environment
+- Timestamp
+- Deployer (who deployed)
+- Status (success, failed, rolled back)
+- Changes (diff)
+- Notes
+
+### Comparing deployments
+
+1. Select two deployments
+2. Click **Compare**
+3. See diff:
+   - Code changes
+   - Configuration changes
+   - New/removed components
+
+**Use case:** Understanding what changed between versions.
+
+## Deployment CI/CD
+
+Automate deployments with continuous integration.
+
+### GitHub Actions example
+
+```yaml
+name: Deploy to Production
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Deploy to Triform
+        env:
+          TRIFORM_API_KEY: ${{ secrets.TRIFORM_API_KEY }}
+        run: |
+          curl -X POST https://api.triform.ai/v1/projects/my-project/deploy \
+            -H "Authorization: Bearer $TRIFORM_API_KEY" \
+            -d '{"environment": "production"}'
+```
+
+### GitLab CI example
+
+```yaml
+deploy:
+  stage: deploy
+  script:
+    - >
+      curl -X POST https://api.triform.ai/v1/projects/my-project/deploy
+      -H "Authorization: Bearer $TRIFORM_API_KEY"
+      -d '{"environment": "production"}'
+  only:
+    - main
+```
+
+### Pre-deployment checks
+
+Automate quality gates:
+
+```yaml
+- name: Run tests
+  run: npm test
+
+- name: Security scan
+  run: npm audit
+
+- name: Deploy to staging
+  if: success()
+  run: deploy-staging.sh
+
+- name: Integration tests
+  run: test-staging.sh
+
+- name: Deploy to production
+  if: success()
+  run: deploy-production.sh
+```
+
+## Deployment best practices
+
+> **Test in staging first** — Never skip staging
+
+> **Deploy during low-traffic hours** — Minimize impact
+
+> **Monitor closely after deployment** — Watch metrics for 1 hour
+
+> **Have a rollback plan** — Know how to revert quickly
+
+> **Communicate with team** — Announce deployments
+
+> **Use deployment notes** — Document what changed
+
+> **Automate when possible** — CI/CD reduces human error
+
+> **Version your deployments** — Tag releases meaningfully
+
+## Deployment checklist
+
+### Pre-deployment
+
+- [ ] All tests passing
+- [ ] Staging deployment successful
+- [ ] Code reviewed
+- [ ] Secrets configured
+- [ ] Monitoring set up
+- [ ] Team notified
+- [ ] Rollback plan documented
+
+### During deployment
+
+- [ ] Deploy to staging first
+- [ ] Run smoke tests
+- [ ] Check logs for errors
+- [ ] Verify API responses
+- [ ] Test critical paths
+
+### Post-deployment
+
+- [ ] Monitor error rates
+- [ ] Check performance metrics
+- [ ] Review logs
+- [ ] Test user-facing features
+- [ ] Confirm no alerts fired
+- [ ] Document any issues
+- [ ] Update status page if public
+
+## Troubleshooting deployments
+
+**Problem:** Deployment fails  
+**Solution:** Check logs, ensure all components are valid, verify Global Variables are set
+
+**Problem:** Deployment succeeds but API returns errors  
+**Solution:** Check authentication, verify endpoint path, test with curl
+
+**Problem:** Performance worse than staging  
+**Solution:** Check production load, compare resource usage, review quotas
+
+**Problem:** Can't rollback  
+**Solution:** Check permissions, ensure previous deployment exists, contact support if stuck
+
+## Zero-downtime deployments
+
+For Enterprise customers:
+
+**Features:**
+- Load-balanced instances
+- Blue-green deployment
+- Canary releases
+- Auto-rollback on errors
+- Custom health checks
+
+**Contact sales** for zero-downtime options.
+
+## Next steps
+
+- [Understanding API Keys](/concepts/api-keys)
+- [Understanding Triggers](/concepts/triggers)
+- [Understanding Variables](/concepts/variables)
+- [Integrate Project into Your App](/tutorials/integrate-project-into-your-app)
+- [Security Overview](/security/overview)
+

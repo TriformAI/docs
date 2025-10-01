@@ -1,0 +1,345 @@
+---
+title: "Report a Bug"
+description: "Help us improve Triform by reporting issues"
+---
+
+## Before Reporting
+
+Thanks for helping us improve Triform! Before submitting a bug report:
+
+### 1. Check if it's already known
+
+- [ ] Search [Discord #bugs channel](https://discord.gg/triform)
+- [ ] Check [Status page](https://status.triform.ai) for ongoing issues
+- [ ] Search existing bug reports (if you have access)
+
+### 2. Try basic troubleshooting
+
+- [ ] Refresh the page (Cmd+Shift+R / Ctrl+Shift+R for hard refresh)
+- [ ] Clear cache and cookies
+- [ ] Try incognito/private browsing mode
+- [ ] Try a different browser
+- [ ] Check your internet connection
+
+### 3. Determine if it's a bug
+
+**Is it a bug if:**
+- ✅ Something that worked before is now broken
+- ✅ Error messages appear unexpectedly
+- ✅ Features behave differently than documented
+- ✅ Data is lost or corrupted
+- ✅ Performance is significantly worse
+
+**Not a bug:**
+- ❌ Feature requests (use [Request a Feature](/support/request-a-feature))
+- ❌ Questions about how to use something (use [Support](/support/overview))
+- ❌ Expected behavior you disagree with (use feedback)
+
+## How to Report a Bug
+
+### Option 1: In-App Bug Report (Recommended)
+
+1. Click the **bug icon** in bottom-right corner of app
+2. Fill out the form (auto-includes context)
+3. Submit
+
+**Benefits:** Automatically includes environment info, user context, and logs.
+
+### Option 2: Discord
+
+1. Join [Discord server](https://discord.gg/triform)
+2. Go to #bugs channel
+3. Describe the issue
+4. Community and team will respond
+
+**Benefits:** Quick responses, community might have workarounds.
+
+### Option 3: Email
+
+**Send to:** support@triform.ai  
+**Subject:** `[Bug] Brief description`
+
+**Benefits:** Detailed tracking, email updates on progress.
+
+## What to Include
+
+The more details you provide, the faster we can fix it!
+
+### Required Information
+
+**1. What happened?**
+Describe the bug clearly and concisely.
+
+**Example:**  
+_"When I click Deploy, the deployment starts but never completes. It stays in 'Deploying...' state indefinitely."_
+
+**2. What did you expect?**
+What should have happened instead?
+
+**Example:**  
+_"I expected the deployment to complete within 1-2 minutes and show 'Deployed' status."_
+
+**3. Steps to reproduce**
+Numbered steps to reproduce the issue.
+
+**Example:**
+1. Open Project "Customer Support Bot"
+2. Click Deploy in Top Bar
+3. Select "Production" environment
+4. Click "Deploy Now"
+5. Observe that status shows "Deploying..." for > 5 minutes
+
+### Helpful Additional Information
+
+**When did it start?**
+- Just now
+- Today
+- Yesterday
+- Last week
+- After an update
+
+**How often does it happen?**
+- Every time
+- Sometimes (50% of the time)
+- Rarely (< 10% of the time)
+- Once
+
+**Environment:**
+- Browser and version (e.g., Chrome 118)
+- Operating System (e.g., macOS 14, Windows 11)
+- Triform plan (Free, Pro, Enterprise)
+- Organization ID or Project ID
+
+**Screenshots or videos:**
+- Visual evidence is incredibly helpful
+- Screen recording of the issue occurring
+- Error messages (full text)
+- Console logs (open browser DevTools)
+
+**Error messages:**
+```
+Copy and paste the full error message here, including stack traces
+```
+
+**Execution ID (if relevant):**
+`exec_abc123xyz` (helps us investigate specific runs)
+
+## Bug Report Template
+
+Copy and use this template:
+
+```markdown
+**Bug Description:**
+[Clear description of what's wrong]
+
+**Expected Behavior:**
+[What should happen]
+
+**Actual Behavior:**
+[What actually happens]
+
+**Steps to Reproduce:**
+1. 
+2. 
+3. 
+
+**Frequency:**
+[ ] Every time  [ ] Sometimes  [ ] Rarely
+
+**Environment:**
+- Browser:
+- OS:
+- Triform Plan:
+- Project/Org ID (if relevant):
+
+**Screenshots/Videos:**
+[Attach or paste links]
+
+**Error Messages:**
+```
+[Paste any error messages]
+```
+
+**Additional Context:**
+[Anything else that might help]
+```
+
+## Priority Levels
+
+We triage bugs by severity:
+
+### Critical (P0)
+
+**Impact:** Production down, data loss, security issue
+
+**Response time:** < 1 hour (Enterprise), < 4 hours (all others)
+
+**Examples:**
+- Cannot log in (affects all users)
+- Executions failing completely
+- Data corruption
+- Security vulnerability
+
+### High (P1)
+
+**Impact:** Major functionality broken
+
+**Response time:** < 4 hours (Enterprise), < 1 business day (Pro/Free)
+
+**Examples:**
+- Deployment not working
+- Core feature unusable
+- Errors affecting multiple users
+
+### Medium (P2)
+
+**Impact:** Feature partially broken or workaround exists
+
+**Response time:** 1 business day (Enterprise/Pro), 2-3 days (Free)
+
+**Examples:**
+- UI glitch not blocking work
+- Feature works but with issues
+- Annoying but not critical
+
+### Low (P3)
+
+**Impact:** Minor issue, cosmetic
+
+**Response time:** Best effort
+
+**Examples:**
+- Typos
+- Minor UI alignment issues
+- Nice-to-have improvements
+
+**We'll determine priority and notify you.**
+
+## After You Report
+
+### What happens next?
+
+1. **Acknowledgment:** You'll receive confirmation (usually within 24 hours)
+2. **Triage:** We'll assess severity and priority
+3. **Investigation:** Our team will reproduce and investigate
+4. **Fix:** We'll develop and test a fix
+5. **Deploy:** Fix rolled out in an update
+6. **Notify:** You'll be notified when fixed
+
+### Tracking your report
+
+**Email reports:** You'll receive a ticket number to track progress
+
+**Discord reports:** Check the thread for updates
+
+**In-app reports:** Check your notifications
+
+### Can you help us fix it faster?
+
+**If we reply with questions:**
+- Respond promptly with requested info
+- Test any proposed workarounds
+- Provide additional context if needed
+
+**If we can't reproduce:**
+- Provide more detailed steps
+- Share a video recording
+- Offer to do a screen share (Enterprise)
+
+## Common Bug Types
+
+### UI/Visual Issues
+
+**Examples:** Layout broken, buttons misaligned, text overlapping
+
+**Helpful:** Screenshots with browser info
+
+### Functionality Issues
+
+**Examples:** Features not working, unexpected behavior
+
+**Helpful:** Steps to reproduce, what you were trying to do
+
+### Performance Issues
+
+**Examples:** Slow loading, laggy interface, timeouts
+
+**Helpful:** When it started, what specifically is slow, browser performance tab info
+
+### Data Issues
+
+**Examples:** Data missing, incorrect, or corrupted
+
+**Helpful:** Specific examples, when you first noticed, what data is affected
+
+### Integration Issues
+
+**Examples:** API errors, webhook failures, third-party service problems
+
+**Helpful:** Request/response details, error messages, timing
+
+### Authentication Issues
+
+**Examples:** Can't log in, sessions expiring, permission errors
+
+**Helpful:** What auth method you use, error messages, when it started
+
+## Security Vulnerabilities
+
+**Special handling for security issues:**
+
+**DO NOT report security bugs publicly.**
+
+**Instead:**
+1. Email security@triform.ai immediately
+2. Include detailed description
+3. Steps to reproduce (if safe)
+4. Your assessment of impact
+5. Your contact info for follow-up
+
+**We'll:**
+- Acknowledge within 24 hours
+- Investigate urgently
+- Keep you informed
+- Credit you in security updates (if desired)
+- Consider rewards for responsible disclosure
+
+**See:** [Security Overview](/security/overview) for our responsible disclosure policy.
+
+## What NOT to Report
+
+**Feature requests** → Use [Request a Feature](/support/request-a-feature)  
+**Questions** → Use [Support](/support/overview), Discord, or email  
+**Billing issues** → Email billing@triform.ai  
+**Account help** → Email support@triform.ai
+
+## Bug Fix Timeline
+
+### Typical timeline by priority:
+
+**Critical:** Emergency patch within hours  
+**High:** Fix within 1-7 days  
+**Medium:** Fix within 2-4 weeks  
+**Low:** Fix in next regular release (4-8 weeks)
+
+**Note:** Timelines are estimates. Complex bugs may take longer.
+
+## Bug Bounty Program
+
+**Coming 2026:** We'll launch a bug bounty program rewarding security researchers.
+
+**For now:** We appreciate reports and may offer rewards on a case-by-case basis for critical security findings.
+
+## Thank You!
+
+Every bug report helps us improve Triform. We appreciate you taking the time to help us build a better product.
+
+**Your contributions make Triform better for everyone.** 🐛🔧
+
+## Related
+
+- [Support Overview](/support/overview)
+- [Request a Feature](/support/request-a-feature)
+- [Contact Us](/support/contact-us)
+- [Status Page](https://status.triform.ai)
+

@@ -1,0 +1,246 @@
+---
+title: "Glossary"
+description: "Key terms and concepts in Triform"
+---
+
+## Core Concepts
+
+### Action
+A Python function that performs a specific task. Actions are deterministic, reusable building blocks for Flows. Examples: API calls, data transformations, validations.
+
+### Agent
+An LLM-powered component that can make decisions, generate content, and use tools. Agents have system prompts, model configurations, and access to Actions/Flows as tools.
+
+### API Key
+A secret token used to authenticate requests to Triform's API. Required for executing deployed Projects and accessing Triform services programmatically.
+
+### Canvas
+The visual workspace where you build and view Projects, Flows, and their components. The Canvas displays nodes and edges showing system structure.
+
+### Deployment
+The process of publishing a Project to a live environment (staging or production) where it's accessible via API or triggers.
+
+### Edge
+A connection between two nodes in a Flow, showing data or control flow direction. Edges define how information moves through your system.
+
+### Execution
+A single run of a Project, Flow, Agent, or Action. Each execution has inputs, outputs, logs, and metrics. Executions are tracked for observability and debugging.
+
+### Flow
+An orchestration graph that connects Actions, Agents, and sub-Flows. Flows define multi-step logic with inputs, outputs, and data flow between components.
+
+### Global Variable
+An environment-specific value (API keys, config, secrets) accessible across Projects. Variables keep sensitive data out of code and enable environment-specific configuration.
+
+### Node
+A visual element on the Canvas representing a component (Action, Agent, Flow, Project) or control structure (Router, Merge, Loop).
+
+### Organization
+The top-level entity that owns Projects, members, and billing. Organizations provide team collaboration and access control.
+
+### Payload
+The JSON input data provided when executing a component. Payloads must match the defined input schema.
+
+### Project
+A complete, deployable AI system containing Actions, Agents, and Flows. Projects are the primary unit of work in Triform.
+
+### Trigger
+An automated mechanism that executes a Project in response to events (webhooks, schedules, manual API calls).
+
+## Platform Components
+
+### Agent Toolbox
+A panel showing available components (Actions, Agents, Flows) that can be dragged onto the Canvas or reused across Projects.
+
+### Chat Panel
+The interface for interacting with Triton, Triform's AI assistant. The Chat Panel enables conversational building, editing, and debugging.
+
+### Input Node
+The entry point of a Flow, defining what data the Flow expects. Input nodes have schemas specifying required and optional fields.
+
+### Output Node
+The exit point of a Flow, defining what data the Flow returns. Output nodes shape the API response for deployed Projects.
+
+### Properties Panel
+A panel showing detailed configuration for selected components. Properties include content (code, prompts), input/output schemas, executions, and settings.
+
+### Top Bar
+The navigation bar showing breadcrumbs, home, profile, and deploy controls. The Top Bar provides global navigation and actions.
+
+### Triton
+Triform's built-in AI assistant that helps you build, modify, and debug Projects through natural conversation.
+
+## Technical Terms
+
+### Breadcrumb
+Navigation elements showing your current location in the hierarchy (e.g., Home > Project > Flow > Agent). Click any level to jump back.
+
+### Cron Expression
+A time-based schedule format for triggering periodic executions. Example: `0 6 * * *` means daily at 6 AM.
+
+### Dependency
+An external Python package required by an Action. Dependencies are listed in `requirements.txt`.
+
+### HMAC Signature
+A cryptographic signature used to verify webhook authenticity. Ensures requests came from expected sources.
+
+### Idempotency
+The property where performing the same operation multiple times produces the same result. Important for handling duplicate webhooks.
+
+### Port
+An input or output connection point on a node. Data flows from output ports to input ports via edges.
+
+### Rate Limit
+A restriction on how many requests can be made in a time period. Protects against abuse and ensures fair usage.
+
+### Requirements.txt
+A file listing Python package dependencies for an Action. Format follows pip conventions.
+
+### Retry Logic
+Automatic re-execution of failed operations, typically with exponential backoff. Handles transient failures gracefully.
+
+### Rollback
+Reverting a deployment to a previous version. Used when new deployments have issues.
+
+### Schema
+A definition of data structure specifying field names, types, and validation rules. Used for inputs, outputs, and payloads.
+
+### System Prompt
+Instructions given to an Agent defining its behavior, personality, and capabilities. System prompts guide Agent responses.
+
+### Timeout
+Maximum time allowed for an execution before it's canceled. Prevents infinite loops and hung processes.
+
+### Token
+In LLM context, a unit of text (roughly a word or sub-word). Token usage is tracked for cost and limits.
+
+### Trace
+A detailed record of execution showing which nodes ran, in what order, with what data and timing. Essential for debugging.
+
+### Webhook
+An HTTP endpoint that receives event notifications from external services. Triggers Project execution based on external events.
+
+## Workflow Terms
+
+### Branching
+When a Flow splits into multiple paths based on conditions. Example: route by user tier (free vs. premium).
+
+### Canary Deployment
+Gradual rollout of changes to a percentage of traffic before full deployment. Reduces risk of bad deployments.
+
+### Cold Start
+The initial delay when executing a component that hasn't run recently. Caused by environment setup and dependency loading.
+
+### Concurrency
+Number of simultaneous executions. Can be limited to control resource usage or ensure serial processing.
+
+### Fanout/Fanin
+Fanout: One node sends data to multiple nodes (parallel processing). Fanin: Multiple nodes send data to one node (merging results).
+
+### Merge Node
+A control node that combines multiple inputs into one output. Used after parallel operations.
+
+### Parallel Processing
+Executing multiple operations simultaneously instead of sequentially. Improves performance for independent tasks.
+
+### Router Node
+A control node that directs data down different paths based on conditions. Enables branching logic in Flows.
+
+### Serial Processing
+Executing operations one at a time in sequence. Each step waits for the previous one to complete.
+
+### Sub-Flow
+A Flow used as a component within another Flow. Enables modularity and reusability.
+
+## Environment Terms
+
+### Development (Dev)
+The environment where you actively build and test. Changes are immediate, no deployment needed.
+
+### Production (Prod)
+The live environment serving real users. Requires deployment and should be stable.
+
+### Staging
+A pre-production environment for testing. Mirrors production configuration but isolated from real traffic.
+
+## Access Control
+
+### Admin
+A role with full permissions: create, edit, delete, deploy, manage members, billing.
+
+### Editor
+A role with permission to create and edit Projects but not manage members or billing.
+
+### Member
+A user belonging to an Organization with assigned roles and permissions.
+
+### Viewer
+A role with read-only access. Can view Projects and executions but not modify.
+
+## Monitoring & Debugging
+
+### Alert
+A notification triggered by specific conditions (e.g., execution failure, high error rate). Sent via email, Slack, or webhook.
+
+### Error Rate
+Percentage of executions that failed. Used to monitor system health.
+
+### Execution Log
+Detailed text output from an execution including debug, info, warning, and error messages.
+
+### Metric
+Quantitative measurement of system behavior (execution time, success rate, token usage, cost).
+
+### Success Rate
+Percentage of executions that completed successfully. Key health indicator.
+
+## Integration Terms
+
+### API Endpoint
+A URL where your deployed Project is accessible. Format: `https://api.triform.ai/v1/org/project`.
+
+### Bearer Token
+Authentication method where API key is sent in Authorization header: `Authorization: Bearer <key>`.
+
+### CI/CD
+Continuous Integration/Continuous Deployment. Automated testing and deployment pipelines.
+
+### SDK
+Software Development Kit. Client libraries for accessing Triform API from code (Python, JavaScript, etc.).
+
+### Webhook Payload
+The JSON data sent to your webhook endpoint by external services. Must be transformed to match your Project's input schema.
+
+## Billing & Quotas
+
+### Execution-based Quota
+Limits on number of executions per time period. Varies by plan tier.
+
+### Resource-based Quota
+Limits on storage, dependencies size, and similar resources. Varies by plan tier.
+
+### Token Usage
+For LLMs, the number of tokens consumed. Tracked for billing and optimization.
+
+## Best Practices Terms
+
+### DRY (Don't Repeat Yourself)
+Extract repeated logic into reusable Actions or Flows instead of duplicating.
+
+### Idiomatic Code
+Code following language conventions and best practices. Python Actions should follow PEP 8.
+
+### Type Hints
+Python annotations specifying variable and function types. Improves code clarity and enables validation.
+
+### Validation
+Checking input data meets expected format and constraints before processing. Fail early, fail clearly.
+
+## Need more help?
+
+If a term isn't listed here:
+- Ask Triton in the Chat Panel
+- Check relevant concept pages
+- Visit [Support](/support/overview)
+- Join our [Discord community](https://discord.gg/triform)
+

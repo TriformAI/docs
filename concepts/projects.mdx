@@ -1,0 +1,411 @@
+---
+title: "Projects"
+description: "Organize and deploy AI systems as cohesive units"
+---
+
+## What is a Project?
+
+A Project is a complete, deployable AI system in Triform. It's a container that holds all the components (Agents, Flows, Actions) needed to accomplish a specific goal.
+
+Think of a Project as:
+- A **microservice** for AI workloads
+- A **package** of related functionality
+- A **deployable unit** with its own API endpoint
+
+## Project structure
+
+### Components
+
+Projects contain:
+
+**Actions** — Python functions for deterministic logic  
+**Agents** — LLM-powered components with tools  
+**Flows** — Orchestration graphs connecting components  
+**Sub-Projects** — Nested Projects for modularity
+
+### Organization
+
+```
+Project: Customer Support System
+├── Flows
+│   ├── ticket_triage
+│   └── response_generation
+├── Agents
+│   ├── sentiment_analyzer
+│   └── response_writer
+├── Actions
+│   ├── fetch_ticket
+│   ├── update_status
+│   └── send_notification
+└── Global Variables
+    ├── API_KEYS
+    └── CONFIG
+```
+
+## Creating Projects
+
+### Via UI
+
+1. Click **Home** in Top Bar
+2. Click **New Project**
+3. Name it: `Customer Support System`
+4. Add description: `Automated ticket triage and response`
+5. Click **Create**
+
+### Via Triton
+
+Ask: _"Create a new Project for processing customer feedback"_
+
+Triton will:
+- Create the Project structure
+- Ask clarifying questions
+- Suggest initial components
+- Set up basic configuration
+
+### From template
+
+Start with common patterns:
+
+- **Data Processing Pipeline** — ETL workflows
+- **Customer Support** — Ticket handling
+- **Content Generation** — Writing and editing
+- **Research Assistant** — Information gathering
+- **API Integration** — Connect external services
+
+Select template → Customize → Deploy
+
+## Project properties
+
+### Basic information
+
+**Name** — Unique identifier within Organization  
+**Description** — What this Project does  
+**Tags** — Categorization (e.g., `production`, `customer-facing`, `experimental`)  
+**Owner** — Person or team responsible
+
+### Configuration
+
+**Global Variables** — Environment-specific values  
+**API Keys** — Credentials for external services  
+**Quotas** — Resource limits  
+**Permissions** — Who can view/edit/execute
+
+### Deployment settings
+
+**Entry point** — Which Flow to expose as API  
+**Authentication** — API key, OAuth, or public  
+**Rate limiting** — Requests per minute/hour  
+**Timeout** — Maximum execution time
+
+## Working with Projects
+
+### Opening a Project
+
+1. Navigate to **Home**
+2. Find your Project in the list
+3. Click to open on Canvas
+
+You'll see the Project's component graph.
+
+### Navigating within
+
+**Double-click** nodes to drill into:
+- Flows — See internal structure
+- Agents — View configuration
+- Actions — Edit code
+
+**Breadcrumbs** at top show current location.
+
+### Building in a Project
+
+Add components:
+
+**Via Triton:**
+- _"Add a validation Flow to this Project"_
+- _"Create an Action that calls the Stripe API"_
+
+**Via UI:**
+- Right-click Canvas → Add Node
+- Choose component type
+- Configure and connect
+
+**Via Toolbox:**
+- Drag existing components from Agent Toolbox
+- Position and wire up
+
+## Project lifecycle
+
+### 1. Design
+
+Plan the system:
+- Define inputs and outputs
+- Identify required components
+- Sketch data flow
+- Consider error handling
+
+### 2. Build
+
+Create components:
+- Write Actions for specific tasks
+- Configure Agents for decision-making
+- Build Flows to orchestrate
+- Test individually
+
+### 3. Integrate
+
+Connect components:
+- Wire Flows
+- Map data between nodes
+- Handle errors gracefully
+- Add logging
+
+### 4. Test
+
+Validate functionality:
+- Test with sample payloads
+- Check edge cases
+- Monitor execution logs
+- Iterate and fix
+
+### 5. Deploy
+
+Make it live:
+- Configure deployment settings
+- Set environment variables
+- Deploy to staging first
+- Test in staging
+- Deploy to production
+
+### 6. Monitor
+
+Watch it run:
+- Track execution success rate
+- Monitor performance
+- Set up alerts
+- Review logs regularly
+
+### 7. Iterate
+
+Improve over time:
+- Add features
+- Optimize performance
+- Fix bugs
+- Update based on feedback
+
+## Project best practices
+
+> **Single responsibility** — Each Project should have one clear purpose
+
+> **Self-contained** — Minimize dependencies on other Projects
+
+> **Well-documented** — Clear descriptions for all components
+
+> **Tested** — Save example payloads for regression testing
+
+> **Monitored** — Track success rates and performance
+
+> **Versioned** — Use meaningful names and descriptions when updating
+
+## Project patterns
+
+### Pattern 1: Request-Response API
+
+**Structure:**
+```
+Input (API request)
+  → Validate
+  → Process
+  → Format
+  → Output (API response)
+```
+
+**Use case:** Simple API endpoints, data transformations
+
+**Example:** Currency converter, text summarizer
+
+### Pattern 2: Multi-stage pipeline
+
+**Structure:**
+```
+Input
+  → Stage 1 (Extract)
+  → Stage 2 (Transform)
+  → Stage 3 (Load)
+  → Output
+```
+
+**Use case:** ETL, data processing, content generation
+
+**Example:** News aggregator, report generator
+
+### Pattern 3: Agent with tools
+
+**Structure:**
+```
+Input (user query)
+  → Agent (with tools)
+      ├── Tool 1: search_database
+      ├── Tool 2: call_api
+      └── Tool 3: send_email
+  → Output (agent response)
+```
+
+**Use case:** Conversational interfaces, decision support
+
+**Example:** Customer support bot, research assistant
+
+### Pattern 4: Parallel processing
+
+**Structure:**
+```
+Input
+  → Split
+      ├── Process A
+      ├── Process B
+      └── Process C
+  → Merge
+  → Output
+```
+
+**Use case:** High-volume processing, independent tasks
+
+**Example:** Batch image processing, multi-source data collection
+
+### Pattern 5: Event-driven workflow
+
+**Structure:**
+```
+Trigger (webhook, schedule)
+  → Route by event type
+      ├── Type A → Handler A
+      ├── Type B → Handler B
+      └── Type C → Handler C
+  → Log and notify
+```
+
+**Use case:** Webhooks, scheduled jobs, event processing
+
+**Example:** Payment processor, notification system
+
+## Project scope guidelines
+
+### Too small (anti-pattern)
+
+❌ Project: "Uppercase a string"  
+→ This should be an Action within a larger Project
+
+❌ Project: "Validate email"  
+→ This should be an Action
+
+### Just right
+
+✅ Project: "User Onboarding"  
+→ Includes validation, account creation, welcome email, setup
+
+✅ Project: "Content Moderation"  
+→ Includes detection, classification, action, notification
+
+### Too large (anti-pattern)
+
+❌ Project: "Entire Customer Platform"  
+→ Split into multiple Projects: Support, Billing, Notifications, etc.
+
+**Rule of thumb:** If you can't explain what the Project does in one sentence, it's too large.
+
+## Sharing and collaboration
+
+### Within Organization
+
+All Organization members can:
+- View Projects (if permissions allow)
+- Edit Projects (if editor/admin)
+- Execute Projects (if permissions allow)
+
+### Inviting teammates
+
+1. Go to Organization → Members
+2. Invite by email
+3. Assign role (Viewer, Editor, Admin)
+4. They can now access Projects
+
+### Project-specific permissions
+
+Fine-grained control:
+
+- **Viewer** — Can view but not edit
+- **Editor** — Can edit and test
+- **Deployer** — Can deploy to staging/production
+- **Admin** — Full control
+
+## Versioning Projects
+
+While Triform auto-saves, consider:
+
+### Naming conventions
+
+- `customer-support-v1`
+- `customer-support-v2` (major changes)
+
+### Exporting snapshots
+
+1. Right-click Project → Export
+2. Save JSON locally
+3. Use as backup or for version control
+
+### Git integration (if enabled)
+
+- Connect Organization to GitHub
+- Projects sync to repo
+- Use branches for features
+- Pull requests for review
+
+## Deleting Projects
+
+**Caution:** Deletion is permanent.
+
+1. Open Project
+2. Project menu → Delete
+3. Confirm by typing Project name
+4. Project and all components are removed
+
+**Before deleting:**
+- Export as backup
+- Check if used by other Projects
+- Notify team
+- Verify no production traffic
+
+## Migrating Projects
+
+### Between Environments
+
+Export from dev → Import to staging → Test → Import to production
+
+### Between Organizations
+
+1. Export Project from Org A
+2. Share JSON file
+3. Import into Org B
+4. Update environment-specific variables
+
+## Troubleshooting
+
+**Problem:** Project won't deploy  
+**Solution:** Check all components are configured, Global Variables are set, no circular dependencies
+
+**Problem:** Execution fails in Project but components work individually  
+**Solution:** Check connections, field mappings, and data flow
+
+**Problem:** Project is slow  
+**Solution:** Profile execution, identify bottlenecks, add parallel processing or caching
+
+**Problem:** Can't find my Project  
+**Solution:** Check filters (All vs. Favorites), search by name, verify you're in the right Organization
+
+## Next steps
+
+- [Understanding Agents](/concepts/agents)
+- [Understanding Flows](/concepts/flows)
+- [Understanding Actions](/concepts/actions)
+- [Build a New Project Tutorial](/tutorials/build-a-new-project)
+- [Deploying Projects](/concepts/deployments)
+

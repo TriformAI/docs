@@ -1,0 +1,389 @@
+---
+title: "Data Retention"
+description: "How long we store your data and how to manage it"
+---
+
+## Overview
+
+Triform retains different types of data for varying periods based on product functionality, legal requirements, and user preferences.
+
+## Retention periods
+
+### Project data
+
+**What:** Projects, Actions, Agents, Flows, code, configurations
+
+**Retention:** Indefinite while Project is active
+
+**After deletion:** 30-day soft delete, then permanent
+
+**Purpose:** Core product functionality
+
+**User control:** Delete Projects anytime
+
+### Execution data
+
+**What:** Execution records, inputs, outputs, logs, traces
+
+| Tier | Retention |
+|------|-----------|
+| Free | 7 days |
+| Pro | 30 days |
+| Enterprise | 90 days or custom |
+
+**After period:** Execution details deleted, summary statistics retained
+
+**Purpose:** Debugging, monitoring, compliance
+
+**User control:** Export before deletion, star important executions for longer retention
+
+### Global Variables
+
+**What:** Configuration values, secrets, API keys
+
+**Retention:** Indefinite while active
+
+**After deletion:** Immediate permanent deletion (no soft delete)
+
+**Purpose:** Application configuration
+
+**User control:** Delete Variables anytime
+
+**Note:** Secrets deleted from our systems within 24 hours (key rotation cycle)
+
+### API keys
+
+**What:** API key metadata (not the secret itself)
+
+**Retention:** Active until revoked or expired
+
+**After revocation:** 90 days for audit purposes
+
+**Purpose:** Authentication, audit trails
+
+**User control:** Revoke anytime
+
+**Note:** The secret key itself is hashed and cannot be recovered
+
+### Audit logs
+
+**What:** Security events, access logs, changes
+
+**Retention:** 90 days (standard), 1+ year (Enterprise)
+
+**Purpose:** Security, compliance, debugging
+
+**User control:** Export anytime
+
+**Compliance:** May be required longer for regulated industries
+
+### User data
+
+**What:** Account info, profile, email, preferences
+
+**Retention:** While account is active
+
+**After deletion:** 30-day soft delete, then permanent
+
+**Purpose:** Account management, communication
+
+**User control:** Delete account anytime
+
+### Payment data
+
+**What:** Billing history, invoices, payment methods
+
+**Retention:** 7 years
+
+**Purpose:** Legal/tax requirements, dispute resolution
+
+**User control:** Cannot be deleted (legal obligation)
+
+**Note:** We don't store full credit card numbers (tokenized via payment processor)
+
+### Analytics data
+
+**What:** Aggregated usage statistics, performance metrics
+
+**Retention:** 2 years
+
+**Purpose:** Product improvement, capacity planning
+
+**User control:** Anonymized, cannot be deleted
+
+**Note:** No personally identifiable information
+
+## Soft deletion
+
+Some data types use soft deletion for recovery.
+
+### How it works
+
+1. **Mark as deleted** — Data hidden from UI and API
+2. **Grace period** — 30 days to recover
+3. **Permanent deletion** — After grace period
+
+### What uses soft deletion
+
+✅ **Projects** — 30-day recovery window  
+✅ **User accounts** — 30-day recovery window  
+❌ **Global Variables** — Immediate deletion (security)  
+❌ **API keys** — Immediate revocation  
+❌ **Executions** — Immediate deletion after retention period
+
+### Recovery process
+
+**Within grace period:**
+1. Contact support@triform.ai
+2. Provide Project/account ID
+3. Confirm identity
+4. We'll restore within 24 hours
+
+**After grace period:** Cannot be recovered
+
+## Data export
+
+Export your data before it's deleted.
+
+### What you can export
+
+**Projects:**
+- Project structure (JSON)
+- All components (Actions, Agents, Flows)
+- Configurations
+- Global Variables (config only, not secrets)
+
+**Executions:**
+- Input/output payloads
+- Logs and traces
+- Metrics
+- Timestamps
+
+**Account data:**
+- Profile information
+- Organization memberships
+- API key metadata (not secrets)
+- Audit logs
+
+### How to export
+
+**Via UI:**
+1. Select what to export
+2. Click **Export**
+3. Choose format (JSON, CSV for executions)
+4. Download file
+
+**Via API:**
+```bash
+GET /v1/projects/{project_id}/export
+GET /v1/executions/export?start_date=2025-01-01
+GET /v1/account/export
+```
+
+**Bulk export:**
+1. Account Settings → Privacy
+2. Click **Request Data Export**
+3. Receive email when ready (up to 24 hours)
+4. Download ZIP file
+
+### Export formats
+
+**JSON** — Projects, configurations (structured, machine-readable)  
+**CSV** — Executions, logs (tabular, spreadsheet-compatible)  
+**PDF** — Reports, invoices (human-readable)
+
+## Data minimization
+
+We collect and retain only what's necessary.
+
+### What we collect
+
+✅ **Necessary for service:**
+- Project code and config
+- Execution data for debugging
+- Account info for authentication
+- Billing info for payments
+
+❌ **Not collected:**
+- Personal data beyond account basics
+- Tracking cookies (beyond essential)
+- Browsing history outside Triform
+- Third-party service credentials (unless you provide in Global Variables)
+
+### Anonymization
+
+**Analytics data** is anonymized:
+- User IDs replaced with random identifiers
+- IP addresses hashed
+- Names and emails removed
+- Aggregated only (no individual tracking)
+
+## Geographic data storage
+
+### Data residency
+
+**Standard:** US-based data centers (AWS us-east-1, us-west-2)
+
+**Enterprise options:**
+- EU (Frankfurt, Dublin)
+- Asia-Pacific (Singapore, Tokyo)
+- UK (London)
+
+**Data localization:** Customer data stays in specified region.
+
+### Data transfer
+
+**Within region:** No cross-border transfer
+
+**Cross-region:** Only with explicit configuration (multi-region deployments)
+
+**GDPR compliance:** EU data stored in EU if requested
+
+## Deletion procedures
+
+### Deleting Projects
+
+1. Project menu → **Delete**
+2. Confirm by typing Project name
+3. Project soft-deleted
+4. 30-day recovery window
+5. Permanent deletion after
+
+**What happens:**
+- Project removed from UI
+- Executions deleted per retention policy
+- Global Variables remain (unless Project-specific)
+- Audit logs retained
+
+### Deleting account
+
+1. Account Settings → Privacy → **Delete Account**
+2. Confirm by typing email
+3. Account soft-deleted
+4. 30-day recovery window
+5. Permanent deletion after
+
+**What happens:**
+- Account deactivated immediately
+- Projects you own deleted (after grace period)
+- Shared Projects remain (your access removed)
+- Payment history retained (legal requirement)
+- Audit logs retained (90 days)
+
+### Deleting Organization
+
+1. Organization Settings → **Delete Organization**
+2. Requires Admin role
+3. Confirm by typing Organization name
+4. All Projects deleted
+5. All members removed
+6. Billing canceled
+
+**Cannot delete if:**
+- You're not the last Admin (transfer ownership first)
+- Active subscription (cancel first)
+- Recent executions (wait for retention period)
+
+## Data breach procedures
+
+If a data breach occurs:
+
+### Our response
+
+**Within 72 hours:**
+1. Identify scope and affected data
+2. Contain the breach
+3. Notify affected users
+4. File regulatory reports (if required)
+
+**Notification includes:**
+- What data was affected
+- How many users/records
+- What we've done to fix it
+- What you should do (e.g., rotate keys)
+
+### User actions
+
+**If notified of a breach:**
+1. **Rotate API keys** immediately
+2. **Update Global Variables** (especially secrets)
+3. **Review audit logs** for suspicious activity
+4. **Enable 2FA** if not already
+5. **Monitor for unusual activity**
+
+## Compliance
+
+### GDPR (EU)
+
+**Rights you have:**
+- **Access:** Request copy of your data
+- **Rectification:** Correct inaccurate data
+- **Erasure:** "Right to be forgotten"
+- **Portability:** Export in machine-readable format
+- **Object:** Object to processing
+
+**Exercise rights:** Account Settings → Privacy or email privacy@triform.ai
+
+### CCPA (California)
+
+**Rights you have:**
+- **Know:** What data we collect
+- **Delete:** Request deletion
+- **Opt-out:** Opt out of "sale" (we don't sell data)
+- **Non-discrimination:** Equal service regardless of privacy choices
+
+**Exercise rights:** Email privacy@triform.ai
+
+### Other regulations
+
+We comply with applicable data protection laws in your jurisdiction.
+
+## Data retention best practices
+
+> **Export regularly** — Don't rely on indefinite retention
+
+> **Delete unused Projects** — Reduce data footprint
+
+> **Rotate secrets** — Even within retention period
+
+> **Star important executions** — Extend retention for critical ones
+
+> **Review audit logs** — Before they expire
+
+> **Set reminders** — For data export before deletion
+
+## FAQs
+
+**Q: Can I extend execution retention?**  
+A: Enterprise plans offer custom retention. Contact sales.
+
+**Q: What happens to my data if Triform shuts down?**  
+A: We'll provide at least 90 days notice and export tools.
+
+**Q: Are backups deleted too?**  
+A: Yes, backups are deleted per the same schedule.
+
+**Q: Can I request early deletion?**  
+A: Yes, contact support for manual deletion requests.
+
+**Q: Is deleted data truly unrecoverable?**  
+A: After permanent deletion, yes. We use secure deletion methods.
+
+**Q: What if I'm under legal hold?**  
+A: Contact us immediately. We can freeze deletions if legally required.
+
+## Contact
+
+**Data requests:** privacy@triform.ai  
+**Security concerns:** security@triform.ai  
+**General support:** support@triform.ai
+
+**Response time:** 5 business days for data requests, 24 hours for security issues
+
+## Related
+
+- [Security Overview](/security/overview)
+- [Compliance](/security/compliance)
+- [Account Settings](/users/account-settings)
+- [Organizations](/orgs/overview)
+

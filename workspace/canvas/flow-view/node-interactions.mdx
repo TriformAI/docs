@@ -1,24 +1,398 @@
 ---
-title: "Flow View: Node Interactions"
-description: "Move, inspect, open, and use the context menu"
+title: "Node Interactions"
+description: "Select, move, edit, and manage nodes in Flow View"
 ---
 
-Use simple gestures to keep Flows readable and manageable.
+## Overview
 
-## Move & arrange
+Nodes are the building blocks of Flows. This guide covers how to interact with them: selection, movement, editing, configuration, and deletion.
 
-- Drag Nodes to align and reduce crossing Edges.
+## Selecting nodes
 
-## Inspect
+### Single selection
 
-- Click a Node to view its configuration in Properties.
+**Click** a node to select it.
 
-## Open
+**Visual feedback:**
+- Node highlights with border
+- Properties Panel updates to show node details
+- Output/input ports become visible
 
-- Double‑click to open an Action, Agent, or sub‑Flow.
+### Multiple selection
 
-## Context menu
+**Method 1: Shift-click**
+1. Click first node
+2. Hold `Shift`
+3. Click additional nodes
+4. All selected nodes highlight
 
-- Right‑click a Node for context‑specific actions (options vary by Node type).
+**Method 2: Box select**
+1. Click and drag on empty Canvas space
+2. Drag to create selection box
+3. All nodes inside box are selected
+4. Release to complete selection
 
-> tip: Declutter early — As a Flow grows, periodically rearrange Nodes to preserve left‑to‑right data flow and reduce cognitive load.
+**Method 3: Select all**
+- `Cmd+A` (Mac) / `Ctrl+A` (Windows) — Select all nodes
+- Useful for bulk operations
+
+### Deselecting
+
+- **Click empty Canvas** — Deselects everything
+- **Cmd+click** (Mac) / **Ctrl+click** (Windows) — Toggle individual node in/out of selection
+
+## Moving nodes
+
+### Basic movement
+
+**Click and drag** a node to reposition it.
+
+**Tips:**
+- Grid snapping helps align nodes
+- Edges automatically update as you move
+- Other selected nodes move together
+
+### Precise movement
+
+**Arrow keys** — Move selected node(s) by small increments (1-5 pixels)
+
+**Shift + Arrow keys** — Move by larger increments (10-20 pixels)
+
+**Use case:** Fine-tuning alignment after rough positioning
+
+### Constrained movement
+
+**Hold Shift while dragging** — Constrains movement to horizontal or vertical axis
+
+**Use case:** Keeping nodes aligned in rows or columns
+
+### Moving multiple nodes
+
+1. **Select multiple nodes** (Shift-click or box select)
+2. **Drag any selected node**
+3. All selected nodes move together, maintaining relative positions
+
+## Editing nodes
+
+### Accessing node properties
+
+**Click** a node → Properties Panel shows:
+- **Content tab** — Code, prompts, configuration
+- **Input/Output tab** — Schema and field definitions
+- **Info tab** — Name, description, metadata
+- **Executions tab** — History of runs
+
+### Editing Action nodes
+
+1. Select the Action node
+2. Properties → Content tab
+3. Edit `Action.py` code directly
+4. Update `requirements.txt` if needed
+5. Changes auto-save
+
+**Common edits:**
+- Add logging
+- Improve error handling
+- Optimize performance
+- Update logic
+
+### Editing Agent nodes
+
+1. Select the Agent node
+2. Properties → Content tab
+3. Modify:
+   - **System Prompt** — Agent instructions
+   - **Model** — GPT-4, Claude, etc.
+   - **Temperature** — Randomness (0-1)
+   - **Max Tokens** — Response length
+   - **Tools** — Available Actions/Flows
+4. Changes auto-save
+
+**Common edits:**
+- Refine prompts for better results
+- Add/remove tools
+- Adjust temperature for consistency/creativity
+- Switch models for cost/performance
+
+### Editing Flow nodes (sub-Flows)
+
+1. Select the Flow node
+2. **Double-click** to open its internal structure
+3. Edit as you would any Flow (add/remove/connect nodes)
+4. Use breadcrumbs to return to parent Flow
+
+### Editing Control nodes
+
+**Router nodes:**
+- Define conditions for each output branch
+- Set default path if no condition matches
+
+**Merge nodes:**
+- Choose merge strategy (wait for all, first wins, custom)
+- Configure field mapping if combining data
+
+**Loop nodes:**
+- Set iteration logic (for each item, until condition, etc.)
+- Define max iterations to prevent infinite loops
+
+## Configuring nodes
+
+### Renaming nodes
+
+**Method 1:**
+1. Select node
+2. Properties → Info tab
+3. Edit "Name" field
+4. Press Enter
+
+**Method 2 (if supported):**
+1. Double-click node label on Canvas
+2. Type new name
+3. Press Enter or click away
+
+**Best practices:**
+- Use descriptive names: `Validate_Email` not `Action_1`
+- Follow naming convention: `verb_noun` format
+- Be consistent across your Project
+
+### Adding descriptions
+
+1. Select node
+2. Properties → Info tab
+3. Add description: what it does, why it exists, any gotchas
+
+**Benefits:**
+- Helps teammates understand
+- Aids future you
+- Useful for documentation generation
+
+### Node settings
+
+Each node type has specific settings:
+
+**Actions:**
+- Timeout (seconds)
+- Retry count
+- Error handling behavior
+
+**Agents:**
+- Model and parameters
+- Tool permissions
+- Response format
+
+**Flows:**
+- Execution mode (sequential, parallel)
+- Error propagation
+
+**Access:** Select node → Properties → Settings
+
+## Copying and pasting nodes
+
+### Copy/paste within a Flow
+
+1. **Select** node(s)
+2. **Copy:** `Cmd+C` (Mac) / `Ctrl+C` (Windows)
+3. **Paste:** `Cmd+V` (Mac) / `Ctrl+V` (Windows)
+4. Duplicate appears with offset
+
+**Note:** Edges are NOT copied—you must reconnect manually
+
+### Copy across Flows
+
+1. Select node(s) in source Flow
+2. Copy (`Cmd+C` / `Ctrl+C`)
+3. Open destination Flow
+4. Paste (`Cmd+V` / `Ctrl+V`)
+5. Reconnect as needed
+
+**Use case:** Reusing common patterns (validation, logging, etc.)
+
+## Duplicating nodes
+
+**Right-click** node → **Duplicate**
+
+Creates a copy with "_copy" appended to the name.
+
+**Use case:** Creating parallel processing paths with same logic
+
+## Deleting nodes
+
+### Delete single node
+
+1. **Select** the node
+2. **Delete:** Press `Delete` or `Backspace`
+3. Or **right-click** → **Delete**
+4. Confirm if prompted
+
+**Result:** Node and its connections are removed
+
+### Delete multiple nodes
+
+1. **Select multiple nodes**
+2. Press `Delete` or `Backspace`
+3. Confirm
+
+All selected nodes and their connections are removed.
+
+### Delete and bridge
+
+Remove a node but maintain flow:
+
+1. **Select** the node
+2. **Right-click** → **Delete and Bridge**
+3. Node is removed, incoming and outgoing edges reconnect around it
+
+**Example:**
+```
+Before: A → B → C
+After:  A → C
+```
+
+**Use case:** Removing obsolete preprocessing/formatting steps
+
+## Node context menu
+
+**Right-click** a node for quick actions:
+
+- **Edit** — Open editor (same as double-click)
+- **Duplicate** — Create copy
+- **Delete** — Remove node
+- **Delete and Bridge** — Remove and reconnect edges
+- **Disconnect All** — Remove all edges but keep node
+- **Copy** — Copy to clipboard
+- **Find Usages** — See where this component is used
+- **Export** — Export as JSON
+- **View Executions** — See execution history for this node
+- **Add to Favorites** — Quick access for reuse
+
+## Grouping nodes
+
+### Visual grouping
+
+Organize related nodes:
+
+1. **Select multiple nodes**
+2. **Right-click** → **Group**
+3. Choose: Add to new group
+4. Name the group (e.g., "Validation Logic")
+5. A visual box appears around grouped nodes
+
+**Benefits:**
+- Clarifies structure
+- Collapsible for cleaner Canvas
+- Can move group as unit
+
+### Ungrouping
+
+1. **Click** the group header
+2. **Right-click** → **Ungroup**
+3. Nodes remain but visual grouping is removed
+
+## Node states
+
+Nodes display different visual states:
+
+### Design time (editing)
+
+- **Default** — Gray/blue, ready to configure
+- **Selected** — Highlighted border
+- **Hovered** — Slight highlight, ports visible
+- **Error** — Red indicator (configuration error)
+
+### Execution time
+
+- **Pending** — Gray, waiting to run
+- **Running** — Yellow, currently executing
+- **Success** — Green, completed successfully
+- **Failed** — Red, error occurred
+- **Skipped** — Faded, not part of execution path
+
+## Advanced interactions
+
+### Node metadata
+
+View detailed info:
+
+1. Select node
+2. Properties → Info tab → Metadata section
+
+Shows:
+- Created date
+- Last modified
+- Creator
+- Version
+- Dependencies
+- Usage count
+
+### Node performance
+
+Analyze performance:
+
+1. Select node
+2. Properties → Executions tab
+3. View:
+   - Average execution time
+   - Min/max time
+   - Success rate
+   - Error types
+
+**Use case:** Identifying bottlenecks
+
+### Node search within Flow
+
+Large Flows can have dozens of nodes:
+
+1. Press `Cmd+F` (Mac) / `Ctrl+F` (Windows)
+2. Type node name
+3. Canvas highlights matching nodes
+4. Arrow keys to jump between matches
+
+## Best practices
+
+> **Name nodes clearly** — Future you will thank present you
+
+> **Group related logic** — Visual organization aids understanding
+
+> **Delete unused nodes** — Clutter confuses
+
+> **Use descriptions** — Document non-obvious decisions
+
+> **Test nodes individually** — Verify each works before connecting
+
+> **Align nodes neatly** — Use grid snapping and arrow keys
+
+## Keyboard shortcuts
+
+| Action | Mac | Windows |
+|--------|-----|---------|
+| Select all | `Cmd+A` | `Ctrl+A` |
+| Copy | `Cmd+C` | `Ctrl+C` |
+| Paste | `Cmd+V` | `Ctrl+V` |
+| Delete | `Delete` / `Backspace` | `Delete` / `Backspace` |
+| Duplicate | `Cmd+D` | `Ctrl+D` |
+| Find | `Cmd+F` | `Ctrl+F` |
+| Move node | Arrow keys | Arrow keys |
+| Move node (large) | `Shift` + Arrow keys | `Shift` + Arrow keys |
+| Undo | `Cmd+Z` | `Ctrl+Z` |
+| Redo | `Cmd+Shift+Z` | `Ctrl+Shift+Z` |
+
+## Troubleshooting
+
+**Problem:** Can't select a node  
+**Solution:** Check if it's in a locked group, or Canvas is in view-only mode
+
+**Problem:** Node won't move  
+**Solution:** Ensure it's selected, not locked, and you're dragging the node (not a port)
+
+**Problem:** Deleted node by accident  
+**Solution:** `Cmd+Z` / `Ctrl+Z` to undo
+
+**Problem:** Can't find a specific node  
+**Solution:** Use Find (`Cmd+F` / `Ctrl+F`) to search by name
+
+## Next steps
+
+- [Creating and Connecting Nodes](/workspace/canvas/flow-view/create-connect)
+- [Understanding I/O Nodes](/workspace/canvas/flow-view/io-nodes)
+- [Flow View Basics](/workspace/canvas/flow-view/basics)
+- [Editing with Triton](/triton/editing)

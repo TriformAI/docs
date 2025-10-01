@@ -1,0 +1,449 @@
+---
+title: "Debugging with Triton"
+description: "Troubleshoot and fix issues with AI assistance"
+---
+
+## Overview
+
+When something goes wrong, Triton can help diagnose issues, explain errors, and suggest fixes. This guide covers how to effectively debug with Triton's help.
+
+## Starting a debugging session
+
+### When execution fails
+
+**You:** _"Execution #1234 failed. What happened?"_
+
+**Triton:**
+1. Fetches execution logs
+2. Identifies the failing component
+3. Analyzes the error
+4. Explains the root cause
+5. Suggests fixes
+
+**Example response:**
+```
+Execution #1234 failed in the `fetch_news` Action with error:
+"ConnectionError: HTTPSConnectionPool(host='api.example.com'): Max retries exceeded"
+
+Root cause: The API endpoint is unreachable, likely due to network issues or API downtime.
+
+Suggested fixes:
+1. Add retry logic with exponential backoff
+2. Implement a fallback data source
+3. Add better error handling to continue processing other sources
+
+Would you like me to implement any of these?
+```
+
+### When output is wrong
+
+**You:** _"The output is wrong. Expected [X] but got [Y]"_
+
+**Triton:**
+1. Traces the data flow
+2. Checks transformations at each step
+3. Identifies where it diverged
+4. Explains what happened
+5. Recommends corrections
+
+### When behavior is unexpected
+
+**You:** _"This Agent isn't using its tools"_
+
+**Triton:**
+1. Reviews the system prompt
+2. Checks tool availability
+3. Examines recent execution traces
+4. Identifies the issue (e.g., prompt doesn't encourage tool use)
+5. Suggests prompt improvements
+
+## Common debugging scenarios
+
+### Scenario 1: Action throws error
+
+#### Symptom
+```
+TypeError: 'NoneType' object is not iterable
+```
+
+#### Debug with Triton
+
+**You:** _"This Action is throwing a TypeError on line 23"_
+
+**Triton:** Reviews the code:
+```python
+def process_items(data):
+    for item in data['items']:  # Line 23
+        # processing
+```
+
+**Diagnosis:**  
+`data['items']` is `None` when the API returns empty results.
+
+**Fix suggestion:**
+```python
+def process_items(data):
+    items = data.get('items') or []
+    for item in items:
+        # processing
+```
+
+**You:** _"Apply that fix"_  
+**Triton:** Updates the code.
+
+### Scenario 2: Flow produces no output
+
+#### Symptom
+Execution completes but Output node is empty.
+
+#### Debug with Triton
+
+**You:** _"Why is the output empty?"_
+
+**Triton:** Traces the Flow:
+1. Input node receives data ✓
+2. Validation Action passes ✓
+3. Processing Action returns data ✓
+4. Output node receives... nothing ✗
+
+**Diagnosis:**  
+The connection between Processing Action and Output node maps to the wrong field.
+
+**Current:** `result` → `data` (but Processing returns `processed_data`)  
+**Fix:** _"Remap the connection from 'processed_data' to 'data'"_
+
+### Scenario 3: Agent gives incorrect answers
+
+#### Symptom
+Agent provides outdated information.
+
+#### Debug with Triton
+
+**You:** _"This Agent is giving wrong information about our pricing"_
+
+**Triton:** Checks:
+1. System prompt — mentions old pricing ✗
+2. Tools available — no pricing lookup tool ✗
+3. Training data — pre-dates pricing change
+
+**Diagnosis:**  
+Agent is using outdated information from its training data.
+
+**Fix suggestions:**
+1. Add a `get_current_pricing` Action as a tool
+2. Update system prompt to always use the tool for pricing questions
+3. Remove old pricing info from the prompt
+
+**You:** _"Do option 1 and 2"_  
+**Triton:** Implements both fixes.
+
+### Scenario 4: Intermittent failures
+
+#### Symptom
+Sometimes works, sometimes fails with timeout.
+
+#### Debug with Triton
+
+**You:** _"This Action fails randomly with timeouts"_
+
+**Triton:** Analyzes execution history:
+- Success rate: 75%
+- Failures all on large payloads (>100 items)
+- Average success time: 8s
+- Failure threshold: 10s timeout
+
+**Diagnosis:**  
+Processing 100+ items sequentially hits the timeout.
+
+**Fix suggestions:**
+1. Increase timeout to 30s
+2. Add batching (process 20 items at a time)
+3. Implement parallel processing
+4. Add progress logging
+
+**You:** _"Implement option 2 and 4"_  
+**Triton:** Adds batching and logging.
+
+### Scenario 5: Wrong data type
+
+#### Symptom
+```
+ValidationError: Expected 'list' but got 'str'
+```
+
+#### Debug with Triton
+
+**You:** _"Getting a validation error on input"_
+
+**Triton:** Checks schemas:
+- Previous node outputs: `{ "items": "item1,item2,item3" }` (string)
+- Current node expects: `{ "items": ["item1", "item2", "item3"] }` (list)
+
+**Diagnosis:**  
+Data type mismatch. Previous node returns CSV string, next node expects array.
+
+**Fix options:**
+1. Update previous node to return an array
+2. Add a transformation node to split the string
+3. Update current node to accept string and split internally
+
+**You:** _"Option 2"_  
+**Triton:** Inserts a transformation node.
+
+## Debugging Agents
+
+### Agent not responding correctly
+
+**Debug steps:**
+
+1. **Check the system prompt**  
+   _"Show me this Agent's system prompt"_
+   
+2. **Review execution trace**  
+   _"Show me what the Agent did in execution #1234"_
+   
+3. **Test with simplified input**  
+   _"Execute this Agent with just: 'Hello'"_
+   
+4. **Check model parameters**  
+   _"What temperature is this Agent using?"_
+
+### Agent not using tools
+
+**You:** _"Why isn't this Agent calling the search tool?"_
+
+**Triton checks:**
+1. Is the tool in the toolbox? Yes ✓
+2. Does the prompt mention the tool? No ✗
+3. Is the tool description clear? Somewhat ✓
+
+**Fix:**
+```
+Update system prompt to include:
+
+"When users ask questions, use the search_catalog tool to find accurate,
+up-to-date information. Always search before answering product questions."
+
+Also improve tool description:
+"search_catalog(query: str) -> List[Product]: Searches the product catalog
+for items matching the query. Use for any product-related questions."
+```
+
+### Agent too slow
+
+**You:** _"This Agent takes 30 seconds to respond"_
+
+**Triton analyzes:**
+- Model: GPT-4 ✓
+- Max tokens: 4000 (high)
+- Tools: 10 available (many)
+- System prompt: 2000 words (very long)
+
+**Diagnosis:** Large prompt + high max tokens + many tools = slow
+
+**Optimizations:**
+1. Reduce max tokens to 1000 (most responses are <500 words)
+2. Remove rarely-used tools (keep top 5)
+3. Condense system prompt to 500 words
+4. Consider GPT-3.5-turbo for simple cases
+
+## Debugging Flows
+
+### Tracing data flow
+
+**You:** _"Trace the data through this Flow for execution #1234"_
+
+**Triton shows:**
+```
+Input: { "user_id": "123", "action": "purchase" }
+  ↓
+validate_input: ✓ Passed
+  Output: { "user_id": "123", "action": "purchase", "valid": true }
+  ↓
+fetch_user_data: ✓ Success
+  Output: { "user_id": "123", "name": "Alice", "tier": "premium" }
+  ↓
+process_purchase: ✗ Failed
+  Error: KeyError: 'action'
+  
+Issue: process_purchase receives only the output from fetch_user_data,
+but needs the 'action' field from validate_input.
+
+Fix: Merge both outputs before process_purchase, or pass 'action' explicitly.
+```
+
+### Finding bottlenecks
+
+**You:** _"Why is this Flow so slow?"_
+
+**Triton profiles:**
+```
+Flow execution time: 25.3s
+
+Breakdown:
+- Input node: 0.1s
+- validate_input: 0.2s
+- fetch_external_data: 18.5s ⚠️ SLOW
+- process_data: 5.8s ⚠️ SLOW
+- format_output: 0.5s
+- Output node: 0.2s
+
+Bottlenecks:
+1. fetch_external_data is slow (network I/O)
+2. process_data is slow (runs sequentially)
+
+Optimizations:
+1. Cache fetch_external_data results (reduce API calls)
+2. If multiple items, process in parallel
+3. Consider async for I/O operations
+```
+
+### Handling edge cases
+
+**You:** _"This Flow fails when the input list is empty"_
+
+**Triton:** _"Let me trace an empty input:"_
+
+```
+Input: { "items": [] }
+  ↓
+process_items: 
+  for item in items:  # No items, skips loop
+  returns: None
+  ↓
+format_results:
+  Expects: { "processed": [...] }
+  Receives: None
+  Error: TypeError
+
+Fix: Ensure process_items returns empty list instead of None:
+  if not items:
+      return {"processed": []}
+```
+
+## Using execution history
+
+### Compare successful vs failed executions
+
+**You:** _"Compare execution #1234 (failed) with #1200 (success)"_
+
+**Triton:**
+```
+Differences:
+
+Input:
+- #1200: { "count": 10 }
+- #1234: { "count": 500 }
+
+Execution times:
+- #1200: 3.2s
+- #1234: 10.5s (timeout at 10s)
+
+Diagnosis: Large count (500) causes timeout. Need to:
+1. Increase timeout to 30s, or
+2. Add batching for count > 100
+```
+
+### Identify patterns
+
+**You:** _"Why are 20% of executions failing?"_
+
+**Triton analyzes recent executions:**
+```
+Success rate: 80% (80/100 last executions)
+
+Failure patterns:
+- All failures occur between 8-10 AM PST
+- All failures involve external API
+- Error: "Rate limit exceeded"
+
+Diagnosis: Morning peak traffic hits API rate limits.
+
+Solutions:
+1. Implement exponential backoff retry
+2. Add caching to reduce API calls
+3. Increase rate limit with API provider
+4. Queue requests during peak times
+```
+
+## Debugging best practices
+
+> **Provide execution IDs** — _"Check execution #1234"_ is better than _"It failed earlier"_
+
+> **Describe expected behavior** — _"Should return 10 items but returns 0"_
+
+> **Share error messages** — Copy the full error text
+
+> **Test incrementally** — Debug one component at a time
+
+> **Use Triton to explain** — _"What does this error mean?"_
+
+## Advanced debugging
+
+### Logging analysis
+
+**You:** _"Analyze the logs for pattern in failures"_
+
+**Triton:**
+- Reviews logs across multiple executions
+- Identifies common errors
+- Finds correlation with inputs
+- Suggests systematic fixes
+
+### Performance profiling
+
+**You:** _"Profile this Action and identify slow parts"_
+
+**Triton:**
+- Adds timing logs
+- Runs test execution
+- Reports time spent in each section
+- Suggests optimizations
+
+### Dependency issues
+
+**You:** _"This Action works locally but fails when deployed"_
+
+**Triton checks:**
+- Requirements.txt matches local environment? No ✗
+- Any binary dependencies? Yes ✗ (uses pillow with C extensions)
+- Environment variables set? No ✗
+
+**Diagnosis & fix:**
+1. Update requirements.txt with correct versions
+2. Replace binary dependency with pure Python alternative
+3. Set missing environment variables in Global Variables
+
+## Getting unstuck
+
+If you're stuck:
+
+**Ask Triton to explain:**
+- _"Explain what this component does"_
+- _"Why might this be failing?"_
+- _"What should I check next?"_
+
+**Ask for alternatives:**
+- _"What are other ways to solve this?"_
+- _"Is there a simpler approach?"_
+
+**Ask for examples:**
+- _"Show me an example of correct input"_
+- _"What should the output look like?"_
+
+## When to escalate
+
+Some issues need human help:
+
+- API provider outages (check status pages)
+- Quota or billing issues (contact support)
+- Platform bugs (report via [Report a Bug](/support/report-a-bug))
+- Security concerns (contact via [Support](/support/contact-us))
+
+## Next steps
+
+- [Building with Triton](/triton/building)
+- [Editing with Triton](/triton/editing)
+- [Understanding Executions](/concepts/executions)
+- [Report a Bug](/support/report-a-bug)
+

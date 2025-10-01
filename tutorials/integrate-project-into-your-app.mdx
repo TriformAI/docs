@@ -1,0 +1,488 @@
+---
+title: "Integrate Project into Your App"
+description: "Connect your Triform Project to external applications via API"
+---
+
+## Overview
+
+Once you've built and tested a Project in Triform, you'll want to integrate it into your application. This tutorial covers API integration, authentication, and best practices.
+
+**Time required:** 20-30 minutes
+
+## Prerequisites
+
+- A deployed Triform Project
+- API key for authentication
+- Basic knowledge of HTTP requests
+
+## Step 1: Deploy your Project
+
+Before integrating, deploy your Project:
+
+1. Open your Project on the Canvas
+2. Click **Deploy** in the Top Bar
+3. Select the target environment (staging or production)
+4. Configure the deployment:
+   - **Endpoint name:** Choose a memorable name (e.g., `news-digest`)
+   - **HTTP method:** POST (most common) or GET
+   - **Authentication:** API key required (recommended)
+
+5. Click **Deploy Now**
+6. Copy the generated endpoint URL:
+   ```
+   https://api.triform.ai/v1/your-org/news-digest
+   ```
+
+## Step 2: Generate an API key
+
+1. Go to Profile → API Keys
+2. Click **Create New Key**
+3. Name it: `Production Integration`
+4. Set permissions: Execute Projects
+5. Copy the key (shown only once!)
+6. Store securely (use environment variables)
+
+> **Security note:** Never commit API keys to version control. Use environment variables or secret managers.
+
+## Step 3: Make your first API call
+
+### Using cURL
+
+```bash
+curl -X POST https://api.triform.ai/v1/your-org/news-digest \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "sources": [
+      "https://newsapi.org/v2/top-headlines?country=us",
+      "https://api.example.com/tech-news"
+    ]
+  }'
+```
+
+### Using Python
+
+```python
+import requests
+import os
+
+API_KEY = os.environ.get('TRIFORM_API_KEY')
+ENDPOINT = 'https://api.triform.ai/v1/your-org/news-digest'
+
+headers = {
+    'Authorization': f'Bearer {API_KEY}',
+    'Content-Type': 'application/json'
+}
+
+payload = {
+    'sources': [
+        'https://newsapi.org/v2/top-headlines?country=us',
+        'https://api.example.com/tech-news'
+    ]
+}
+
+response = requests.post(ENDPOINT, json=payload, headers=headers)
+
+if response.status_code == 200:
+    result = response.json()
+    print('Success:', result)
+else:
+    print('Error:', response.status_code, response.text)
+```
+
+### Using JavaScript (Node.js)
+
+```javascript
+const axios = require('axios');
+
+const API_KEY = process.env.TRIFORM_API_KEY;
+const ENDPOINT = 'https://api.triform.ai/v1/your-org/news-digest';
+
+const headers = {
+  'Authorization': `Bearer ${API_KEY}`,
+  'Content-Type': 'application/json'
+};
+
+const payload = {
+  sources: [
+    'https://newsapi.org/v2/top-headlines?country=us',
+    'https://api.example.com/tech-news'
+  ]
+};
+
+axios.post(ENDPOINT, payload, { headers })
+  .then(response => {
+    console.log('Success:', response.data);
+  })
+  .catch(error => {
+    console.error('Error:', error.response?.status, error.response?.data);
+  });
+```
+
+### Using JavaScript (Browser/React)
+
+```javascript
+const callTriformAPI = async () => {
+  const API_KEY = process.env.REACT_APP_TRIFORM_API_KEY;
+  const ENDPOINT = 'https://api.triform.ai/v1/your-org/news-digest';
+  
+  try {
+    const response = await fetch(ENDPOINT, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${API_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        sources: [
+          'https://newsapi.org/v2/top-headlines?country=us',
+          'https://api.example.com/tech-news'
+        ]
+      })
+    });
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    console.log('Success:', data);
+    return data;
+  } catch (error) {
+    console.error('Error:', error);
+  }
+};
+```
+
+## Step 4: Handle responses
+
+Triform API responses follow this structure:
+
+### Success response (200 OK)
+
+```json
+{
+  "execution_id": "exec_abc123",
+  "status": "completed",
+  "output": {
+    "digest": "Top stories today include...",
+    "article_count": 42,
+    "topics": ["technology", "politics", "science"]
+  },
+  "execution_time_ms": 3420,
+  "timestamp": "2025-10-01T10:30:00Z"
+}
+```
+
+### Error response (4xx/5xx)
+
+```json
+{
+  "error": {
+    "code": "invalid_input",
+    "message": "Field 'sources' is required",
+    "details": {
+      "field": "sources",
+      "expected_type": "array"
+    }
+  },
+  "request_id": "req_xyz789"
+}
+```
+
+### Handling in code
+
+```python
+def call_triform_api(payload):
+    response = requests.post(ENDPOINT, json=payload, headers=headers)
+    
+    if response.status_code == 200:
+        data = response.json()
+        return {
+            'success': True,
+            'data': data['output'],
+            'execution_id': data['execution_id']
+        }
+    elif response.status_code == 400:
+        error = response.json()['error']
+        return {
+            'success': False,
+            'error': error['message'],
+            'code': error['code']
+        }
+    elif response.status_code == 429:
+        # Rate limit exceeded
+        return {
+            'success': False,
+            'error': 'Rate limit exceeded. Try again later.'
+        }
+    elif response.status_code >= 500:
+        # Server error
+        return {
+            'success': False,
+            'error': 'Triform service temporarily unavailable'
+        }
+    else:
+        return {
+            'success': False,
+            'error': f'Unexpected error: {response.status_code}'
+        }
+```
+
+## Step 5: Implement error handling
+
+### Retry logic with exponential backoff
+
+```python
+import time
+from typing import Optional
+
+def call_with_retry(payload, max_retries=3):
+    for attempt in range(max_retries):
+        try:
+            response = requests.post(
+                ENDPOINT,
+                json=payload,
+                headers=headers,
+                timeout=30
+            )
+            
+            if response.status_code == 200:
+                return response.json()
+            elif response.status_code == 429:
+                # Rate limited, wait and retry
+                wait_time = 2 ** attempt  # 1s, 2s, 4s
+                time.sleep(wait_time)
+                continue
+            elif response.status_code >= 500:
+                # Server error, retry
+                wait_time = 2 ** attempt
+                time.sleep(wait_time)
+                continue
+            else:
+                # Client error, don't retry
+                raise Exception(f"API error: {response.text}")
+                
+        except requests.exceptions.Timeout:
+            if attempt < max_retries - 1:
+                time.sleep(2 ** attempt)
+                continue
+            raise
+        except requests.exceptions.RequestException as e:
+            if attempt < max_retries - 1:
+                time.sleep(2 ** attempt)
+                continue
+            raise
+    
+    raise Exception(f"Failed after {max_retries} attempts")
+```
+
+### Timeout handling
+
+Always set timeouts to prevent hanging requests:
+
+```python
+# Set reasonable timeout (connect timeout, read timeout)
+response = requests.post(
+    ENDPOINT,
+    json=payload,
+    headers=headers,
+    timeout=(5, 30)  # 5s to connect, 30s to read
+)
+```
+
+## Step 6: Integrate into your application
+
+### Example: Web dashboard
+
+```python
+# Flask app
+from flask import Flask, render_template, request, jsonify
+
+app = Flask(__name__)
+
+@app.route('/dashboard')
+def dashboard():
+    return render_template('dashboard.html')
+
+@app.route('/api/refresh-news', methods=['POST'])
+def refresh_news():
+    sources = request.json.get('sources', [])
+    
+    result = call_triform_api({
+        'sources': sources
+    })
+    
+    if result['success']:
+        return jsonify({
+            'digest': result['data']['digest'],
+            'article_count': result['data']['article_count']
+        })
+    else:
+        return jsonify({'error': result['error']}), 400
+```
+
+### Example: Scheduled job
+
+```python
+# Daily cron job
+import schedule
+import time
+
+def fetch_daily_news():
+    print("Fetching daily news digest...")
+    
+    payload = {
+        'sources': [
+            'https://newsapi.org/v2/top-headlines?country=us',
+            'https://api.example.com/tech-news'
+        ]
+    }
+    
+    result = call_with_retry(payload)
+    
+    # Save to database or send email
+    save_to_database(result['output']['digest'])
+    send_email_digest(result['output']['digest'])
+    
+    print("Daily news digest completed")
+
+# Schedule for 6 AM daily
+schedule.every().day.at("06:00").do(fetch_daily_news)
+
+while True:
+    schedule.run_pending()
+    time.sleep(60)
+```
+
+### Example: Real-time processing
+
+```python
+# Process incoming webhooks
+from fastapi import FastAPI, BackgroundTasks
+
+app = FastAPI()
+
+@app.post('/webhook/new-content')
+async def handle_new_content(data: dict, background_tasks: BackgroundTasks):
+    # Trigger Triform processing in background
+    background_tasks.add_task(process_with_triform, data)
+    return {'status': 'processing'}
+
+def process_with_triform(data):
+    result = call_triform_api({
+        'content': data['content'],
+        'metadata': data['metadata']
+    })
+    
+    # Store results
+    store_results(result)
+```
+
+## Step 7: Monitor and optimize
+
+### Track API usage
+
+```python
+import logging
+
+logger = logging.getLogger(__name__)
+
+def call_triform_api_with_logging(payload):
+    start_time = time.time()
+    
+    try:
+        response = requests.post(ENDPOINT, json=payload, headers=headers)
+        elapsed = time.time() - start_time
+        
+        logger.info(f"Triform API call completed in {elapsed:.2f}s, status: {response.status_code}")
+        
+        return response.json()
+    except Exception as e:
+        elapsed = time.time() - start_time
+        logger.error(f"Triform API call failed after {elapsed:.2f}s: {str(e)}")
+        raise
+```
+
+### Caching results
+
+```python
+from functools import lru_cache
+import hashlib
+import json
+
+# Simple in-memory cache
+cache = {}
+CACHE_TTL = 3600  # 1 hour
+
+def get_cache_key(payload):
+    return hashlib.md5(json.dumps(payload, sort_keys=True).encode()).hexdigest()
+
+def call_triform_cached(payload):
+    cache_key = get_cache_key(payload)
+    
+    # Check cache
+    if cache_key in cache:
+        cached_data, timestamp = cache[cache_key]
+        if time.time() - timestamp < CACHE_TTL:
+            logger.info("Returning cached result")
+            return cached_data
+    
+    # Call API
+    result = call_triform_api(payload)
+    
+    # Store in cache
+    cache[cache_key] = (result, time.time())
+    
+    return result
+```
+
+## Best practices
+
+> **Use environment variables** — Never hardcode API keys
+
+> **Implement retries** — Network issues happen; retry with backoff
+
+> **Set timeouts** — Don't let requests hang indefinitely
+
+> **Log everything** — Track success/failure for debugging
+
+> **Cache when appropriate** — Save API calls for expensive operations
+
+> **Monitor quota** — Track usage against your plan limits
+
+> **Test error paths** — Ensure your app handles API failures gracefully
+
+> **Version your integration** — Track which API version you're using
+
+## Troubleshooting
+
+**Problem:** 401 Unauthorized  
+**Solution:** Check API key is correct and has Execute permissions
+
+**Problem:** 429 Too Many Requests  
+**Solution:** Implement rate limiting, add delays between requests
+
+**Problem:** 500 Server Error  
+**Solution:** Retry with backoff, check Triform status page
+
+**Problem:** Slow responses  
+**Solution:** Optimize your Project, add caching, use async requests
+
+**Problem:** Unexpected output format  
+**Solution:** Verify Project schema matches your expectations, check docs
+
+## Next steps
+
+- [Understanding Deployments](/concepts/deployments)
+- [API Keys Management](/concepts/api-keys)
+- [Monitoring Best Practices](/roadmap/monitoring)
+- [Quotas and Limits](/quotas/index)
+- [Security Overview](/security/overview)
+
+## Additional resources
+
+- [API Reference](/api-reference/introduction)
+- [Webhook Integration](/api-reference/endpoint/webhook)
+- [Support](/support/overview)
+

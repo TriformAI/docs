@@ -1,0 +1,468 @@
+---
+title: "Triggers"
+description: "Automate Project execution with webhooks, schedules, and events"
+---
+
+## What are Triggers?
+
+Triggers automatically execute your Projects in response to events, without manual intervention. Instead of clicking "Execute" every time, set up Triggers to run your Projects when specific conditions are met.
+
+## Types of Triggers
+
+### Webhook Triggers
+
+Execute when an HTTP request hits your webhook endpoint.
+
+**Use cases:**
+- Payment notifications (Stripe, PayPal)
+- GitHub events (push, PR, issue)
+- Form submissions
+- Third-party service events
+
+**Setup:**
+1. Go to Project → Triggers
+2. Click **Add Trigger → Webhook**
+3. Configure:
+   - Path: `/webhook/payment-received`
+   - Authentication: API key or HMAC signature
+   - Payload transformation (if needed)
+4. Save → Get webhook URL
+5. Register URL with external service
+
+**Example URL:**
+```
+https://api.triform.ai/v1/webhooks/your-org/payment-received
+```
+
+**Incoming webhook:**
+```json
+POST /v1/webhooks/your-org/payment-received
+{
+  "event": "payment.success",
+  "amount": 99.99,
+  "customer_id": "cust_123"
+}
+```
+
+**Your Project receives:**
+```json
+{
+  "event_type": "payment.success",
+  "amount": 99.99,
+  "customer_id": "cust_123",
+  "received_at": "2025-10-01T10:30:00Z"
+}
+```
+
+### Schedule Triggers
+
+Execute at specific times or intervals.
+
+**Use cases:**
+- Daily reports
+- Periodic data sync
+- Cleanup jobs
+- Monitoring checks
+
+**Setup:**
+1. Go to Project → Triggers
+2. Click **Add Trigger → Schedule**
+3. Configure schedule:
+   - **Cron expression:** `0 6 * * *` (daily at 6 AM)
+   - **Interval:** Every 15 minutes
+   - **One-time:** Specific date/time
+4. Set timezone
+5. Define payload (static or dynamic)
+6. Save
+
+**Schedule types:**
+
+| Type | Example | Description |
+|------|---------|-------------|
+| Cron | `0 6 * * *` | Daily at 6 AM UTC |
+| Interval | `Every 15 minutes` | Repeating interval |
+| Hourly | `Every hour at :00` | Top of each hour |
+| Daily | `Daily at 9:00 AM` | Specific time daily |
+| Weekly | `Every Monday at 8:00 AM` | Specific day/time weekly |
+| Monthly | `1st of month at 00:00` | Specific day each month |
+| One-time | `2025-10-15 14:00:00` | Single execution |
+
+**Cron expression format:**
+```
+* * * * *
+│ │ │ │ │
+│ │ │ │ └─── Day of week (0-7, 0=Sunday)
+│ │ │ └───── Month (1-12)
+│ │ └─────── Day of month (1-31)
+│ └───────── Hour (0-23)
+└─────────── Minute (0-59)
+```
+
+**Common patterns:**
+- `0 * * * *` — Every hour
+- `*/15 * * * *` — Every 15 minutes
+- `0 9 * * 1-5` — Weekdays at 9 AM
+- `0 0 1 * *` — First of each month
+
+### Manual Triggers
+
+Execute via button or API call.
+
+**Use cases:**
+- On-demand processing
+- Admin actions
+- Testing
+- User-initiated workflows
+
+**Setup:**
+1. Default for all Projects
+2. Execute via:
+   - UI Execute button
+   - API call
+   - CLI command
+
+**API call:**
+```bash
+curl -X POST https://api.triform.ai/v1/projects/your-project/execute \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -d '{"user_id": "123"}'
+```
+
+### Event Triggers
+
+Execute when specific events occur within Triform.
+
+**Use cases:**
+- Chain Projects together
+- Respond to execution failures
+- Auto-remediation
+- Notifications
+
+**Setup:**
+1. Go to Project → Triggers
+2. Click **Add Trigger → Event**
+3. Select event type:
+   - Project execution completed
+   - Execution failed
+   - Deployment succeeded
+   - Variable updated
+4. Filter conditions (optional)
+5. Define payload
+6. Save
+
+**Example: Error notification**
+- Event: Any execution failed
+- Filter: Project = "Customer Onboarding"
+- Action: Execute "Send Alert" Project
+
+## Managing Triggers
+
+### Viewing Triggers
+
+1. Go to Project → Triggers
+2. See list of all triggers:
+   - Type (webhook, schedule, event)
+   - Status (active, paused, disabled)
+   - Last triggered
+   - Success rate
+
+### Editing Triggers
+
+1. Select trigger from list
+2. Click **Edit**
+3. Modify configuration
+4. **Save** → Changes take effect immediately
+
+**Note:** Schedule changes apply to future executions, not currently running ones.
+
+### Pausing Triggers
+
+Temporarily stop a trigger without deleting it:
+
+1. Select trigger
+2. Click **Pause**
+3. Trigger stops executing
+4. Click **Resume** to reactivate
+
+**Use cases:**
+- During maintenance
+- Troubleshooting
+- Temporarily disable feature
+
+### Deleting Triggers
+
+Permanently remove a trigger:
+
+1. Select trigger
+2. Click **Delete**
+3. Confirm
+4. Trigger is removed
+
+**Warning:** Cannot be undone. Webhook URLs will stop working.
+
+## Trigger configuration
+
+### Payload
+
+Define what data the triggered execution receives.
+
+**Static payload:**
+```json
+{
+  "source": "scheduled_job",
+  "timestamp": "{{now}}"
+}
+```
+
+**Dynamic payload from webhook:**
+```json
+{
+  "event_type": "{{webhook.event}}",
+  "data": "{{webhook.body}}",
+  "headers": "{{webhook.headers}}"
+}
+```
+
+**Using variables:**
+```json
+{
+  "api_key": "{{global.API_KEY}}",
+  "environment": "{{global.ENV}}"
+}
+```
+
+### Retry policy
+
+Configure what happens on failure.
+
+**Options:**
+- **No retry** — Fail and move on
+- **Retry with backoff** — Try again with increasing delays
+- **Fixed retry** — Retry N times with fixed delay
+
+**Example:**
+- Max retries: 3
+- Initial delay: 5 seconds
+- Backoff multiplier: 2 (5s, 10s, 20s)
+
+### Timeout
+
+Set maximum execution time:
+
+- Default: 30 seconds
+- Max: 15 minutes (Pro), 60 minutes (Enterprise)
+
+**If timeout reached:**
+- Execution is canceled
+- Error logged
+- Retry policy applies (if configured)
+
+### Concurrency
+
+Control how many executions can run simultaneously.
+
+**Options:**
+- **Unlimited** — No limit (default)
+- **Limited** — Max N concurrent executions
+- **Serial** — One at a time (queue others)
+
+**Use serial for:**
+- Order-dependent operations
+- Resource constraints
+- Rate limit compliance
+
+## Webhook authentication
+
+Secure your webhook endpoints.
+
+### API Key
+
+Require API key in header:
+
+```bash
+curl -X POST https://api.triform.ai/v1/webhooks/your-endpoint \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -d '{"data": "value"}'
+```
+
+**Configuration:**
+1. Enable API key authentication
+2. Provide key to webhook sender
+3. Triform validates before execution
+
+### HMAC Signature
+
+Verify request came from expected source:
+
+**How it works:**
+1. Sender signs payload with shared secret
+2. Includes signature in header
+3. Triform recomputes and verifies
+
+**Example (Stripe-style):**
+```python
+import hmac
+import hashlib
+
+payload = '{"event": "payment.success"}'
+secret = "your_webhook_secret"
+
+signature = hmac.new(
+    secret.encode(),
+    payload.encode(),
+    hashlib.sha256
+).hexdigest()
+
+# Include in request header
+headers = {
+    "X-Webhook-Signature": signature
+}
+```
+
+**Configuration:**
+1. Enable HMAC authentication
+2. Set shared secret
+3. Configure header name (e.g., `X-Webhook-Signature`)
+4. Triform validates before execution
+
+### IP Allowlist
+
+Restrict to specific IP addresses:
+
+**Configuration:**
+1. Enable IP allowlist
+2. Add allowed IPs: `203.0.113.1`, `203.0.113.2`
+3. Requests from other IPs are rejected
+
+**Use case:** Known, fixed-IP services (internal systems, specific vendors)
+
+## Monitoring Triggers
+
+### Trigger dashboard
+
+View trigger performance:
+
+- **Executions today** — Count
+- **Success rate** — Percentage
+- **Avg duration** — Time
+- **Errors** — Types and counts
+
+### Alerts
+
+Set up notifications:
+
+**Alert conditions:**
+- Success rate drops below 90%
+- Execution takes longer than 1 minute
+- Webhook returns error 3+ times
+- Schedule misses execution
+
+**Notification channels:**
+- Email
+- Slack
+- Discord
+- Webhook (meta!)
+- PagerDuty (Enterprise)
+
+### Logs
+
+All trigger executions are logged:
+
+1. Go to Project → Executions
+2. Filter by trigger type
+3. View execution details
+
+**Webhook-specific logs:**
+- Incoming payload
+- Headers received
+- IP address
+- Timestamp
+- Response sent
+
+## Best practices
+
+> **Secure webhooks** — Always use authentication (API key or HMAC)
+
+> **Handle failures gracefully** — Configure retries for transient errors
+
+> **Log extensively** — Track all trigger executions for debugging
+
+> **Test thoroughly** — Verify triggers work before going live
+
+> **Monitor actively** — Set up alerts for failures
+
+> **Document webhooks** — Note what sends them and expected format
+
+> **Use idempotency** — Handle duplicate webhook deliveries
+
+> **Rate limit** — Protect against webhook floods
+
+## Common patterns
+
+### Pattern 1: Webhook → Process → Notify
+
+```
+Webhook receives event
+  → Validate and transform
+  → Process data
+  → Send notification
+```
+
+**Example:** Payment received → Update database → Email customer
+
+### Pattern 2: Schedule → Fetch → Process → Store
+
+```
+Daily at 6 AM
+  → Fetch data from APIs
+  → Process and analyze
+  → Store results
+```
+
+**Example:** Daily report generation
+
+### Pattern 3: Event chain
+
+```
+Project A completes
+  → Triggers Project B
+  → Triggers Project C
+```
+
+**Example:** Onboarding flow: Create account → Send welcome → Provision services
+
+### Pattern 4: Error handling
+
+```
+Project fails
+  → Event trigger fires
+  → Error logger Project executes
+  → Alert sent to team
+```
+
+**Example:** Automated incident response
+
+## Troubleshooting
+
+**Problem:** Webhook not triggering  
+**Solution:** Check URL is correct, authentication is valid, check logs for rejected requests
+
+**Problem:** Schedule not running  
+**Solution:** Verify cron expression, check timezone, ensure trigger is not paused
+
+**Problem:** Trigger fires but execution fails  
+**Solution:** Check payload format, verify required fields, review execution logs
+
+**Problem:** Too many concurrent executions  
+**Solution:** Enable serial execution or set concurrency limit
+
+**Problem:** Webhook receiving duplicates  
+**Solution:** Implement idempotency checks using unique event IDs
+
+## Next steps
+
+- [Understanding Executions](/concepts/executions)
+- [Understanding Deployments](/concepts/deployments)
+- [API Reference - Webhooks](/api-reference/endpoint/webhook)
+- [Monitoring (Roadmap)](/roadmap/monitoring)
+

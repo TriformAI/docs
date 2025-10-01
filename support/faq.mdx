@@ -1,0 +1,399 @@
+---
+title: "Frequently Asked Questions"
+description: "Common questions about Triform"
+---
+
+## Getting Started
+
+### What is Triform?
+
+Triform is a visual platform for building, running, and monitoring AI-powered systems. You compose logic on a Canvas as nodes (Agents, Flows, Actions) and connect them with edges, instead of writing traditional code.
+
+### Who is Triform for?
+
+- **Engineers** building end-to-end AI workflows
+- **Product teams** iterating quickly on prototypes
+- **Non-technical collaborators** reviewing and testing behavior
+
+### Is Triform free?
+
+Yes! We offer a generous free tier perfect for learning and small projects. Pro and Enterprise plans available for production use and teams.
+
+### How do I sign up?
+
+Visit [app.triform.ai](https://app.triform.ai) and sign in with Discord, GitHub, or email magic link. No credit card required for free tier.
+
+### What can I build with Triform?
+
+- Tool-using **Agents** that call Actions/Flows
+- **Flows** that orchestrate multi-step logic
+- **Actions** that run Python code
+- APIs or scheduled jobs that expose components
+
+**Examples:** Customer support bots, data processing pipelines, content generators, research assistants
+
+## Account & Billing
+
+### How do I upgrade my plan?
+
+Account Settings → Billing → Change Plan. Changes take effect immediately, prorated billing.
+
+### Can I downgrade?
+
+Yes, at any time. Downgrade takes effect at end of current billing period. No refunds for unused time.
+
+### What payment methods do you accept?
+
+Credit/debit cards via Stripe. Enterprise can use invoicing.
+
+### Do you offer discounts?
+
+- **Annual plans:** 20% off vs. monthly
+- **Nonprofits:** 50% off Pro plan (apply via email)
+- **Students:** Free Pro plan (verify .edu email)
+- **Startups:** Special pricing (apply via sales)
+
+### Can I get a refund?
+
+30-day money-back guarantee for first purchase. No refunds after that, but you can cancel anytime.
+
+### How does billing work for organizations?
+
+One subscription covers all members in an Organization. Pricing based on usage and team size.
+
+## Projects & Components
+
+### What's the difference between a Project, Flow, Agent, and Action?
+
+- **Project:** Top-level container, the deployable unit
+- **Flow:** Orchestration graph connecting components
+- **Agent:** LLM-powered decision-maker with tools
+- **Action:** Python function for specific tasks
+
+### Can I reuse components across Projects?
+
+Yes! Components in your Organization library can be used in any Project.
+
+### How many Projects can I create?
+
+- **Free:** 3 Projects
+- **Pro:** 25 Projects
+- **Enterprise:** Unlimited
+
+### Can I share Projects with teammates?
+
+Yes! Invite teammates to your Organization. They can view/edit based on their role.
+
+### Can I export my Projects?
+
+Yes. Right-click Project → Export to download JSON. Import into another Organization if needed.
+
+## Executions
+
+### What is an execution?
+
+An execution is a single run of a Project/Flow/Agent/Action. Each execution has inputs, outputs, logs, and metrics.
+
+### How many executions are included in my plan?
+
+- **Free:** 1,000/month
+- **Pro:** 50,000/month
+- **Enterprise:** Custom
+
+Overage available at $0.01/execution.
+
+### How long are execution logs retained?
+
+- **Free:** 7 days
+- **Pro:** 30 days
+- **Enterprise:** 90 days or custom
+
+Export logs before they're deleted.
+
+### Can I replay a failed execution?
+
+Yes! Open execution → Replay. You can modify the input if needed.
+
+### Why is my execution slow?
+
+Common causes:
+- Large dependencies (slow cold starts)
+- Sequential instead of parallel processing
+- API call latency
+- Inefficient code
+
+Use execution traces to identify bottlenecks. Ask Triton for optimization suggestions.
+
+## Agents & LLMs
+
+### Which LLM models are supported?
+
+- **OpenAI:** GPT-4, GPT-4 Turbo, GPT-3.5
+- **Anthropic:** Claude 3.5 Sonnet, Claude 3 Opus, Claude 3 Haiku
+- **More coming soon**
+
+### Do I need my own API keys?
+
+**Free tier:** Use our keys (with quota limits)  
+**Pro/Enterprise:** Use your own keys for unlimited usage
+
+### How much do LLM calls cost?
+
+Depends on the model and your API key:
+- Using our keys: Included in quota
+- Using your keys: Charged by provider (OpenAI, Anthropic)
+
+### Can Agents call external APIs?
+
+Yes! Create Actions that call APIs, then give those Actions as tools to Agents.
+
+### How do I make Agent responses more consistent?
+
+- Lower temperature (0-0.3 for deterministic)
+- More specific system prompts
+- Add examples in the prompt
+- Use structured outputs
+
+## Actions
+
+### What programming language do Actions use?
+
+Python 3.11. We're exploring other languages for the future.
+
+### What Python packages can I use?
+
+Most pure-Python packages from PyPI. Some limitations:
+- ✅ requests, pandas, numpy, etc.
+- ❌ Packages requiring system binaries
+- ❌ Packages needing root access
+
+See [Requirements](/concepts/requirements) for details.
+
+### Can Actions access databases?
+
+Yes! Use database client libraries (psycopg2, pymongo, etc.). Store connection strings in Global Variables.
+
+### How long can Actions run?
+
+- **Free:** 30 seconds max
+- **Pro:** 5 minutes max
+- **Enterprise:** 30 minutes max
+
+For longer tasks, split into multiple Actions or use async patterns.
+
+### Can Actions write files?
+
+No persistent file system. Each execution has temporary storage that's cleared after. Use external storage (S3, etc.) for persistence.
+
+## Deployments
+
+### How do I deploy a Project?
+
+Click **Deploy** in Top Bar → Select environment → Configure → Deploy.
+
+### What's the difference between staging and production?
+
+**Staging:** Pre-production testing, internal access  
+**Production:** Live, external access, production credentials
+
+Always test in staging before deploying to production.
+
+### Can I rollback a deployment?
+
+Yes! Deployments → History → Select previous version → Rollback. Takes 30-60 seconds.
+
+### How do I update a deployed Project?
+
+Make changes in development → Test → Deploy again. New deployment replaces old one.
+
+### Is there downtime during deployment?
+
+- **Standard:** Brief downtime (< 1 minute)
+- **Enterprise:** Zero-downtime deployments available
+
+## API & Integration
+
+### How do I call my deployed Project from my app?
+
+```bash
+curl -X POST https://api.triform.ai/v1/your-org/your-project \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -d '{"input": "data"}'
+```
+
+See [Integration Tutorial](/tutorials/integrate-project-into-your-app) for details.
+
+### What's the API rate limit?
+
+- **Free:** 60 requests/minute
+- **Pro:** 600 requests/minute
+- **Enterprise:** Custom
+
+Exceeding triggers 429 response. Wait and retry.
+
+### Can I use webhooks?
+
+Yes! Set up webhook triggers to execute Projects when external events occur.
+
+### Do you have SDKs?
+
+Python and JavaScript SDKs available. More languages coming soon.
+
+### Can I use Triform in my CI/CD pipeline?
+
+Yes! Deploy via API or CLI (coming soon). See [Deployment](/concepts/deployments) for details.
+
+## Security & Privacy
+
+### Is my data secure?
+
+Yes. We use:
+- AES-256 encryption at rest
+- TLS 1.2+ in transit
+- Access controls and auditing
+- Regular security audits
+
+See [Security Overview](/security/overview) for details.
+
+### Where is my data stored?
+
+**Standard:** US data centers (AWS)  
+**Enterprise:** EU and APAC options available
+
+### Can I use Triform for HIPAA data?
+
+Not yet. HIPAA compliance coming in 2026 for Enterprise tier.
+
+### Do you sell my data?
+
+**No, never.** We don't sell, rent, or share your data with third parties for marketing.
+
+### Can I delete my data?
+
+Yes. Delete Projects anytime. Delete account in Account Settings → Privacy. Data permanently deleted after 30 days.
+
+## Troubleshooting
+
+### I can't log in
+
+- Try password reset (if using email)
+- Check 2FA device
+- Try incognito mode
+- Clear cookies
+- Contact support@triform.ai
+
+### My execution keeps failing
+
+- Check execution logs for errors
+- Verify input payload matches schema
+- Test components individually
+- Check Global Variables are set
+- Ask Triton: _"Why did execution #ID fail?"_
+
+### Triton isn't responding
+
+- Check internet connection
+- Try refreshing page
+- Check [status page](https://status.triform.ai)
+- Try again in a minute
+
+### My deployment failed
+
+- Check all components are configured
+- Verify Global Variables for that environment
+- Review deployment logs
+- Test in staging first
+
+### I'm getting rate limited
+
+- You've exceeded requests/minute limit
+- Wait for limit reset (check Retry-After header)
+- Upgrade plan for higher limits
+- Implement request throttling in your app
+
+## Limits & Quotas
+
+### What are the plan limits?
+
+| Feature | Free | Pro | Enterprise |
+|---------|------|-----|------------|
+| Projects | 3 | 25 | Unlimited |
+| Executions | 1K/mo | 50K/mo | Custom |
+| Team members | 1 | 10 | Unlimited |
+| Execution time | 30s | 5min | 30min |
+| Log retention | 7 days | 30 days | 90 days |
+| API calls | 60/min | 600/min | Custom |
+
+See [Quotas](/quotas/index) for complete details.
+
+### Can I increase my limits?
+
+Pro and Enterprise plans have higher limits. Contact sales for custom quotas.
+
+### What happens if I exceed my quota?
+
+**Soft limits:** You'll receive warnings  
+**Hard limits:** Service paused until next billing cycle or upgrade
+
+## Support
+
+### How do I get help?
+
+- **Documentation:** Search docs (you're here!)
+- **Triton:** Ask in Chat Panel
+- **Discord:** [discord.gg/triform](https://discord.gg/triform)
+- **Email:** support@triform.ai
+
+### What's your response time?
+
+- **Free:** 2-3 business days
+- **Pro:** 1 business day
+- **Enterprise:** 4 hours
+
+### Can I get phone support?
+
+Enterprise customers get phone support. Pro and Free customers use email, chat, and Discord.
+
+### Do you offer training?
+
+- **Free webinars:** Monthly
+- **Documentation:** Comprehensive guides and tutorials
+- **Office hours:** Weekly Q&A
+- **Enterprise:** Custom onboarding and training
+
+## Technical
+
+### What browsers are supported?
+
+- Chrome (recommended)
+- Firefox
+- Safari
+- Edge
+
+Mobile browsers work for viewing but desktop recommended for editing.
+
+### Is there a mobile app?
+
+Not yet. You can view Projects on mobile browsers. Editing works best on desktop.
+
+### Can I use Triform offline?
+
+No, Triform is cloud-based and requires internet connection.
+
+### Do you have an API?
+
+Yes! Full REST API for Projects, executions, deployments, and more. See [API Reference](/api-reference/introduction).
+
+### Can I self-host Triform?
+
+Not currently. We're exploring on-premises options for Enterprise (2026).
+
+## Still have questions?
+
+- Search our [documentation](/getting-started/quickstart)
+- Ask in [Discord](https://discord.gg/triform)
+- Email support@triform.ai
+- Check [Support](/support/overview) for more options
+
+**We're here to help! 🚀**
+

@@ -1,0 +1,187 @@
+---
+title: "Build a New Project"
+description: "Create a complete AI system from scratch"
+---
+
+## Overview
+
+In this tutorial, you'll build a **News Aggregator Project** that collects articles from multiple sources, summarizes them, and outputs a daily digest. You'll learn to:
+
+- Create a Project from scratch
+- Build Actions for data collection
+- Design Flows for orchestration
+- Configure an Agent for summarization
+- Test and deploy your system
+
+**Time required:** 20-30 minutes
+
+## Step 1: Create the Project
+
+1. Click the **Home** icon in the Top Bar
+2. Click **New Project**
+3. Name it `News Aggregator`
+4. Add description: `Collects and summarizes news from multiple sources`
+5. Click **Create**
+
+Your Canvas now shows an empty Project node.
+
+## Step 2: Build the fetch Action
+
+Let's create an Action to fetch news from an API:
+
+1. Open the Chat Panel
+2. Say: _"Create an Action called `fetch_news` that takes a source URL and returns a list of articles"_
+3. Triton will generate the Action with:
+   - Input: `source_url` (string)
+   - Output: `articles` (list of dicts)
+   - Basic HTTP request logic
+
+4. Review the generated `Action.py` in the Properties Panel
+5. Adjust if needed (add error handling, rate limiting, etc.)
+
+## Step 3: Create the aggregation Flow
+
+Now build a Flow to call the Action for multiple sources:
+
+1. Ask Triton: _"Create a Flow that takes a list of news sources and calls fetch_news for each one"_
+2. Triton will create:
+   - Input node with `sources` parameter
+   - Loop or parallel execution of `fetch_news`
+   - Output node with combined `articles`
+
+3. Double-click the Flow node to inspect the structure
+4. Verify the connections are correct
+
+## Step 4: Add a summarization Agent
+
+Create an Agent to summarize the collected articles:
+
+1. Say: _"Create an Agent called `news_summarizer` that takes articles and creates a concise daily digest"_
+2. Triton will configure:
+   - System prompt for summarization
+   - Input/output schema
+   - Model selection (GPT-4 or Claude recommended)
+
+3. Review and refine the system prompt:
+   ```
+   You are a news summarization expert. Given a list of news articles,
+   create a concise, informative daily digest. Group by topic, highlight
+   key trends, and maintain neutral tone. Output as structured markdown.
+   ```
+
+## Step 5: Connect the components
+
+Wire everything together:
+
+1. Create a main Flow called `daily_news_digest`
+2. Structure it as:
+   ```
+   Input (sources list)
+     → fetch_news_flow (aggregation)
+     → news_summarizer (Agent)
+     → Output (formatted digest)
+   ```
+
+3. You can do this via Triton or manually:
+   - Drag components from the Agent Toolbox
+   - Connect them with edges (click and drag from output to input ports)
+   - Configure each node's parameters
+
+## Step 6: Test with sample data
+
+Execute your system:
+
+1. Select the `daily_news_digest` Flow
+2. Open Properties → Execute
+3. Enter test payload:
+   ```json
+   {
+     "sources": [
+       "https://newsapi.org/v2/top-headlines?country=us",
+       "https://api.example.com/tech-news",
+       "https://api.example.com/world-news"
+     ]
+   }
+   ```
+
+4. Click **Execute**
+5. Monitor execution in real-time
+6. Review the output digest
+
+## Step 7: Debug and iterate
+
+If something goes wrong:
+
+- Check execution logs in Properties → Executions
+- Verify each component's input/output schema
+- Test Actions individually before running the full Flow
+- Ask Triton: _"Why did the execution fail?"_
+
+Common issues:
+- API authentication missing → Add API keys to Global Variables
+- Timeout errors → Adjust Action timeout settings
+- Empty results → Verify API endpoints are accessible
+
+## Step 8: Deploy as API
+
+Make your Project accessible:
+
+1. Click **Deploy** in the Top Bar
+2. Select deployment target (e.g., production)
+3. Configure:
+   - Endpoint path: `/daily-digest`
+   - HTTP method: POST
+   - Authentication: API key required
+
+4. Click **Deploy Now**
+5. Copy the generated endpoint URL
+6. Test with curl:
+   ```bash
+   curl -X POST https://api.triform.ai/v1/your-project/daily-digest \
+     -H "Authorization: Bearer YOUR_API_KEY" \
+     -H "Content-Type: application/json" \
+     -d '{"sources": ["..."]}'
+   ```
+
+## Step 9: Schedule daily execution
+
+Set up automatic runs:
+
+1. In the Project Properties, go to **Triggers**
+2. Click **Add Trigger**
+3. Select **Schedule**
+4. Configure:
+   - Schedule: Daily at 6:00 AM UTC
+   - Payload: Your default sources list
+   - Notification: Email on success/failure
+
+5. Save the trigger
+
+## Next steps
+
+Now that you've built a complete Project:
+
+- **Enhance it** — Add sentiment analysis, language detection, custom formatting
+- **Monitor it** — Set up alerts for failures or anomalies
+- **Share it** — Invite team members to collaborate
+- **Extend it** — Create variations for different news categories
+
+## Related tutorials
+
+- [Edit an Existing Project](/tutorials/edit-an-existing-project)
+- [Integrate Project into Your App](/tutorials/integrate-project-into-your-app)
+- [Understanding Flows](/concepts/flows)
+- [Working with Agents](/concepts/agents)
+
+## Tips for success
+
+> **Start simple** — Build and test each component individually before connecting them
+
+> **Use Global Variables** — Store API keys, base URLs, and configuration centrally
+
+> **Save test payloads** — Keep example inputs for regression testing
+
+> **Version your work** — Use meaningful names and descriptions for components
+
+> **Iterate with Triton** — Don't hesitate to ask for modifications or explanations
+

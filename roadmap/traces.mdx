@@ -1,0 +1,273 @@
+---
+title: "Traces"
+description: "Detailed execution tracing and observability (Coming Soon)"
+---
+
+## Overview
+
+Advanced execution tracing for deep observability into your AI systems, tracking every step, decision, and interaction.
+
+**Status:** 🔮 Planned for Q2 2026
+
+## What are Traces?
+
+Comprehensive, granular records of execution flow showing exactly what happened at each step—LLM calls, tool invocations, data transformations, and decision points.
+
+## Key Features
+
+### Distributed Tracing
+
+**Follow execution across components:**
+- Trace ID propagation
+- Parent-child relationships
+- Cross-Project tracing
+- Timeline visualization
+
+### Span Details
+
+**Every step recorded:**
+- Function name and duration
+- Input and output data
+- Error messages and stack traces
+- Metadata and tags
+- Resource consumption
+
+### LLM-Specific Tracing
+
+**Deep visibility into Agent behavior:**
+- Prompt templates and variables
+- System and user messages
+- Tool calls considered
+- Tool execution results
+- Model responses
+- Token usage breakdown
+- Reasoning/chain-of-thought
+
+### Performance Analysis
+
+**Identify bottlenecks:**
+- Span duration breakdown
+- Critical path analysis
+- Concurrency visualization
+- Resource usage hotspots
+
+### Cost Attribution
+
+**Track spending:**
+- Cost per span
+- LLM token costs
+- API call costs
+- Aggregate by component
+
+## Example Trace
+
+```
+Trace ID: trace_abc123xyz
+Duration: 3.2s
+Cost: $0.04
+
+└─ Flow: customer_support_flow (3.2s)
+   ├─ Action: validate_input (0.1s, $0)
+   │  └─ Input: {"message": "I need help"}
+   │  └─ Output: {"valid": true}
+   │
+   ├─ Agent: support_agent (2.8s, $0.038)
+   │  ├─ Prompt construction (0.01s)
+   │  │  └─ Template: support_agent_system.txt
+   │  │  └─ Variables: {company_name, policies}
+   │  │
+   │  ├─ LLM call: gpt-4 (1.5s, $0.030)
+   │  │  └─ Prompt tokens: 850
+   │  │  └─ Completion tokens: 200
+   │  │  └─ Response: "I understand you need help..."
+   │  │  └─ Tool calls: [check_account_status]
+   │  │
+   │  ├─ Tool: check_account_status (1.2s, $0)
+   │  │  └─ Action: fetch_user_data
+   │  │  └─ Duration: 1.2s
+   │  │  └─ Result: {status: "active"}
+   │  │
+   │  └─ LLM call: gpt-4 (0.09s, $0.008)
+   │     └─ With tool results
+   │     └─ Final response generated
+   │
+   └─ Action: format_output (0.3s, $0)
+      └─ Markdown formatting applied
+```
+
+## Visualization
+
+### Timeline View
+
+**Waterfall chart:**
+- Horizontal bars showing duration
+- Color-coded by type
+- Nested structure
+- Click to expand/collapse
+
+### Graph View
+
+**Node-edge diagram:**
+- Components as nodes
+- Data flow as edges
+- Highlight critical path
+- Filter by type
+
+### Flamegraph
+
+**Stack-based view:**
+- Hierarchical time distribution
+- Identify hot spots
+- Interactive drill-down
+
+## Search and Filter
+
+**Find specific traces:**
+```
+status:error AND duration:>5s AND agent:customer_support
+```
+
+**Filter by:**
+- Status (success, error, timeout)
+- Duration range
+- Cost range
+- Component type
+- Tag or metadata
+- Time range
+
+## Trace Sampling
+
+**Control volume:**
+- **All traces:** Full observability (dev/staging)
+- **Sampled:** Random sample (production, high volume)
+- **Error-only:** Trace only failures
+- **Smart sampling:** Trace slow or expensive executions
+
+## Integrations
+
+### OpenTelemetry
+
+**Industry standard:**
+- Export to Jaeger
+- Export to Zipkin
+- Export to Datadog
+- Export to New Relic
+
+### Custom Backends
+
+**Send traces anywhere:**
+- S3/Cloud storage
+- Your own database
+- Analytics platforms
+- SIEM systems
+
+## Real-Time Streaming
+
+**Live traces:**
+- Watch executions in real-time
+- Stream to dashboard
+- WebSocket updates
+- Tail logs live
+
+## Trace Context Propagation
+
+**Connect external systems:**
+```python
+# Your app
+trace_id = generate_trace_id()
+
+# Call Triform
+response = triform.execute(
+    project="my-project",
+    payload={"data": "..."},
+    trace_id=trace_id  # Propagate context
+)
+
+# Traces connected across systems
+```
+
+## Retention
+
+**Trace storage:**
+- Free: 7 days
+- Pro: 30 days
+- Enterprise: 90 days or custom
+
+**Cost:** Included in plan (no extra charge for traces)
+
+## Use Cases
+
+### Debugging
+
+**Find the root cause:**
+- Why did execution fail?
+- Where is the slowdown?
+- What input caused this?
+
+### Optimization
+
+**Improve performance:**
+- Identify slowest steps
+- Find redundant calls
+- Optimize critical path
+
+### Cost Management
+
+**Control spending:**
+- Which components are expensive?
+- Can we use cheaper models?
+- Where to add caching?
+
+### Compliance
+
+**Audit trail:**
+- What data was accessed?
+- Which models were used?
+- Who triggered execution?
+
+## API
+
+```python
+from triform import Traces
+
+# Get trace
+trace = Traces.get("trace_abc123")
+
+# List traces
+traces = Traces.list(
+    project="my-project",
+    start_time="2025-10-01",
+    end_time="2025-10-02",
+    status="error"
+)
+
+# Export traces
+Traces.export(
+    trace_ids=["trace_1", "trace_2"],
+    format="json",
+    destination="s3://my-bucket/traces/"
+)
+```
+
+## Pricing
+
+**Included in all plans** — No additional cost
+
+**Note:** Traces count toward storage quota if retained longer than default period.
+
+## Timeline
+
+**Q2 2026:** Basic tracing with timeline view  
+**Q3 2026:** Advanced filtering, flamegraphs  
+**Q4 2026:** OpenTelemetry export, real-time streaming
+
+## Get Notified
+
+**Sign up:** [triform.ai/traces-beta](https://triform.ai/traces-beta)
+
+## Questions?
+
+- [Join Discord](https://discord.gg/triform) #observability channel
+- Email: product@triform.ai
+- [Request this feature](/support/request-a-feature)
+

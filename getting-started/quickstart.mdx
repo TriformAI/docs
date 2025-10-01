@@ -1,0 +1,98 @@
+---
+title: "Quickstart"
+description: "Get up and running with Triform in 5 minutes"
+---
+
+## Prerequisites
+
+- A Discord or GitHub account
+- A modern browser (Chrome, Firefox, Safari, or Edge)
+
+## Step 1: Sign in
+
+1. Navigate to [app.triform.ai](https://app.triform.ai)
+2. Click **Sign in with Discord** or **Sign in with GitHub**
+3. Authorize Triform to access your account
+4. You'll be redirected to your workspace
+
+## Step 2: Explore your workspace
+
+When you first log in, you'll see:
+
+- **Top Bar** — Navigation, breadcrumbs, and deploy controls
+- **Canvas** — The visual workspace where you build
+- **Chat Panel** — Triton, your AI assistant
+- **Properties Panel** — Configuration and execution controls
+
+## Step 3: Create your first Flow
+
+Let's build a simple workflow using Triton:
+
+1. Click in the **Chat Panel** at the bottom
+2. Type: _"Build me a Flow that takes a text input and returns it uppercased"_
+3. Watch as Triton:
+   - Plans the structure
+   - Creates the necessary components
+   - Connects them together
+
+## Step 4: Execute your Flow
+
+1. Select the Flow node on the Canvas
+2. Open the **Properties Panel** on the right
+3. Navigate to the **Execute** tab
+4. Enter a test payload:
+   ```json
+   {
+     "text": "hello world"
+   }
+   ```
+5. Click **Execute**
+6. View the results in the output panel
+
+## Step 5: Explore further
+
+Now that you've created and executed your first Flow, try:
+
+- **Modifying the Flow** — Add more Actions or Agents
+- **Creating an Agent** — Ask Triton to build a tool-using Agent
+- **Viewing Executions** — Check the execution history for your Flow
+- **Deploying** — Make your Flow accessible via API
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Learn the Workspace" icon="browser" href="/getting-started/workspace-overview">
+    Deep dive into the Canvas, Chat, and Properties panels
+  </Card>
+  <Card title="Core Concepts" icon="book" href="/concepts/projects">
+    Understand Projects, Agents, Flows, and Actions
+  </Card>
+  <Card title="Build a Project" icon="hammer" href="/tutorials/build-a-new-project">
+    Follow a complete tutorial
+  </Card>
+  <Card title="Chat with Triton" icon="robot" href="/triton/overview">
+    Master the AI assistant
+  </Card>
+</CardGroup>
+
+## Common first-time questions
+
+**Q: Can I invite teammates?**  
+Yes! Go to Profile → Organization → Members to invite collaborators.
+
+**Q: How do I save my work?**  
+Everything auto-saves. Your Projects, Flows, Agents, and Actions are persisted automatically.
+
+**Q: What languages are supported?**  
+Actions use Python. Agents can interact with any API or service through Actions.
+
+**Q: Is there a free tier?**  
+Yes! Check our [quotas documentation](/quotas/index) for details on free and paid tiers.
+
+## Need help?
+
+- Ask Triton directly in the Chat Panel
+- Join our [Discord community](https://discord.gg/triform)
+- Check the [FAQ](/support/faq) for common questions
+- [Contact support](/support/contact-us) for technical issues
+

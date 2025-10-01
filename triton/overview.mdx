@@ -1,0 +1,229 @@
+---
+title: "Triton Overview"
+description: "Your AI assistant for building, editing, and debugging Triform Projects"
+---
+
+## What is Triton?
+
+Triton is Triform's built-in AI assistant that helps you build, modify, and debug your Projects through natural conversation. Instead of manually wiring nodes and writing code from scratch, you can describe what you want and Triton handles the implementation.
+
+## Where to find Triton
+
+Triton lives in the **Chat Panel** at the bottom of your workspace. Click the chat icon or press `Cmd+K` (Mac) / `Ctrl+K` (Windows) to open it.
+
+## What Triton can do
+
+### Build new components
+
+- **Create Projects** — _"Build me a Project for processing customer feedback"_
+- **Generate Agents** — _"Create an Agent that classifies support tickets by urgency"_
+- **Write Actions** — _"Make an Action that fetches data from the GitHub API"_
+- **Design Flows** — _"Build a Flow that validates input, processes it, and sends notifications"_
+
+### Modify existing work
+
+- **Update code** — _"Add error handling to this Action"_
+- **Restructure Flows** — _"Convert this sequential Flow to run Actions in parallel"_
+- **Refine prompts** — _"Make this Agent more concise in its responses"_
+- **Add features** — _"Add logging to all Actions in this Project"_
+
+### Debug and troubleshoot
+
+- **Explain errors** — _"Why did this execution fail?"_
+- **Analyze behavior** — _"Why is this Agent not using the tools?"_
+- **Optimize performance** — _"How can I make this Flow faster?"_
+- **Find issues** — _"What's causing the timeout in this Action?"_
+
+### Answer questions
+
+- **Explain concepts** — _"How do Global Variables work?"_
+- **Provide guidance** — _"What's the best way to structure a multi-step workflow?"_
+- **Review code** — _"Is this Action following best practices?"_
+- **Suggest improvements** — _"How can I improve this Agent's prompt?"_
+
+## How to use Triton effectively
+
+### Be specific
+
+❌ **Vague:** _"Fix this"_  
+✅ **Specific:** _"Add retry logic with exponential backoff to the API call in this Action"_
+
+❌ **Vague:** _"Make it better"_  
+✅ **Specific:** _"Optimize this Flow to process items in parallel instead of sequentially"_
+
+### Provide context
+
+When asking about errors or issues:
+- Mention which component (Action, Agent, Flow)
+- Describe what you expected vs. what happened
+- Share relevant error messages
+- Indicate when it works vs. when it fails
+
+**Example:**  
+_"The `fetch_news` Action works in testing but times out in production when processing more than 10 sources. Can you add batching?"_
+
+### Break down complex requests
+
+Instead of: _"Build a complete customer service system with ticket routing, sentiment analysis, auto-responses, and escalation"_
+
+Try:
+1. _"Create an Agent that classifies support tickets"_
+2. _"Add sentiment analysis to the ticket classifier"_
+3. _"Build a Flow that routes tickets based on classification"_
+4. _"Add auto-response Action for common issues"_
+5. _"Implement escalation logic for high-priority tickets"_
+
+### Iterate and refine
+
+Triton's first attempt might not be perfect. Provide feedback:
+
+- _"That's close, but make the prompt more formal"_
+- _"Good, now add error handling"_
+- _"The logic works, but can you add logging?"_
+
+## Triton's workflow
+
+When you make a request, Triton:
+
+1. **Analyzes** your current Project context
+2. **Plans** the implementation approach
+3. **Executes** the changes (creates/modifies components)
+4. **Validates** the changes work together
+5. **Explains** what was done and next steps
+
+You'll see this happening in real-time in the Chat Panel.
+
+## Triton's capabilities
+
+### Code generation
+
+Triton writes production-ready Python code for Actions:
+- Proper error handling
+- Type hints
+- Logging
+- Input validation
+- Idiomatic patterns
+
+### Graph understanding
+
+Triton comprehends your Flow structures:
+- Identifies bottlenecks
+- Suggests optimizations
+- Maintains data flow integrity
+- Preserves connections when editing
+
+### Prompt engineering
+
+For Agents, Triton crafts effective prompts:
+- Clear instructions
+- Example patterns
+- Tool usage guidance
+- Error handling behavior
+
+### Best practices
+
+Triton follows Triform conventions:
+- Naming conventions
+- Project structure
+- Security patterns
+- Performance optimizations
+
+## Limitations
+
+While Triton is powerful, it:
+
+- **Can't** execute Projects (use Execute panel for that)
+- **Can't** access external systems (unless via your Actions)
+- **Can't** modify deployed Projects (must redeploy after changes)
+- **May** need multiple iterations for complex requests
+- **Works best** with clear, specific instructions
+
+## Tips for success
+
+> **Start with "why"** — Explain the goal, not just the task. "I need to process 1000 items quickly" gives better context than "make this parallel"
+
+> **Review changes** — Always check what Triton built before executing. It's your code!
+
+> **Use it for learning** — Ask "How does this work?" or "Why did you do it this way?"
+
+> **Iterate incrementally** — Build and test small pieces, then expand
+
+> **Combine with Execute** — Use Triton to build, Execute panel to test
+
+## Common patterns
+
+### Create-test-refine loop
+
+1. _"Create an Action that calls the weather API"_
+2. Test it with Execute panel
+3. _"Add caching to reduce API calls"_
+4. Test again
+5. _"Add error handling for network failures"_
+6. Test edge cases
+7. Deploy
+
+### Explore-then-modify
+
+1. _"What does this Project do?"_
+2. _"Why is this Agent using 3 tools?"_
+3. _"How can I make it faster?"_
+4. _"Implement that optimization"_
+
+### Debug-fix-verify
+
+1. _"Why did execution #123 fail?"_
+2. _"Fix the null pointer error in the validation Action"_
+3. Re-run execution
+4. _"Add tests to prevent this in the future"_
+
+## Next steps
+
+- [Defining with Triton](/triton/defining) — Structure Projects conversationally
+- [Building with Triton](/triton/building) — Create components step-by-step
+- [Editing with Triton](/triton/editing) — Modify existing work
+- [Debugging with Triton](/triton/debugging) — Troubleshoot issues
+
+## Examples
+
+See Triton in action:
+
+### Example 1: Build a sentiment analyzer
+
+**You:** _"Create an Agent that analyzes sentiment of customer reviews"_
+
+**Triton:** Creates:
+- Agent with appropriate system prompt
+- Input schema for review text
+- Output schema for sentiment (positive/negative/neutral) and confidence
+- Example test case
+
+### Example 2: Optimize a slow Flow
+
+**You:** _"This Flow is taking 30 seconds to process 100 items. How can I speed it up?"_
+
+**Triton:** 
+- Analyzes the Flow structure
+- Identifies sequential bottleneck
+- Suggests parallel processing
+- Implements batching with 10 items per batch
+- Estimates new processing time (~5 seconds)
+
+### Example 3: Fix an error
+
+**You:** _"Execution failed with 'KeyError: source_url'. What's wrong?"_
+
+**Triton:**
+- Reviews the execution logs
+- Identifies the Action expecting `source_url` but receiving `url`
+- Suggests either: (1) fix the input mapping, or (2) update the Action to accept `url`
+- Implements your chosen solution
+
+## Feedback
+
+Triton improves based on usage. If you encounter issues or have suggestions:
+- Report via [Support](/support/report-a-bug)
+- Share patterns that work well
+- Request new capabilities
+
+Your feedback shapes Triton's evolution!
+

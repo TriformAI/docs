@@ -1,0 +1,353 @@
+---
+title: "Flow View"
+description: "Navigate and understand Flow internals"
+---
+
+## Overview
+
+When you double-click a Flow node on the Canvas, you enter **Flow View**—a detailed visualization of the Flow's internal structure showing all nodes, edges, and data flow.
+
+## What you see in Flow View
+
+### Nodes
+
+- **Input Node** (green) — Entry point(s) for the Flow
+- **Processing Nodes** (blue/purple) — Actions, Agents, sub-Flows
+- **Output Node** (orange) — Exit point(s) from the Flow
+- **Control Nodes** (gray) — Routers, merges, loops
+
+### Edges
+
+- **Blue edges** — Data flow connections
+- **Orange edges** — Control flow (conditions, loops)
+- **Dotted edges** — Optional connections
+
+### Ports
+
+- **Input ports** (left side) — Where data enters a node
+- **Output ports** (right side) — Where data exits a node
+- **Named ports** — Labeled for clarity (e.g., "success", "error")
+
+## Basic interactions
+
+### Navigation
+
+- **Pan** — Click and drag on empty Canvas space
+- **Zoom** — Mouse wheel or trackpad pinch
+- **Fit to screen** — Press `F` or click the fit icon
+- **Reset view** — Press `R` or click reset icon
+
+### Selection
+
+- **Select node** — Click on it
+- **Multi-select** — Hold `Shift` and click multiple nodes
+- **Select all** — `Cmd+A` (Mac) / `Ctrl+A` (Windows)
+- **Deselect** — Click on empty Canvas space
+
+### Node details
+
+- **View properties** — Click a node, check Properties Panel
+- **Edit node** — Double-click to open (if it's a Flow/Agent)
+- **See connections** — Hover over ports to highlight edges
+
+## Understanding data flow
+
+### Following execution path
+
+Edges show how data moves through your Flow:
+
+```
+Input → validate → [if valid] → process → format → Output
+                   [if invalid] → error_handler → Output
+```
+
+**Left to right** — Execution generally flows from left to right  
+**Branching** — Multiple outgoing edges = conditional routing  
+**Merging** — Multiple incoming edges = combining results
+
+### Tracing a specific execution
+
+1. Select the Flow node in Project view
+2. Go to Properties → Executions
+3. Click an execution to see its trace
+4. The Canvas highlights which path was taken
+5. Node colors indicate: success (green), failure (red), skipped (gray)
+
+## Common Flow patterns
+
+### Linear Flow
+
+```
+Input → Action A → Action B → Action C → Output
+```
+Sequential processing, simple and predictable.
+
+### Parallel Flow
+
+```
+Input → Action A ↘
+              Action B → Merge → Output
+        Action C ↗
+```
+Independent operations run simultaneously, then results combine.
+
+### Conditional Flow
+
+```
+Input → Router → [condition 1] → Action A → Output
+              → [condition 2] → Action B → Output
+              → [else] → Action C → Output
+```
+Different paths based on input data or logic.
+
+### Loop Flow
+
+```
+Input → Process Item ↺ (for each item) → Collect Results → Output
+```
+Repeat an operation for multiple items.
+
+### Error handling Flow
+
+```
+Input → Action → [success] → Format → Output
+              → [error] → Log Error → Retry or Fail
+```
+Separate paths for success and failure scenarios.
+
+## Creating and connecting nodes
+
+### Adding nodes
+
+**Method 1: Via Triton**
+- _"Add a validation Action to this Flow"_
+- Triton adds and suggests connections
+
+**Method 2: Right-click menu**
+1. Right-click on Canvas
+2. Select **Add Node**
+3. Choose: Action, Agent, Flow, Control
+4. Position the node
+
+**Method 3: Drag from Toolbox**
+1. Open Agent Toolbox panel
+2. Find the component
+3. Drag onto Canvas
+
+### Connecting nodes
+
+1. **Click and drag** from an output port
+2. **Drop** on an input port of another node
+3. The edge appears, showing data flow
+
+**Tips:**
+- You can only connect compatible types
+- Hover over ports to see data schema
+- Hold `Shift` while dragging for precise placement
+
+### Disconnecting nodes
+
+1. **Click** the edge to select it
+2. **Press** `Delete` or `Backspace`
+3. Or **right-click** edge → **Delete**
+
+## Node interactions
+
+### Moving nodes
+
+- **Drag** to reposition
+- **Arrow keys** for fine adjustment
+- **Hold Shift** while dragging to constrain to axis
+
+### Copying nodes
+
+1. Select node(s)
+2. `Cmd+C` / `Ctrl+C` to copy
+3. `Cmd+V` / `Ctrl+V` to paste
+
+### Deleting nodes
+
+1. Select node(s)
+2. Press `Delete` or `Backspace`
+3. Confirm deletion (edges are also removed)
+
+### Renaming nodes
+
+1. Select the node
+2. Edit the name in Properties Panel
+3. Or double-click the node label (if editable)
+
+## Input and Output nodes
+
+### Input Node
+
+Defines what data enters the Flow.
+
+**Configuration:**
+- **Schema** — Define expected fields and types
+- **Validation** — Set required vs. optional fields
+- **Defaults** — Provide default values
+- **Description** — Document what this input represents
+
+**Example:**
+```json
+{
+  "user_id": "string (required)",
+  "action": "enum: ['create', 'update', 'delete'] (required)",
+  "data": "object (optional)"
+}
+```
+
+### Output Node
+
+Defines what data exits the Flow.
+
+**Configuration:**
+- **Schema** — Define output fields and types
+- **Multiple outputs** — Named exit points (success, error, etc.)
+- **Mapping** — Map internal data to output format
+- **Description** — Document what this output represents
+
+**Example:**
+```json
+{
+  "status": "string",
+  "result": "object",
+  "execution_time_ms": "number"
+}
+```
+
+## Advanced Flow View features
+
+### Minimap
+
+Shows the full Flow with current viewport indicator.
+
+- Toggle with `M` key
+- Click to jump to that area
+- Useful for large Flows
+
+### Node search
+
+Find nodes in complex Flows:
+
+1. Press `Cmd+F` / `Ctrl+F`
+2. Type node name
+3. Canvas highlights and zooms to matching nodes
+
+### Layout auto-arrange
+
+Organize messy Flows:
+
+1. Select all nodes (or leave unselected for all)
+2. Right-click → **Auto Layout**
+3. Choose: Horizontal, Vertical, or Grid
+4. Flow rearranges automatically
+
+### Comments and annotations
+
+Add notes to your Flow:
+
+1. Right-click empty space
+2. Select **Add Comment**
+3. Type your note
+4. Position it near relevant nodes
+
+Use comments to:
+- Explain complex logic
+- Mark TODOs
+- Document assumptions
+- Highlight temporary workarounds
+
+## Debugging in Flow View
+
+### Viewing execution state
+
+When an execution is selected:
+
+- **Green nodes** — Executed successfully
+- **Red nodes** — Failed
+- **Gray nodes** — Skipped (not in execution path)
+- **Yellow nodes** — Currently executing (live view)
+
+### Inspecting node outputs
+
+1. Select an execution in Properties → Executions
+2. Click a node in Flow View
+3. Properties Panel shows:
+   - Input data received
+   - Output data produced
+   - Execution time
+   - Logs and errors
+
+### Finding bottlenecks
+
+Node execution times are displayed:
+
+- **Thick borders** — Slower nodes (longer execution)
+- **Thin borders** — Fast nodes
+- **Tooltip** — Shows exact timing on hover
+
+Identify slow nodes to optimize.
+
+## Best practices for Flow View
+
+> **Left-to-right flow** — Arrange nodes in execution order
+
+> **Group related nodes** — Position them close together
+
+> **Use vertical space** — Separate parallel branches vertically
+
+> **Minimize edge crossings** — Crossing edges are hard to follow
+
+> **Label nodes clearly** — Descriptive names beat generic ones
+
+> **Add comments** — Document non-obvious logic
+
+> **Keep it shallow** — If too deep, split into sub-Flows
+
+## Keyboard shortcuts
+
+| Action | Shortcut (Mac) | Shortcut (Windows) |
+|--------|----------------|-------------------|
+| Fit to screen | `F` | `F` |
+| Reset view | `R` | `R` |
+| Select all | `Cmd+A` | `Ctrl+A` |
+| Copy | `Cmd+C` | `Ctrl+C` |
+| Paste | `Cmd+V` | `Ctrl+V` |
+| Delete | `Delete` | `Delete` |
+| Undo | `Cmd+Z` | `Ctrl+Z` |
+| Redo | `Cmd+Shift+Z` | `Ctrl+Shift+Z` |
+| Find | `Cmd+F` | `Ctrl+F` |
+| Toggle minimap | `M` | `M` |
+
+## Troubleshooting
+
+**Problem:** Can't connect two nodes  
+**Solution:** Check that output type matches input type. Hover over ports to see schemas.
+
+**Problem:** Flow is too large to see  
+**Solution:** Press `F` to fit all, use minimap, or zoom out with mouse wheel.
+
+**Problem:** Edges are crossing and confusing  
+**Solution:** Use auto-layout, rearrange nodes manually, or split into sub-Flows.
+
+**Problem:** Don't know what a node does  
+**Solution:** Select it, check Properties Panel for description, or ask Triton.
+
+## Related topics
+
+- [Creating and Connecting Nodes](/workspace/canvas/flow-view/create-connect)
+- [Understanding I/O Nodes](/workspace/canvas/flow-view/io-nodes)
+- [Node Interactions](/workspace/canvas/flow-view/node-interactions)
+- [Flow Basics](/workspace/canvas/flow-view/basics)
+
+## Next steps
+
+Now that you understand Flow View:
+
+- Practice building a simple Flow
+- Experiment with different patterns (linear, parallel, conditional)
+- Use Triton to generate and modify Flows
+- Review execution traces to understand behavior
+

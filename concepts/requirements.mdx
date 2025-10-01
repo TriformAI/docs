@@ -1,0 +1,480 @@
+---
+title: "Requirements & Dependencies"
+description: "Manage Python packages and dependencies for Actions"
+---
+
+## Overview
+
+Actions in Triform run Python code, and often need external packages (requests, pandas, etc.). Requirements define which packages your Actions depend on and which versions to use.
+
+## requirements.txt
+
+Each Action can have a `requirements.txt` file listing its Python dependencies.
+
+### Format
+
+Standard pip requirements format:
+
+```txt
+requests==2.31.0
+pandas>=1.5.0,<2.0.0
+openai~=1.0.0
+python-dateutil
+```
+
+### Version specifiers
+
+| Specifier | Meaning | Example |
+|-----------|---------|---------|
+| `==` | Exact version | `requests==2.31.0` |
+| `>=` | Minimum version | `pandas>=1.5.0` |
+| `<=` | Maximum version | `numpy<=1.24.0` |
+| `>` | Greater than | `python>3.8` |
+| `<` | Less than | `scipy<1.11` |
+| `~=` | Compatible release | `openai~=1.0.0` (1.0.x) |
+| `!=` | Exclude version | `urllib3!=1.25.0` |
+| No specifier | Latest version | `requests` |
+
+### Combining specifiers
+
+```txt
+pandas>=1.5.0,<2.0.0
+numpy>=1.20,!=1.24.0,<1.25
+```
+
+## Adding dependencies
+
+### Via UI
+
+1. Open your Action
+2. Go to Properties → Content
+3. Scroll to `requirements.txt`
+4. Add package name and version
+5. Save (auto-saves)
+
+**Example:**
+```txt
+# API clients
+requests==2.31.0
+httpx==0.24.1
+
+# Data processing
+pandas==1.5.3
+numpy==1.24.3
+
+# Utilities
+python-dateutil==2.8.2
+```
+
+### Via Triton
+
+Ask: _"Add the stripe package to this Action"_
+
+Triton will:
+- Determine latest stable version
+- Add to requirements.txt
+- Update code if needed
+
+### Via code
+
+When writing Action code, Triton may suggest dependencies:
+
+```python
+import stripe  # Triton suggests: Add stripe==5.5.0 to requirements.txt
+```
+
+## Supported packages
+
+### Pure Python packages
+
+✅ **Supported:** Packages without binary dependencies
+
+**Examples:**
+- requests
+- httpx
+- pydantic
+- python-dateutil
+- Jinja2
+- PyYAML
+
+### Packages with binaries
+
+⚠️ **Limited support:** Some binary packages work, others don't
+
+**Works:**
+- pandas (includes C extensions)
+- numpy (precompiled wheels)
+- Pillow (image processing)
+- cryptography
+
+**Doesn't work:**
+- Packages requiring system libraries
+- Packages with custom C compilation
+- Packages needing OS-specific binaries
+
+### Restricted packages
+
+❌ **Not allowed:**
+
+- Packages that fork processes
+- Packages requiring root access
+- Packages that modify system files
+- Malicious or unmaintained packages
+
+## Version pinning
+
+### Why pin versions?
+
+**Reproducibility** — Same code + same packages = same behavior  
+**Stability** — Avoid breaking changes from updates  
+**Security** — Control when to update vulnerable packages
+
+### Pinning strategies
+
+**Exact pinning (most stable):**
+```txt
+requests==2.31.0
+pandas==1.5.3
+```
+
+**Range pinning (allow patches):**
+```txt
+requests>=2.31.0,<2.32.0
+pandas~=1.5.0  # 1.5.x only
+```
+
+**Minimum version (flexible):**
+```txt
+requests>=2.31.0
+```
+
+**Recommended:** Exact pinning for production, ranges for development
+
+## Common dependencies
+
+### HTTP requests
+
+```txt
+requests==2.31.0         # Sync HTTP client
+httpx==0.24.1            # Async HTTP client
+urllib3==2.0.4           # Low-level HTTP
+```
+
+### Data processing
+
+```txt
+pandas==1.5.3            # DataFrames
+numpy==1.24.3            # Arrays and math
+```
+
+### LLM clients
+
+```txt
+openai==1.0.0            # OpenAI API
+anthropic==0.3.0         # Anthropic Claude
+```
+
+### Date/time
+
+```txt
+python-dateutil==2.8.2   # Date parsing
+pytz==2023.3             # Timezones
+```
+
+### JSON/Data formats
+
+```txt
+pydantic==2.0.0          # Data validation
+marshmallow==3.20.0      # Serialization
+jsonschema==4.19.0       # JSON validation
+```
+
+### Text processing
+
+```txt
+beautifulsoup4==4.12.2   # HTML parsing
+lxml==4.9.3              # XML processing
+Jinja2==3.1.2            # Templating
+```
+
+### API clients
+
+```txt
+stripe==5.5.0            # Stripe payments
+sendgrid==6.10.0         # SendGrid email
+twilio==8.5.0            # Twilio SMS
+boto3==1.28.0            # AWS SDK
+google-cloud-storage==2.10.0  # Google Cloud
+```
+
+### Utilities
+
+```txt
+python-dotenv==1.0.0     # Environment variables
+tenacity==8.2.3          # Retry logic
+cachetools==5.3.1        # Caching
+```
+
+## Dependency conflicts
+
+### Detecting conflicts
+
+Triform validates requirements on save:
+
+**Conflict example:**
+```txt
+packageA==1.0.0
+packageB==2.0.0  # Requires packageA>=2.0.0
+```
+
+**Error:**
+```
+Dependency conflict: packageB requires packageA>=2.0.0, 
+but packageA==1.0.0 is specified
+```
+
+### Resolving conflicts
+
+**Option 1:** Update versions
+```txt
+packageA==2.0.0  # Updated
+packageB==2.0.0
+```
+
+**Option 2:** Use compatible versions
+```txt
+packageA==1.5.0
+packageB==1.8.0  # Older version compatible with packageA 1.x
+```
+
+**Option 3:** Remove conflicting package
+```txt
+# Only keep one, or find alternative
+packageB==2.0.0
+```
+
+## Updating dependencies
+
+### Check for updates
+
+1. Open Action
+2. Go to requirements.txt
+3. Click **Check Updates**
+4. See available updates with changelog links
+
+**Example:**
+```
+requests: 2.31.0 → 2.32.0 (security fix)
+pandas: 1.5.3 → 2.0.0 (major update, breaking changes)
+```
+
+### Update strategy
+
+**Security updates:** Apply immediately
+```txt
+requests==2.31.0 → requests==2.31.1  # CVE fix
+```
+
+**Patch updates:** Low risk, test and apply
+```txt
+pandas==1.5.3 → pandas==1.5.4
+```
+
+**Minor updates:** Test thoroughly
+```txt
+pandas==1.5.3 → pandas==1.6.0
+```
+
+**Major updates:** Review breaking changes
+```txt
+pandas==1.5.3 → pandas==2.0.0  # Breaking changes!
+```
+
+### Bulk updates
+
+Update all packages in one go:
+
+1. Select all outdated packages
+2. Click **Update Selected**
+3. Review changes
+4. Test Action
+5. Deploy if successful
+
+**Use with caution:** Test thoroughly after bulk updates.
+
+## Dependency size
+
+### Size limits
+
+**Free tier:** 100 MB total dependencies  
+**Pro tier:** 500 MB total dependencies  
+**Enterprise:** Custom limits
+
+**Check size:**
+```txt
+requests (5 MB)
+pandas (30 MB)
+numpy (15 MB)
+---
+Total: 50 MB / 100 MB
+```
+
+### Reducing size
+
+**Remove unused packages:**
+```txt
+# Before
+requests==2.31.0
+pandas==1.5.3  # Not actually used
+numpy==1.24.3  # Not actually used
+
+# After
+requests==2.31.0
+```
+
+**Use lighter alternatives:**
+```txt
+# Heavy
+pandas==1.5.3
+
+# Lighter alternative for simple cases
+csv (built-in, no install needed)
+```
+
+**Avoid large packages unless necessary:**
+```txt
+tensorflow  # 500+ MB - only if you need ML
+```
+
+## Built-in packages
+
+Python standard library packages don't need to be listed:
+
+**Available by default:**
+- json
+- csv
+- os
+- sys
+- datetime
+- math
+- re
+- urllib
+- collections
+- itertools
+- functools
+- typing
+
+**No need to add to requirements.txt**
+
+## Virtual environments
+
+Triform manages virtual environments automatically:
+
+1. **Parse** requirements.txt
+2. **Create** isolated environment
+3. **Install** packages
+4. **Cache** for faster subsequent runs
+5. **Isolate** from other Actions
+
+**You don't need to manage venvs manually.**
+
+## Best practices
+
+> **Pin exact versions in production** — Reproducibility matters
+
+> **Document why** — Comment unusual version pins
+>
+> ```txt
+> # Using old version due to API compatibility
+> packageA==1.0.0
+> ```
+
+> **Review security advisories** — Check for CVEs regularly
+
+> **Test after updates** — Don't assume compatibility
+
+> **Keep requirements minimal** — Only add what you need
+
+> **Audit dependencies** — Check for abandoned packages
+
+## Troubleshooting
+
+**Problem:** Package installation fails  
+**Solution:** Check package name spelling, verify version exists, try different version
+
+**Problem:** Import error despite listing in requirements  
+**Solution:** Ensure requirements.txt is saved, redeploy, check for typos
+
+**Problem:** Slow Action startup  
+**Solution:** Large dependencies slow cold starts, consider lighter alternatives
+
+**Problem:** "Package not found"  
+**Solution:** Check PyPI for correct package name, some packages renamed
+
+**Problem:** Version conflict  
+**Solution:** Review error message, update conflicting packages to compatible versions
+
+## Example requirements files
+
+### Minimal API client
+
+```txt
+requests==2.31.0
+python-dotenv==1.0.0
+```
+
+### Data processing
+
+```txt
+pandas==1.5.3
+numpy==1.24.3
+python-dateutil==2.8.2
+```
+
+### LLM integration
+
+```txt
+openai==1.0.0
+anthropic==0.3.0
+tenacity==8.2.3
+```
+
+### Web scraping
+
+```txt
+requests==2.31.0
+beautifulsoup4==4.12.2
+lxml==4.9.3
+```
+
+### Full-featured Action
+
+```txt
+# HTTP
+requests==2.31.0
+httpx==0.24.1
+
+# Data
+pandas==1.5.3
+numpy==1.24.3
+
+# LLM
+openai==1.0.0
+
+# Utilities
+python-dateutil==2.8.2
+tenacity==8.2.3
+pydantic==2.0.0
+
+# API clients
+stripe==5.5.0
+sendgrid==6.10.0
+```
+
+## Next steps
+
+- [Understanding Actions](/concepts/actions)
+- [Building with Triton](/triton/building)
+- [Security Overview](/security/overview)
+- [Quotas - Resource Based](/quotas/resource-based)
+

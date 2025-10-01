@@ -1,0 +1,338 @@
+---
+title: "Workspace Navigation"
+description: "Move efficiently between Projects, components, and views"
+---
+
+## Overview
+
+Effective navigation helps you move quickly between Projects, drill into components, and return to where you were. This guide covers navigation patterns, shortcuts, and best practices.
+
+## Breadcrumb navigation
+
+The **Top Bar** shows your current location:
+
+```
+Home > My Organization > Customer Service Project > Support Agent > Triage Flow
+```
+
+### Using breadcrumbs
+
+**Click any level** to jump back:
+- **Home** — All Projects view
+- **Organization name** — Organization dashboard
+- **Project name** — Project Canvas
+- **Component name** — Component view
+
+**Hover** to see quick actions for that level.
+
+## Canvas navigation
+
+### Zoom and pan
+
+**Zoom:**
+- Mouse wheel up/down
+- Trackpad pinch
+- `+` / `-` keys
+- Zoom controls in bottom-right corner
+
+**Pan:**
+- Click and drag on empty Canvas space
+- Arrow keys for small movements
+- Space + drag (power user shortcut)
+
+**Reset:**
+- Press `F` to fit all content
+- Press `R` to reset to default zoom
+
+### Minimap
+
+Toggle with `M` key or click the minimap icon.
+
+The minimap shows:
+- Full Canvas overview
+- Current viewport (highlighted box)
+- All nodes (small dots)
+
+**Click anywhere** in minimap to jump to that area.
+
+## Drilling down and up
+
+### Opening components
+
+**Double-click** a node to open it:
+- **Project node** → Shows Project contents
+- **Flow node** → Shows Flow internal structure
+- **Agent node** → Shows Agent configuration (in Properties)
+- **Action node** → Shows Action code (in Properties)
+
+### Going back up
+
+**Click the parent** in breadcrumbs to go up one level.
+
+**Keyboard shortcut:**
+- `Esc` — Go up one level
+- `Cmd+[` / `Ctrl+[` — Go back
+- `Cmd+]` / `Ctrl+]` — Go forward
+
+## Project navigation
+
+### Projects list
+
+Access from **Home** in the Top Bar.
+
+**View modes:**
+- **Grid** — Visual cards with thumbnails
+- **List** — Compact table view
+- **Recent** — Sorted by last modified
+
+**Filter and sort:**
+- Search by name
+- Filter by tags or Organization
+- Sort by name, date created, date modified
+
+### Opening a Project
+
+**Methods:**
+1. Click Project card in Projects list
+2. Search and select from Top Bar
+3. Use recent Projects dropdown
+4. Direct URL (bookmark for quick access)
+
+### Switching between Projects
+
+**Quick switch:**
+1. Click Project name in breadcrumbs
+2. Type project name in search
+3. Select from dropdown
+
+**Recent Projects:**
+- `Cmd+P` / `Ctrl+P` opens quick switcher
+- Type to filter
+- Arrow keys to select
+- `Enter` to open
+
+## Component navigation
+
+### Finding components
+
+**In Agent Toolbox:**
+1. Open Agent Toolbox (right panel)
+2. Search or browse
+3. Click to select, drag to add to Canvas
+
+**In Properties Panel:**
+- Browse by type: Actions, Agents, Flows
+- Search by name or description
+- Filter by tags
+
+**Via search:**
+- `Cmd+K` / `Ctrl+K` for global search
+- Type component name
+- Select from results
+
+### Recently used components
+
+The Agent Toolbox shows recently accessed components at the top for quick reuse.
+
+## View modes
+
+### Project view
+
+Shows the high-level structure of your Project.
+
+- See all major components
+- Understand relationships
+- Navigate to any part
+
+### Flow view
+
+Shows the internal structure of a specific Flow.
+
+- See all nodes and edges
+- Trace execution paths
+- Edit connections
+
+### Component view
+
+Focused view on a single Action, Agent, or sub-Flow.
+
+- Edit code or configuration
+- Test in isolation
+- View execution history
+
+**Toggle between views** using breadcrumbs or double-clicking nodes.
+
+## Workspace panels
+
+### Showing and hiding panels
+
+**Top Bar** — Always visible  
+**Canvas** — Always visible  
+**Chat Panel** — Toggle with `Cmd+J` / `Ctrl+J`  
+**Properties Panel** — Toggle with `Cmd+;` / `Ctrl+;`  
+**Agent Toolbox** — Toggle with `Cmd+Shift+A` / `Ctrl+Shift+A`
+
+**Full screen Canvas:**
+- Hide all panels: `Cmd+Shift+F` / `Ctrl+Shift+F`
+- Restore: Press again or `Esc`
+
+### Resizing panels
+
+**Chat Panel:** Drag the top edge up/down  
+**Properties Panel:** Drag the left edge left/right  
+**Agent Toolbox:** Drag the left edge left/right
+
+## Search and quick actions
+
+### Global search
+
+**Keyboard shortcut:** `Cmd+K` / `Ctrl+K`
+
+Search for:
+- Projects
+- Actions, Agents, Flows
+- Documentation
+- Settings
+
+**Type to filter**, use arrow keys to navigate, press `Enter` to open.
+
+### Command palette
+
+**Keyboard shortcut:** `Cmd+Shift+P` / `Ctrl+Shift+P`
+
+Quick access to:
+- Create new components
+- Deploy
+- Export
+- Settings
+- Common actions
+
+### Triton quick ask
+
+Open Chat Panel and start typing immediately.
+
+**Shortcuts:**
+- Ask about current context: _"What does this do?"_
+- Quick modifications: _"Add logging here"_
+- Navigation: _"Go to the main Flow"_
+
+## Navigation patterns
+
+### Pattern 1: Top-down exploration
+
+Starting from Project view:
+
+1. Open Project
+2. Identify main Flow
+3. Double-click to see internal structure
+4. Click specific Action/Agent to inspect
+5. Use breadcrumbs to navigate back up
+
+### Pattern 2: Component-focused workflow
+
+Working on a specific component:
+
+1. Quick search (`Cmd+K`) for component name
+2. Open directly from results
+3. Edit and test
+4. Use "Find usages" to see where it's used
+5. Navigate to parent Flows if needed
+
+### Pattern 3: Debugging workflow
+
+Tracking down an issue:
+
+1. Go to Properties → Executions
+2. Find failed execution
+3. Click failing node in trace
+4. Canvas jumps to that node
+5. Inspect logs and fix
+6. Re-run execution
+
+### Pattern 4: Building workflow
+
+Creating new components:
+
+1. Start in Project view
+2. Ask Triton to create components
+3. Watch Canvas update in real-time
+4. Double-click to refine
+5. Connect components
+6. Test incrementally
+
+## Favorites and bookmarks
+
+### Favoriting Projects
+
+Star frequently-used Projects:
+
+1. Hover over Project card
+2. Click star icon
+3. Access from "Favorites" filter
+
+### Bookmarking views
+
+Save specific Canvas states:
+
+1. Arrange Canvas as desired
+2. Right-click → **Bookmark View**
+3. Name it (e.g., "Overview", "Error Handling Section")
+4. Access from bookmarks dropdown
+
+Useful for large Projects with many components.
+
+## Navigation tips
+
+> **Use keyboard shortcuts** — Much faster than mouse navigation
+
+> **Bookmark deep views** — Save time returning to specific areas
+
+> **Keep Chat Panel open** — Ask Triton for navigation help
+
+> **Use breadcrumbs** — Fastest way to go up levels
+
+> **Learn the quick switcher** — `Cmd+P` is your friend
+
+## Keyboard shortcuts reference
+
+| Action | Mac | Windows |
+|--------|-----|---------|
+| Quick switcher | `Cmd+P` | `Ctrl+P` |
+| Global search | `Cmd+K` | `Ctrl+K` |
+| Command palette | `Cmd+Shift+P` | `Ctrl+Shift+P` |
+| Toggle Chat Panel | `Cmd+J` | `Ctrl+J` |
+| Toggle Properties | `Cmd+;` | `Ctrl+;` |
+| Toggle Toolbox | `Cmd+Shift+A` | `Ctrl+Shift+A` |
+| Full screen Canvas | `Cmd+Shift+F` | `Ctrl+Shift+F` |
+| Go back | `Cmd+[` | `Ctrl+[` |
+| Go forward | `Cmd+]` | `Ctrl+]` |
+| Go up one level | `Esc` | `Esc` |
+| Fit Canvas | `F` | `F` |
+| Reset view | `R` | `R` |
+| Find in Canvas | `Cmd+F` | `Ctrl+F` |
+
+## Mobile and tablet navigation
+
+Triform is optimized for desktop, but you can view (read-only) on mobile:
+
+- **Touch navigation** — Pinch to zoom, drag to pan
+- **Tap nodes** — View details in Properties Panel
+- **Breadcrumbs** — Navigate back up
+- **Limited editing** — For safety, editing requires desktop
+
+## Next steps
+
+Practice navigating efficiently:
+
+- Build a Project and drill into components
+- Use keyboard shortcuts for common actions
+- Try the quick switcher (`Cmd+P`)
+- Bookmark views in large Projects
+- Ask Triton for navigation help
+
+Related:
+- [Workspace Top Bar](/workspace/top-bar)
+- [Canvas Overview](/workspace/canvas/overview)
+- [Properties Panel](/workspace/properties/overview)
+- [Chat Panel](/workspace/chat-panel)
+

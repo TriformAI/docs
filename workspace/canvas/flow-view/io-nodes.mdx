@@ -1,23 +1,492 @@
 ---
-title: "Flow View: Input & Output Nodes"
-description: "Add and use ports, typing, and best practices"
+title: "Input and Output Nodes"
+description: "Define Flow interfaces with I/O nodes"
 ---
 
-Every Flow has a mandatory Input and Output Node.
+## Overview
 
-## Add ports
+Every Flow has **Input** and **Output** nodes that define its interface—what data it accepts and what it returns. These nodes are the contract between your Flow and the outside world.
 
-- Click ＋ on Input/Output to create a named connection point.
-- Choose a clear, stable name (e.g., `text`, `user_id`, `result`).
+## Input Nodes
 
-## Use ports
+The Input node is the entry point for data into your Flow.
 
-- Drag from an Input port to a Node’s input.
-- Drag from a Node’s output to an Output port.
+### Structure
 
-## Good practices
+**Green node** on the left side of the Canvas with:
+- **Name:** Usually "Input" (can be customized)
+- **Schema:** Defines expected data structure
+- **Output ports:** Send data to downstream nodes
 
-- Keep names singular and typed conceptually (e.g., `messages`).
-- Add only the ports you need—prune unused ones to reduce confusion.
+### Defining the input schema
 
-> note: Where types and defaults live — Configure types and default values for inputs/outputs in Properties → Input & Output.
+1. **Select** the Input node
+2. Go to **Properties → Input/Output**
+3. Define fields:
+   - Field name
+   - Data type
+   - Required vs. optional
+   - Default value
+   - Description
+
+**Example schema:**
+```json
+{
+  "user_id": {
+    "type": "string",
+    "required": true,
+    "description": "Unique identifier for the user"
+  },
+  "action_type": {
+    "type": "enum",
+    "options": ["create", "update", "delete"],
+    "required": true,
+    "description": "Type of action to perform"
+  },
+  "data": {
+    "type": "object",
+    "required": false,
+    "description": "Additional data for the action"
+  },
+  "priority": {
+    "type": "enum",
+    "options": ["low", "medium", "high"],
+    "required": false,
+    "default": "medium",
+    "description": "Processing priority"
+  }
+}
+```
+
+### Data types
+
+Supported types:
+
+| Type | Description | Example |
+|------|-------------|---------|
+| `string` | Text | `"Hello"` |
+| `number` | Integer or float | `42`, `3.14` |
+| `boolean` | True or false | `true`, `false` |
+| `array` | List of items | `[1, 2, 3]` |
+| `object` | Nested structure | `{"key": "value"}` |
+| `enum` | Limited options | `"small"` from `["small", "medium", "large"]` |
+| `any` | Any type | Flexible but less safe |
+
+### Required vs. optional fields
+
+**Required fields:**
+- Must be present in input
+- Execution fails if missing
+- Use for essential data
+
+**Optional fields:**
+- Can be omitted
+- Can have default values
+- Use for configuration or preferences
+
+### Default values
+
+Set defaults for optional fields:
+
+```json
+{
+  "timeout": {
+    "type": "number",
+    "required": false,
+    "default": 30,
+    "description": "Timeout in seconds"
+  },
+  "retry": {
+    "type": "boolean",
+    "required": false,
+    "default": true,
+    "description": "Whether to retry on failure"
+  }
+}
+```
+
+**Benefits:**
+- Simpler API for consumers
+- Backward compatibility when adding new fields
+- Clear default behavior
+
+### Validation rules
+
+Add validation beyond just types:
+
+**String validation:**
+- Min/max length
+- Regex pattern
+- Format (email, URL, UUID, etc.)
+
+**Number validation:**
+- Min/max value
+- Integer only
+- Positive only
+
+**Array validation:**
+- Min/max items
+- Unique items only
+- Item type
+
+**Example:**
+```json
+{
+  "email": {
+    "type": "string",
+    "required": true,
+    "format": "email",
+    "description": "User's email address"
+  },
+  "age": {
+    "type": "number",
+    "required": true,
+    "min": 0,
+    "max": 150,
+    "description": "User's age"
+  },
+  "tags": {
+    "type": "array",
+    "items": "string",
+    "unique": true,
+    "max_items": 10,
+    "description": "User tags"
+  }
+}
+```
+
+### Multiple Input nodes
+
+Most Flows have one Input node, but you can have multiple for different entry points:
+
+**Use cases:**
+- Different trigger types (webhook, schedule, manual)
+- Different input formats (JSON, form data, file upload)
+- Different access levels (admin vs. user)
+
+**Example:**
+```
+Webhook Input → Validate → Process → Output
+Schedule Input ↗              ↓
+                         Store → Output
+```
+
+## Output Nodes
+
+The Output node is the exit point for data from your Flow.
+
+### Structure
+
+**Orange node** on the right side of the Canvas with:
+- **Name:** Usually "Output" (can be customized)
+- **Schema:** Defines returned data structure
+- **Input ports:** Receive data from upstream nodes
+
+### Defining the output schema
+
+1. **Select** the Output node
+2. Go to **Properties → Input/Output**
+3. Define fields (same process as Input)
+
+**Example schema:**
+```json
+{
+  "status": {
+    "type": "enum",
+    "options": ["success", "partial", "failed"],
+    "required": true,
+    "description": "Execution status"
+  },
+  "result": {
+    "type": "object",
+    "required": false,
+    "description": "Result data if successful"
+  },
+  "error": {
+    "type": "object",
+    "required": false,
+    "description": "Error details if failed"
+  },
+  "execution_time_ms": {
+    "type": "number",
+    "required": true,
+    "description": "Time taken in milliseconds"
+  }
+}
+```
+
+### Output mapping
+
+Map internal data to output schema:
+
+**Scenario:**
+- Processing returns `{ "processed_data": [...], "count": 10 }`
+- Output expects `{ "result": object, "item_count": number }`
+
+**Mapping:**
+1. Click connection to Output node
+2. Properties → Field Mapping
+3. Map:
+   - `processed_data` → `result`
+   - `count` → `item_count`
+
+### Multiple Output nodes
+
+Flows can have multiple outputs for different outcomes:
+
+**Common pattern:**
+```
+Process → [success] → Success Output
+        → [error] → Error Output
+```
+
+**Success Output schema:**
+```json
+{
+  "status": "success",
+  "data": "object",
+  "message": "string"
+}
+```
+
+**Error Output schema:**
+```json
+{
+  "status": "error",
+  "error_code": "string",
+  "error_message": "string",
+  "details": "object"
+}
+```
+
+**Benefits:**
+- Type-safe error handling
+- Clear success vs. failure contracts
+- Easier debugging
+
+### Partial outputs
+
+Some Flows stream or emit data progressively:
+
+**Use case:** Processing a large list
+
+```
+Input (100 items)
+  ↓
+Process (batches of 10)
+  ↓ (after each batch)
+Partial Output (progress update)
+  ↓ (after all batches)
+Final Output (complete results)
+```
+
+**Configuration:**
+- Enable "Allow partial outputs" in Output node settings
+- Define partial output schema
+- Connect processing node to Output with "partial" flag
+
+## I/O best practices
+
+> **Be explicit** — Clear schemas prevent integration errors
+
+> **Validate early** — Check input immediately after Input node
+
+> **Document fields** — Descriptions help users understand the API
+
+> **Version schemas** — When changing, maintain backward compatibility
+
+> **Use specific types** — Avoid `any` unless truly necessary
+
+> **Provide examples** — Sample input/output helps users
+
+## Common I/O patterns
+
+### Pattern 1: Simple transformation
+
+**Input:**
+```json
+{ "text": "string" }
+```
+
+**Output:**
+```json
+{ "result": "string" }
+```
+
+Clean, focused interface.
+
+### Pattern 2: Batch processing
+
+**Input:**
+```json
+{ "items": ["array of objects"] }
+```
+
+**Output:**
+```json
+{
+  "processed": "number",
+  "failed": "number",
+  "results": ["array of objects"]
+}
+```
+
+Clear accounting of what happened.
+
+### Pattern 3: Configuration with data
+
+**Input:**
+```json
+{
+  "data": "object",
+  "config": {
+    "format": "enum",
+    "validate": "boolean",
+    "timeout": "number"
+  }
+}
+```
+
+**Output:**
+```json
+{
+  "data": "object",
+  "metadata": {
+    "processing_time": "number",
+    "validation_passed": "boolean"
+  }
+}
+```
+
+Flexible configuration with results and metadata.
+
+### Pattern 4: Status + details
+
+**Output:**
+```json
+{
+  "status": "enum: ['success', 'failed']",
+  "message": "string (human-readable)",
+  "data": "object (if success)",
+  "error": "object (if failed)"
+}
+```
+
+Consistent structure for both outcomes.
+
+## Testing I/O
+
+### Test Input
+
+1. Select the Flow (or Input node)
+2. Go to Properties → Execute
+3. Provide test payload matching input schema
+4. Click Execute
+5. View output
+
+**Example test payload:**
+```json
+{
+  "user_id": "test_123",
+  "action_type": "create",
+  "data": {
+    "name": "Test User",
+    "email": "test@example.com"
+  },
+  "priority": "high"
+}
+```
+
+### Validate schema
+
+Triform validates input against schema automatically:
+
+**Valid input:** Execution proceeds  
+**Invalid input:** Execution fails with validation error
+
+**Common validation errors:**
+- Missing required field
+- Wrong type (string instead of number)
+- Value out of range
+- Invalid enum value
+- Malformed email/URL
+
+### Edge case testing
+
+Test with:
+- **Empty input:** `{}` or `[]`
+- **Minimal input:** Only required fields
+- **Maximum input:** All optional fields, large values
+- **Invalid input:** Wrong types, missing fields
+- **Boundary values:** Min/max numbers, empty strings
+
+## Documenting I/O
+
+### In Triform
+
+- Add descriptions to each field
+- Provide examples in the Input/Output panel
+- Use clear, consistent naming
+
+### For external users
+
+When exposing as API:
+
+1. Generate docs from schema (Triform can do this)
+2. Include:
+   - Field descriptions
+   - Example request/response
+   - Error codes and meanings
+   - Rate limits and quotas
+
+**Example doc:**
+```markdown
+## POST /v1/process-user
+
+Process user action.
+
+### Request Body
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| user_id | string | Yes | User identifier |
+| action_type | enum | Yes | One of: create, update, delete |
+| data | object | No | Additional data |
+| priority | enum | No | One of: low, medium, high (default: medium) |
+
+### Example Request
+
+\```json
+{
+  "user_id": "user_123",
+  "action_type": "create",
+  "data": {"name": "Alice"},
+  "priority": "high"
+}
+\```
+
+### Response
+
+| Field | Type | Description |
+|-------|------|-------------|
+| status | enum | success, partial, or failed |
+| result | object | Result data (if successful) |
+| error | object | Error details (if failed) |
+
+### Example Response (Success)
+
+\```json
+{
+  "status": "success",
+  "result": {"id": "new_123"},
+  "execution_time_ms": 250
+}
+\```
+```
+
+## Next steps
+
+- [Creating and Connecting Nodes](/workspace/canvas/flow-view/create-connect)
+- [Node Interactions](/workspace/canvas/flow-view/node-interactions)
+- [Understanding Flows](/concepts/flows)
+- [Building with Triton](/triton/building)

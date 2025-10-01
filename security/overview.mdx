@@ -1,0 +1,388 @@
+---
+title: "Security Overview"
+description: "How Triform protects your data and systems"
+---
+
+## Our commitment to security
+
+Security is fundamental to Triform. We implement industry-standard practices to protect your Projects, data, and credentials.
+
+## Data encryption
+
+### At rest
+
+All data stored in Triform is encrypted using **AES-256** encryption.
+
+**Encrypted data includes:**
+- Project code and configurations
+- Execution logs and traces
+- Global Variables (especially secrets)
+- API keys
+- User information
+
+**Key management:** Encryption keys are managed using industry-standard key management services, rotated regularly, and never stored alongside encrypted data.
+
+### In transit
+
+All communication with Triform uses **TLS 1.2+** encryption.
+
+**Encrypted connections:**
+- Web interface (HTTPS)
+- API requests (HTTPS)
+- Webhook callbacks (HTTPS)
+- Database connections (encrypted)
+- Internal service communication (mutual TLS)
+
+**Certificate management:** We use trusted Certificate Authorities and monitor certificate expiration.
+
+## Authentication
+
+### Supported methods
+
+**OAuth 2.0 providers:**
+- Discord
+- GitHub  
+- Google (Enterprise)
+
+**Magic Link:** Passwordless email authentication
+
+**Benefits:**
+- No password management burden
+- Leverage provider security (2FA, etc.)
+- Single sign-on capabilities
+
+### Session management
+
+**Security features:**
+- Sessions expire after inactivity
+- IP address validation (optional)
+- Device fingerprinting
+- Concurrent session limits
+
+**User controls:**
+- View active sessions
+- Revoke individual sessions
+- Revoke all sessions (sign out everywhere)
+
+### Two-factor authentication (2FA)
+
+**Strongly recommended for:**
+- Organization Admins
+- Users with deployment permissions
+- Users handling sensitive Projects
+
+**Supported methods:**
+- Authenticator apps (TOTP)
+- SMS (where available)
+- Backup codes
+
+**Enforcement:** Organization Admins can require 2FA for all members.
+
+## Authorization
+
+### Role-based access control (RBAC)
+
+**Organization roles:**
+- **Admin** — Full access
+- **Editor** — Create, edit, execute
+- **Viewer** — Read-only
+
+**Project-level permissions:**
+- Fine-grained per-Project overrides
+- Specific user grants
+- Temporary access grants
+
+### API key security
+
+**Best practices enforced:**
+- Keys are hashed in storage (irreversible)
+- Keys shown only once upon creation
+- Keys can be scoped to specific Projects
+- Keys can be restricted by permissions
+- Keys can expire automatically
+- Key usage is logged
+
+**User responsibilities:**
+- Store keys securely (environment variables, secret managers)
+- Rotate keys regularly (90-day recommendation)
+- Revoke unused keys
+- Never commit to version control
+
+## Network security
+
+### API security
+
+**Protection mechanisms:**
+- Rate limiting (prevents abuse)
+- DDoS mitigation
+- IP allowlisting (Enterprise)
+- Request signature verification (HMAC)
+- Input validation and sanitization
+
+**Monitoring:**
+- Anomaly detection
+- Suspicious activity alerts
+- Failed authentication tracking
+
+### Webhook security
+
+**Verification options:**
+- API key authentication
+- HMAC signature validation
+- IP allowlisting
+- Request origin validation
+
+**Replay attack prevention:**
+- Timestamp validation
+- Nonce tracking
+- Request idempotency
+
+## Secrets management
+
+### Global Variables
+
+**Secret Variables:**
+- Encrypted at rest with separate keys
+- Never visible in logs
+- Masked in UI (shown as `***`)
+- Access audited
+- Retrieved only at runtime
+
+**Best practices:**
+- Use secrets for all credentials
+- Rotate secrets regularly
+- Audit secret access logs
+- Limit secret access by role
+
+### Environment isolation
+
+**Development:** Test credentials only  
+**Staging:** Near-production, isolated  
+**Production:** Production credentials, separate
+
+**Benefit:** Credential compromise in one environment doesn't affect others.
+
+## Code execution security
+
+### Sandboxed execution
+
+Actions run in isolated environments:
+
+**Isolation features:**
+- Separate containers per execution
+- No persistent file system
+- Limited network access
+- Resource quotas (CPU, memory, time)
+- No access to Triform internals
+
+**What Actions CANNOT do:**
+- Access other users' data
+- Modify Triform infrastructure
+- Persist data between executions (unless using provided storage)
+- Execute arbitrary system commands
+- Fork processes or spawn daemons
+
+### Dependency security
+
+**Automated scanning:**
+- Check for known vulnerabilities in dependencies
+- Alert on critical CVEs
+- Suggest updates for vulnerable packages
+
+**User responsibilities:**
+- Keep dependencies updated
+- Review security advisories
+- Avoid deprecated packages
+- Audit third-party packages
+
+### Code review
+
+**Recommended for sensitive Projects:**
+- Peer review before deployment
+- Automated security scanning
+- Manual audit of high-risk components
+
+## Compliance
+
+### Standards
+
+We follow industry-standard security frameworks:
+
+**ISO 27001** — Information security management  
+**SOC 2 Type II** — Trust services criteria (in progress)  
+**GDPR** — EU data protection (compliant)
+
+### Data residency
+
+**Default:** US-based data centers  
+**Enterprise:** Regional options available (EU, Asia-Pacific)
+
+**Data localization:** Customer data stored in specified region only.
+
+### Audit logs
+
+All security-relevant actions are logged:
+
+**Logged events:**
+- Authentication events (login, logout, failures)
+- Authorization changes (role grants, permissions)
+- API key lifecycle (create, revoke, usage)
+- Secret access (who accessed what when)
+- Deployment events
+- Configuration changes
+
+**Log retention:** 90 days (standard), longer for Enterprise
+
+**Access:** Organization Admins can export audit logs
+
+## Vulnerability management
+
+### Responsible disclosure
+
+Found a security issue? We appreciate responsible disclosure.
+
+**Reporting:**
+- Email: security@triform.ai
+- Include detailed description
+- Steps to reproduce (if applicable)
+- Potential impact assessment
+
+**Our commitment:**
+- Acknowledge within 24 hours
+- Triage and investigate promptly
+- Keep you informed of progress
+- Credit you in our security updates (unless anonymous)
+
+**Please don't:**
+- Publicly disclose before we've patched
+- Exploit the vulnerability
+- Access other users' data
+
+### Security updates
+
+**Communication:**
+- Critical issues: Email all users immediately
+- High severity: Status page + email within 24 hours
+- Medium/low: Included in regular updates
+
+**Patching:**
+- Critical vulnerabilities: Emergency patch within hours
+- High severity: Patch within 7 days
+- Medium/low: Patch in next regular release
+
+## Incident response
+
+### Detection
+
+**Monitoring systems:**
+- Failed authentication attempts
+- Unusual API usage patterns
+- Data exfiltration attempts
+- Privilege escalation attempts
+
+**Alerts trigger:** Automated response + human investigation
+
+### Response process
+
+1. **Detect & triage** — Identify and assess severity
+2. **Contain** — Limit impact, isolate affected systems
+3. **Investigate** — Determine root cause and scope
+4. **Remediate** — Fix vulnerability, restore service
+5. **Communicate** — Inform affected users
+6. **Learn** — Post-mortem, improve processes
+
+### User notification
+
+**We notify if:**
+- Data breach occurs
+- Unauthorized access detected
+- Service compromise affects your Projects
+
+**Notification includes:**
+- What happened
+- What data was affected
+- What we've done
+- What you should do
+
+## User security responsibilities
+
+### Account security
+
+> **Enable 2FA** — Protects against stolen passwords
+
+> **Use strong passwords** — If using email authentication
+
+> **Monitor sessions** — Review and revoke suspicious sessions
+
+> **Keep email secure** — Your account recovery method
+
+### API key security
+
+> **Never commit keys to git** — Use environment variables
+
+> **Rotate keys regularly** — Every 90 days recommended
+
+> **Scope keys minimally** — Only grant needed permissions
+
+> **Revoke unused keys** — Reduce attack surface
+
+### Code security
+
+> **Validate inputs** — Don't trust external data
+
+> **Sanitize outputs** — Prevent injection attacks
+
+> **Review dependencies** — Check for vulnerabilities
+
+> **Keep secrets in Global Variables** — Never hardcode
+
+### Organization security
+
+> **Audit members regularly** — Remove ex-employees
+
+> **Follow least privilege** — Grant minimum necessary permissions
+
+> **Review access logs** — Monitor for unusual activity
+
+> **Require 2FA** — Especially for Admins
+
+## Security features roadmap
+
+**Coming soon:**
+- SSO/SAML support (Enterprise)
+- Advanced threat detection
+- Custom security policies
+- Bring Your Own Key (BYOK) encryption
+- Enhanced audit logging
+- Security compliance dashboards
+
+## Security resources
+
+### Documentation
+
+- [Data Retention](/security/data-retention)
+- [Compliance](/security/compliance)
+- [API Keys](/concepts/api-keys)
+- [Global Variables](/concepts/variables)
+
+### Contact
+
+**Security issues:** security@triform.ai  
+**General support:** support@triform.ai  
+**Status page:** status.triform.ai
+
+### External resources
+
+- [OWASP Top 10](https://owasp.org/Top10/)
+- [Cloud Security Alliance](https://cloudsecurityalliance.org/)
+- [NIST Cybersecurity Framework](https://www.nist.gov/cyberframework)
+
+## Questions?
+
+If you have security questions or concerns:
+
+1. Review our [detailed security docs](/security/data-retention)
+2. Check [compliance information](/security/compliance)
+3. Contact security@triform.ai
+4. For Enterprise, contact your account manager
+

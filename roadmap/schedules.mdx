@@ -1,0 +1,319 @@
+---
+title: "Advanced Schedules"
+description: "Enhanced scheduling capabilities (Coming Soon)"
+---
+
+## Overview
+
+Advanced scheduling features for more control over when and how your Projects execute automatically.
+
+**Status:** 🔮 Planned for 2027 Q1
+
+## Current Scheduling (Available Now)
+
+**Basic schedule triggers:**
+- Cron expressions
+- Simple intervals
+- One-time scheduled executions
+- Timezone support
+
+**See:** [Triggers documentation](/concepts/triggers) for current capabilities.
+
+## What's Coming
+
+### Visual Schedule Builder
+
+**No more cron syntax:**
+- Pick days and times visually
+- See next 10 runs preview
+- Natural language input
+- Calendar view
+
+**Example:** "Every weekday at 9 AM Pacific"
+
+### Conditional Schedules
+
+**Smart scheduling:**
+```yaml
+schedule:
+  base: "Every hour"
+  conditions:
+    - skip_if: "no new data since last run"
+    - skip_if: "execution_queue_length > 10"
+    - run_only_if: "business_hours"
+```
+
+### Dynamic Schedules
+
+**Adjust based on conditions:**
+```python
+# More frequent during business hours
+if is_business_hours():
+    schedule.set_interval("every 5 minutes")
+else:
+    schedule.set_interval("every hour")
+```
+
+### Schedule Dependencies
+
+**Chain schedules:**
+```yaml
+schedules:
+  - name: "Data Sync"
+    cron: "0 0 * * *"  # Midnight
+  
+  - name: "Report Generation"
+    after: "Data Sync"
+    delay: "5 minutes"
+  
+  - name: "Email Report"
+    after: "Report Generation"
+    on_success_only: true
+```
+
+### Holiday Awareness
+
+**Skip or adjust for holidays:**
+```yaml
+schedule:
+  cron: "0 9 * * 1-5"  # Weekdays 9 AM
+  holidays:
+    calendar: "US_FEDERAL"
+    action: "skip"  # or "reschedule"
+```
+
+### Load-Based Scheduling
+
+**Adjust based on load:**
+```yaml
+schedule:
+  base: "every 10 minutes"
+  load_balancing:
+    max_concurrent: 5
+    queue_if_busy: true
+    spread_execution: true
+```
+
+### Retry Policies
+
+**Advanced retry logic:**
+```yaml
+schedule:
+  cron: "0 * * * *"
+  on_failure:
+    retry_count: 3
+    retry_delay: "exponential"  # 5m, 10m, 20m
+    retry_on: ["timeout", "transient_error"]
+    skip_on: ["validation_error"]
+```
+
+### Schedule Groups
+
+**Manage related schedules:**
+```yaml
+schedule_group: "Daily Reports"
+schedules:
+  - sales_report: "0 8 * * *"
+  - inventory_report: "0 8 * * *"
+  - finance_report: "0 9 * * *"
+
+actions:
+  - pause_group  # Pause all during maintenance
+  - resume_group
+  - run_group_now  # Manual trigger
+```
+
+### Schedule Windows
+
+**Restrict execution times:**
+```yaml
+schedule:
+  cron: "*/5 * * * *"  # Every 5 minutes
+  window:
+    start: "08:00"
+    end: "20:00"
+    timezone: "America/Los_Angeles"
+    action: "queue"  # Queue if outside window
+```
+
+### Jitter
+
+**Prevent thundering herd:**
+```yaml
+schedule:
+  cron: "0 * * * *"  # On the hour
+  jitter:
+    type: "random"
+    max_delay: "5 minutes"
+```
+
+Actual execution: Randomly between :00 and :05
+
+### Schedule Monitoring
+
+**Track schedule health:**
+- Missed executions
+- Avg execution time per schedule
+- Success rate by schedule
+- Next scheduled time
+- Last run status
+
+### Schedule Alerts
+
+**Get notified:**
+```yaml
+alerts:
+  - name: "Schedule missed"
+    condition: "schedule_missed"
+    notify: "#ops"
+  
+  - name: "Schedule always fails"
+    condition: "failure_rate > 80% over 24 hours"
+    notify: "oncall@example.com"
+```
+
+## Use Cases
+
+### Daily Reports
+
+**Reliable reporting:**
+```yaml
+schedule:
+  cron: "0 8 * * 1-5"  # Weekdays 8 AM
+  holidays: "US_FEDERAL"
+  on_failure:
+    retry_count: 2
+    notify: "reports-team@example.com"
+```
+
+### Data Sync
+
+**Efficient synchronization:**
+```yaml
+schedule:
+  cron: "*/15 * * * *"  # Every 15 minutes
+  conditions:
+    skip_if: "no_changes_detected"
+    skip_if: "sync_already_running"
+```
+
+### Periodic Cleanup
+
+**Maintenance tasks:**
+```yaml
+schedule:
+  cron: "0 2 * * 0"  # Sundays 2 AM
+  window:
+    start: "01:00"
+    end: "05:00"
+  max_duration: "2 hours"
+```
+
+### Load Balancing
+
+**Distribute load:**
+```yaml
+schedules:
+  - id: "worker_1"
+    cron: "0 * * * *"
+    jitter: "0-10 minutes"
+  
+  - id: "worker_2"
+    cron: "0 * * * *"
+    jitter: "10-20 minutes"
+```
+
+## Calendar View
+
+**Visual schedule management:**
+- See all schedules on a calendar
+- Click date to see scheduled executions
+- Drag to reschedule
+- Color-code by Project
+- Filter by tag or Project
+
+## Schedule API
+
+```python
+from triform import Schedules
+
+# Create schedule
+schedule = Schedules.create(
+    project="my-project",
+    cron="0 9 * * 1-5",
+    timezone="America/New_York",
+    holidays="US_FEDERAL",
+    jitter_minutes=5,
+    conditions={
+        "skip_if_no_new_data": True
+    }
+)
+
+# Update schedule
+schedule.update(
+    cron="0 8 * * 1-5",
+    enabled=True
+)
+
+# Pause schedule
+schedule.pause()
+
+# Resume schedule
+schedule.resume()
+
+# Trigger now
+schedule.run_now()
+
+# Get next 10 runs
+next_runs = schedule.get_next_runs(count=10)
+
+# Check schedule health
+health = schedule.get_health_metrics()
+```
+
+## Schedule Templates
+
+**Quick setup:**
+- Daily backup (2 AM)
+- Business hours monitoring (8 AM - 6 PM)
+- Weekly report (Monday 9 AM)
+- Monthly cleanup (1st of month, 2 AM)
+- High-frequency sync (every 5 min)
+- Load-balanced workers
+
+## Pricing
+
+**Included in all plans:**
+- Basic schedules (current features)
+- Visual schedule builder
+- Holiday awareness
+- Conditional execution
+
+**Pro and above:**
+- Schedule dependencies
+- Load balancing
+- Advanced retry policies
+- Schedule groups
+
+**Enterprise:**
+- Unlimited schedules
+- Custom schedule logic
+- Priority execution
+- Dedicated scheduling infrastructure
+
+## Timeline
+
+**2027 Q1:** Visual builder, conditional schedules  
+**2027 Q2:** Dependencies, groups, calendar view  
+**2027 Q3:** Advanced features (load balancing, dynamic)
+
+## Get Notified
+
+**Sign up:** [triform.ai/schedules-beta](https://triform.ai/schedules-beta)
+
+## Questions?
+
+- [Join Discord](https://discord.gg/triform) #scheduling
+- Email: product@triform.ai
+- [Upvote this feature](/support/request-a-feature)
+

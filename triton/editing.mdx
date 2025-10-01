@@ -1,0 +1,400 @@
+---
+title: "Editing with Triton"
+description: "Modify and refine your Projects using AI assistance"
+---
+
+## Overview
+
+After building components, you'll often need to refine them. Triton can help you modify code, update prompts, restructure Flows, and optimize performance through natural conversation.
+
+## Editing Actions
+
+### Code modifications
+
+**Simple changes:**
+
+_"Add logging to this Action"_  
+_"Add a timeout parameter"_  
+_"Remove the deprecated function"_  
+_"Rename the parameter from 'data' to 'input_data'"_
+
+**Refactoring:**
+
+_"Extract the validation logic into a separate function"_  
+_"Convert this to async/await"_  
+_"Replace the for loop with a list comprehension"_  
+_"Add type hints to all functions"_
+
+**Error handling:**
+
+_"Add try-catch for JSON parsing errors"_  
+_"Handle the case where the API returns 404"_  
+_"Add validation for negative numbers"_  
+_"Return a default value if the request fails"_
+
+### Example: Adding retry logic
+
+**You:** _"Add retry logic to this API call"_
+
+**Triton modifies:**
+
+Before:
+```python
+def fetch_data(url: str) -> dict:
+    response = requests.get(url)
+    return response.json()
+```
+
+After:
+```python
+from tenacity import retry, stop_after_attempt, wait_exponential
+import requests
+
+@retry(
+    stop=stop_after_attempt(3),
+    wait=wait_exponential(multiplier=1, min=2, max=10)
+)
+def fetch_data(url: str) -> dict:
+    """Fetches data with automatic retry on failure."""
+    response = requests.get(url, timeout=10)
+    response.raise_for_status()
+    return response.json()
+```
+
+And updates `requirements.txt`:
+```
+requests==2.31.0
+tenacity==8.2.3
+```
+
+### Performance optimizations
+
+_"Cache the results of this expensive function"_  
+_"Batch the API calls instead of calling one at a time"_  
+_"Use a connection pool"_  
+_"Add async for I/O operations"_
+
+## Editing Agents
+
+### Prompt refinement
+
+**Tone adjustments:**
+
+_"Make this Agent more formal"_  
+_"Make responses more concise"_  
+_"Add a friendly, conversational tone"_  
+_"Make it sound like a technical expert"_
+
+**Behavior changes:**
+
+_"Always ask for confirmation before taking actions"_  
+_"Include sources for all facts mentioned"_  
+_"Format responses as markdown"_  
+_"Add step-by-step reasoning"_
+
+**Example: Refining a support Agent**
+
+**You:** _"Make this support Agent more empathetic and proactive"_
+
+**Triton updates system prompt:**
+
+Before:
+```
+You are a customer support assistant. Answer questions about our products.
+```
+
+After:
+```
+You are an empathetic customer support specialist dedicated to helping customers succeed.
+
+Approach:
+1. Acknowledge the customer's situation and any frustration
+2. Provide clear, actionable solutions
+3. Proactively suggest related help or preventive measures
+4. Always confirm if the issue is resolved
+
+Tone: Warm, patient, and professional. Show genuine care for the customer's experience.
+
+Use available tools to check account status, create tickets, or look up documentation.
+Always explain what you're doing and why.
+```
+
+### Tool management
+
+**Adding tools:**
+
+_"Add the search_documentation Action as a tool"_  
+_"Give this Agent access to the billing_update Flow"_  
+
+**Removing tools:**
+
+_"Remove the delete_account tool—it's too risky"_  
+_"This Agent shouldn't have access to user_data anymore"_
+
+**Tool usage guidance:**
+
+_"Update the prompt to encourage using the search tool first"_  
+_"Add examples of when to use each tool"_  
+_"Clarify that create_ticket should be used only when unable to resolve"_
+
+### Model and parameter adjustments
+
+_"Switch this Agent to Claude instead of GPT-4"_  
+_"Lower the temperature to 0.2 for more consistent output"_  
+_"Increase max tokens to 2000 for longer responses"_  
+_"Add top_p=0.9 to reduce repetition"_
+
+## Editing Flows
+
+### Structural changes
+
+**Adding nodes:**
+
+_"Add a validation Action before processing"_  
+_"Insert a logging step after each Action"_  
+_"Add an error handler at the end"_
+
+**Removing nodes:**
+
+_"Remove the deprecated transform_data Action"_  
+_"Delete the unused notification step"_
+
+**Reordering:**
+
+_"Swap the order of validation and normalization"_  
+_"Move the notification to happen before storage, not after"_
+
+### Converting serial to parallel
+
+**You:** _"Make this Flow process items in parallel instead of sequentially"_
+
+**Triton restructures:**
+
+Before:
+```
+Input → process_item_1 → process_item_2 → process_item_3 → Output
+```
+
+After:
+```
+Input → [parallel]
+          → process_item_1 ↘
+          → process_item_2 → [merge] → Output
+          → process_item_3 ↗
+```
+
+### Adding conditional logic
+
+**You:** _"Route premium users to enhanced_process and regular users to standard_process"_
+
+**Triton adds:**
+```
+Input → check_user_tier → [premium] → enhanced_process → Output
+                        → [regular] → standard_process → Output
+```
+
+### Error handling in Flows
+
+_"Add error routing so failed items go to a retry queue"_  
+_"If validation fails, log the error and continue with the next item"_  
+_"Add a fallback path if the primary API is down"_
+
+## Editing entire Projects
+
+### High-level modifications
+
+**Feature additions:**
+
+_"Add rate limiting to this Project"_  
+_"Add authentication checks"_  
+_"Implement caching throughout"_  
+_"Add comprehensive logging"_
+
+**Architectural changes:**
+
+_"Split this monolithic Flow into three smaller sub-Flows"_  
+_"Move all validation logic into a dedicated validation Flow"_  
+_"Create a shared error handling Flow that all components use"_
+
+**Performance improvements:**
+
+_"Optimize this Project to handle 10x more requests"_  
+_"Reduce the number of API calls"_  
+_"Add batching to reduce execution time"_
+
+### Refactoring for reusability
+
+**You:** _"Extract the email sending logic so other Projects can use it"_
+
+**Triton:**
+1. Creates a new Action: `send_email`
+2. Extracts the logic from the current Flow
+3. Replaces inline logic with the new Action
+4. Updates dependencies
+
+Now multiple Projects can use `send_email`.
+
+## Contextual editing
+
+Triton understands your Project context when editing.
+
+### Editing multiple related components
+
+**You:** _"Update all Actions to use the new error logging format"_
+
+**Triton:**
+1. Scans all Actions in the Project
+2. Identifies logging statements
+3. Updates each one consistently
+4. Reports what was changed
+
+### Maintaining consistency
+
+**You:** _"Make this new Action follow the same patterns as my existing ones"_
+
+**Triton:**
+- Reviews your existing Actions
+- Matches coding style
+- Uses same error handling approach
+- Follows same naming conventions
+
+### Bulk edits
+
+**You:** _"Add a timeout parameter to all Actions that make API calls"_
+
+**Triton:**
+- Finds all relevant Actions
+- Adds `timeout` parameter to each
+- Updates function signatures
+- Sets reasonable defaults
+
+## Iterative refinement
+
+Edit through conversation:
+
+### Iteration example
+
+**You:** _"Create an Action that fetches user data"_  
+**Triton:** [Creates basic Action]
+
+**You:** _"Add caching"_  
+**Triton:** [Adds cache logic]
+
+**You:** _"Cache should expire after 5 minutes"_  
+**Triton:** [Adds TTL]
+
+**You:** _"Add logging when cache hits vs misses"_  
+**Triton:** [Adds logging]
+
+**You:** _"Handle the case where the user doesn't exist"_  
+**Triton:** [Adds not-found handling]
+
+Each iteration builds on the previous changes.
+
+## Editing with constraints
+
+Give Triton constraints to guide edits:
+
+**Performance:**
+- _"Optimize this, but keep it under 100ms"_
+- _"Reduce API calls without changing functionality"_
+
+**Compatibility:**
+- _"Update this but maintain backward compatibility"_
+- _"Migrate to the new API while supporting the old one"_
+
+**Style:**
+- _"Refactor this to follow PEP 8"_
+- _"Make this more Pythonic"_
+
+**Safety:**
+- _"Add input sanitization but don't break existing tests"_
+- _"Improve error handling without changing output format"_
+
+## Reviewing Triton's edits
+
+Always review changes:
+
+1. **Check the diff** — What exactly changed?
+2. **Test the component** — Does it still work?
+3. **Verify edge cases** — Does it handle errors properly?
+4. **Review new dependencies** — Are they necessary and safe?
+
+If something's not right:
+- _"Undo that change"_
+- _"That broke the validation, please fix"_
+- _"Actually, let's try a different approach"_
+
+## Best practices for editing
+
+> **Be specific** — _"Add error handling"_ is vague; _"Add try-catch for JSON decode errors"_ is clear
+
+> **Test after edits** — Always run Execute to verify changes work
+
+> **Edit incrementally** — One change at a time is easier to debug
+
+> **Explain why** — _"Add caching because this API is rate-limited"_ gives Triton better context
+
+> **Review before deploying** — Changes look different in production
+
+## Common editing scenarios
+
+### Scenario: Action is failing in production
+
+**Diagnosis:** _"Execution #1234 failed. What's wrong?"_
+
+**Triton identifies:** Timeout error on API call
+
+**Fix:** _"Add retry with exponential backoff and increase timeout to 30s"_
+
+**Triton edits:** Adds tenacity retry decorator, increases timeout
+
+**Verify:** Test with Execute, redeploy
+
+### Scenario: Agent responses are too verbose
+
+**Problem:** _"This Agent is writing essays instead of concise answers"_
+
+**Fix:** _"Update the prompt to limit responses to 2-3 sentences"_
+
+**Triton edits:** Adds constraint to system prompt
+
+**Verify:** Test with sample inputs
+
+### Scenario: Flow is too slow
+
+**Problem:** _"This Flow takes 30 seconds to process 50 items"_
+
+**Analysis:** _"Why is it slow?"_
+
+**Triton identifies:** Sequential processing of independent items
+
+**Fix:** _"Convert to parallel processing"_
+
+**Triton edits:** Restructures Flow for parallel execution
+
+**Result:** Processing time drops to ~5 seconds
+
+## Advanced editing techniques
+
+### Conditional edits
+
+_"If the Action uses requests, add retry logic"_  
+_"For all Agents that use tools, add tool usage examples in the prompt"_
+
+### Pattern-based edits
+
+_"Find all places where we call external APIs and add timeout handling"_  
+_"Update all validation Actions to return structured error objects"_
+
+### Version-based edits
+
+_"Create a v2 of this Agent with the improvements, but keep v1 for now"_  
+_"Update all components to use the new API, but create a flag to fall back to the old one"_
+
+## Next steps
+
+- [Debugging with Triton](/triton/debugging) — Fix issues
+- [Building with Triton](/triton/building) — Create components
+- [Edit a Specific Component Tutorial](/tutorials/edit-a-specific-component)
+

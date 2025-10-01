@@ -1,0 +1,392 @@
+---
+title: "Building with Triton"
+description: "Create Projects, Agents, Flows, and Actions through conversation"
+---
+
+## Overview
+
+Once you've defined your Project structure, Triton can build it for you. This guide covers how to effectively use Triton to generate components, connect them, and get a working system.
+
+## Building Actions
+
+Actions are Python functions that do specific tasks.
+
+### Basic Action creation
+
+**You:** _"Create an Action that fetches data from a REST API"_
+
+**Triton generates:**
+- `Action.py` with:
+  - Function signature
+  - Type hints
+  - Error handling
+  - Documentation
+- Input/output schema
+- `requirements.txt` with dependencies
+
+**Example output:**
+```python
+import requests
+from typing import Dict, Any
+import logging
+
+logger = logging.getLogger(__name__)
+
+def fetch_data(url: str, headers: Dict[str, str] = None) -> Dict[str, Any]:
+    """
+    Fetches data from a REST API endpoint.
+    
+    Args:
+        url: The API endpoint URL
+        headers: Optional HTTP headers
+        
+    Returns:
+        JSON response as dictionary
+        
+    Raises:
+        requests.exceptions.RequestException: If the request fails
+    """
+    try:
+        response = requests.get(url, headers=headers, timeout=10)
+        response.raise_for_status()
+        return response.json()
+    except requests.exceptions.Timeout:
+        logger.error(f"Timeout fetching {url}")
+        raise
+    except requests.exceptions.RequestException as e:
+        logger.error(f"Error fetching {url}: {e}")
+        raise
+```
+
+### Action with specific requirements
+
+**You:** _"Create an Action that validates email addresses using a regex and checks against our blocklist in Global Variables"_
+
+**Triton:**
+- Generates regex pattern
+- Adds Global Variable reference
+- Includes validation logic
+- Provides test cases
+
+### Data transformation Action
+
+**You:** _"Create an Action that takes a list of user objects and returns just their email addresses"_
+
+**Triton generates:**
+```python
+from typing import List, Dict
+
+def extract_emails(users: List[Dict]) -> List[str]:
+    """
+    Extracts email addresses from a list of user objects.
+    
+    Args:
+        users: List of user dictionaries with 'email' key
+        
+    Returns:
+        List of email addresses
+    """
+    emails = []
+    for user in users:
+        if 'email' in user and user['email']:
+            emails.append(user['email'])
+    return emails
+```
+
+## Building Agents
+
+Agents are LLM-powered components with prompts and tools.
+
+### Simple Agent
+
+**You:** _"Create an Agent that summarizes text"_
+
+**Triton creates:**
+- System prompt:
+  ```
+  You are a summarization expert. Given text input, create a concise
+  summary that captures the key points. Keep summaries under 200 words.
+  Use clear, professional language.
+  ```
+- Input schema: `{ "text": "string" }`
+- Output schema: `{ "summary": "string" }`
+- Model: GPT-4 (default)
+
+### Agent with tools
+
+**You:** _"Create an Agent that answers questions about our product catalog using a search Action"_
+
+**Triton:**
+1. First checks if `search_catalog` Action exists
+2. If not, asks: _"Should I create the search_catalog Action first?"_
+3. Creates the Action
+4. Creates the Agent with:
+   - System prompt mentioning available tools
+   - Tools configuration including `search_catalog`
+   - Examples of tool usage
+
+**System prompt:**
+```
+You are a product expert helping customers find information about our catalog.
+
+Available tools:
+- search_catalog: Search products by keyword, category, or ID
+
+When a customer asks about products:
+1. Use search_catalog to find relevant products
+2. Present the information clearly
+3. Suggest related products if appropriate
+
+Always be helpful and accurate. If you can't find something, say so clearly.
+```
+
+### Decision-making Agent
+
+**You:** _"Create an Agent that triages support tickets into urgent/normal/low priority"_
+
+**Triton creates:**
+- Detailed system prompt with triage criteria
+- Input schema: `{ "ticket": { "subject": "string", "body": "string", "user_tier": "string" } }`
+- Output schema: `{ "priority": "enum", "reason": "string", "suggested_assignment": "string" }`
+- Lower temperature (0.3) for consistent decisions
+
+## Building Flows
+
+Flows connect components into workflows.
+
+### Linear Flow
+
+**You:** _"Create a Flow that validates input, processes it, and returns results"_
+
+**Triton creates:**
+```
+Input → validate_input → process_data → format_output → Output
+```
+
+Each node is properly connected with appropriate data mappings.
+
+### Parallel processing Flow
+
+**You:** _"Create a Flow that fetches data from 3 different sources simultaneously, then combines the results"_
+
+**Triton creates:**
+```
+Input → fetch_source_1 ↘
+      → fetch_source_2 → combine_results → Output
+      → fetch_source_3 ↗
+```
+
+Includes:
+- Parallel execution of fetch Actions
+- Combine node that waits for all inputs
+- Proper error handling if any source fails
+
+### Conditional Flow
+
+**You:** _"Create a Flow that routes urgent requests to a fast-track process and normal requests to standard processing"_
+
+**Triton creates:**
+```
+Input → check_priority → [if urgent] → fast_track → Output
+                       → [if normal] → standard_process → Output
+```
+
+With router logic based on input field `priority`.
+
+### Complex orchestration
+
+**You:** _"Create a Flow for customer onboarding: validate account, create database entry, send welcome email, provision services, notify team"_
+
+**Triton creates:**
+```
+Input
+  → validate_account_info
+  → create_database_entry
+  → [parallel start]
+       → send_welcome_email
+       → provision_services
+       → notify_team
+  → [parallel end]
+  → generate_summary
+  → Output
+```
+
+## Building complete Projects
+
+Combine everything into a Project.
+
+### End-to-end example
+
+**You:** _"Build a complete Project for processing customer feedback: collect feedback, analyze sentiment, extract themes, generate report"_
+
+**Triton creates:**
+
+**1. Actions:**
+- `validate_feedback` — Check feedback format
+- `store_feedback` — Save to database
+- `generate_report` — Format results
+
+**2. Agent:**
+- `analyze_feedback` — Sentiment analysis and theme extraction
+
+**3. Main Flow:**
+```
+Input (feedback list)
+  → validate_feedback (for each item)
+  → store_feedback (batch)
+  → analyze_feedback (Agent)
+  → generate_report
+  → Output (formatted report)
+```
+
+**4. Project node:**
+- Exposes the main Flow as the Project entry point
+- Configured with input/output schemas
+- Ready to deploy
+
+### Incremental building
+
+You don't have to build everything at once:
+
+**You:** _"Start a new Project called 'Email Processor'"_  
+**Triton:** Creates empty Project
+
+**You:** _"Add an Action to parse email headers"_  
+**Triton:** Creates `parse_headers` Action
+
+**You:** _"Add an Agent to classify emails"_  
+**Triton:** Creates `classify_email` Agent
+
+**You:** _"Connect them in a Flow"_  
+**Triton:** Creates Flow linking parse_headers → classify_email
+
+**You:** _"Add error handling for malformed emails"_  
+**Triton:** Adds validation Action and error routing
+
+## Building with context
+
+Triton understands your existing work.
+
+### Building on existing components
+
+**You:** _"Create a new Flow that uses my existing Actions: fetch_data and process_results"_
+
+**Triton:**
+- Scans your Project
+- Finds both Actions
+- Creates Flow with proper connections
+- Uses correct input/output schemas
+
+### Consistent naming and patterns
+
+**You:** _"Add another Action similar to fetch_user_data but for products"_
+
+**Triton:**
+- Reviews `fetch_user_data` implementation
+- Creates `fetch_product_data` with similar structure
+- Maintains consistent error handling
+- Uses same coding style
+
+### Building variants
+
+**You:** _"Create a version of this Agent that's more concise"_
+
+**Triton:**
+- Copies existing Agent
+- Modifies system prompt for brevity
+- Names it `{original_name}_concise`
+- Keeps same tools and config
+
+## Building best practices
+
+> **Start with the core path** — Build the main workflow first, add enhancements later
+
+> **Test as you go** — Use Execute panel to verify each component
+
+> **Be specific about behavior** — Tell Triton exactly what you want, including edge cases
+
+> **Let Triton suggest** — If unsure, ask "How should I structure this?"
+
+> **Review generated code** — Always check what Triton built before deploying
+
+## Common building patterns
+
+### Pattern: Extract-Transform-Load (ETL)
+
+**You:** _"Build an ETL pipeline for customer data"_
+
+**Triton creates:**
+- Extract Action (API/database/file)
+- Transform Agent/Action (cleanse, normalize)
+- Load Action (destination)
+- Flow connecting them with error handling
+
+### Pattern: Request-Process-Notify
+
+**You:** _"Build a workflow that takes requests, processes them, and notifies users"_
+
+**Triton creates:**
+- Validation Action
+- Processing Agent/Flow
+- Notification Action (email/webhook)
+- Status tracking
+
+### Pattern: Fan-out/Fan-in
+
+**You:** _"Process 100 items in parallel, then aggregate results"_
+
+**Triton creates:**
+- Splitter (fan-out)
+- Processing Action (parallel)
+- Aggregator (fan-in)
+- Flow with proper concurrency
+
+### Pattern: Retry with backoff
+
+**You:** _"Call this API with automatic retries"_
+
+**Triton adds:**
+- Retry decorator
+- Exponential backoff
+- Max attempts configuration
+- Logging
+
+## Troubleshooting building
+
+### Problem: Triton doesn't understand the request
+
+**Solution:** Break it down
+- ❌ _"Build the whole system"_
+- ✅ _"First, create an Action that validates input"_
+
+### Problem: Generated code doesn't match needs
+
+**Solution:** Provide examples
+- _"Create an Action like this: [paste example]"_
+- _"The output should look like: [paste JSON]"_
+
+### Problem: Components aren't connecting properly
+
+**Solution:** Be explicit
+- _"Connect the output of fetch_data to the input of process_data"_
+- _"Map the 'results' field to 'data' in the next node"_
+
+### Problem: Missing error handling
+
+**Solution:** Ask for it
+- _"Add try-catch to handle network failures"_
+- _"What if the input is empty?"_
+
+## Next steps
+
+After building:
+1. Test each component with Execute panel
+2. [Edit and refine](/triton/editing) as needed
+3. [Debug any issues](/triton/debugging)
+4. Deploy your Project
+
+Related:
+- [Defining Projects with Triton](/triton/defining)
+- [Triton Overview](/triton/overview)
+- [Build a New Project Tutorial](/tutorials/build-a-new-project)
+

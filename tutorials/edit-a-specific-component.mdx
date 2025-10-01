@@ -1,0 +1,334 @@
+---
+title: "Edit a Specific Component"
+description: "Modify individual Agents, Flows, or Actions in detail"
+---
+
+## Overview
+
+This tutorial focuses on editing individual components (Agents, Flows, Actions) within a Project. You'll learn component-specific techniques for each type.
+
+**Time required:** 10-15 minutes per component type
+
+## Editing Actions
+
+Actions are Python functions with inputs, outputs, and dependencies.
+
+### Opening an Action
+
+1. Double-click the Action node on the Canvas
+2. The Properties Panel shows:
+   - **Content tab** — Code editor for `Action.py`
+   - **Input/Output tab** — Schema definition
+   - **Requirements** — Python dependencies
+
+### Modifying the code
+
+**Example:** Add logging to a data processing Action
+
+1. Select the Action
+2. Open Properties → Content
+3. Update the code:
+   ```python
+   import logging
+   from typing import Dict, List
+   
+   logger = logging.getLogger(__name__)
+   
+   def process_data(data: List[Dict]) -> List[Dict]:
+       logger.info(f"Processing {len(data)} items")
+       
+       processed = []
+       for item in data:
+           try:
+               # processing logic
+               result = transform(item)
+               processed.append(result)
+           except Exception as e:
+               logger.error(f"Failed to process item: {e}")
+               continue
+       
+       logger.info(f"Successfully processed {len(processed)} items")
+       return processed
+   ```
+
+4. Update `requirements.txt` if adding dependencies
+5. Click **Test** to run with sample input
+6. Save (auto-saves)
+
+### Changing input/output schema
+
+1. Go to Properties → Input/Output
+2. Modify the schema:
+   - Add new fields
+   - Change types
+   - Update descriptions
+   - Set required vs. optional
+
+3. Update the code to match
+4. Test with new schema
+
+### Best practices for Actions
+
+> **Keep them focused** — One clear purpose per Action
+
+> **Type everything** — Use proper type hints for all parameters
+
+> **Handle errors** — Don't let exceptions propagate unhandled
+
+> **Test independently** — Each Action should work standalone
+
+## Editing Flows
+
+Flows are graphs of connected nodes.
+
+### Opening a Flow
+
+1. Double-click the Flow node
+2. The Canvas zooms into the Flow's internal structure
+3. You see: Input node, processing nodes, Output node, edges
+
+### Adding nodes
+
+**Via Triton:**
+1. Ask: _"Add a data validation Action to this Flow"_
+2. Triton adds the node and suggests connections
+
+**Manually:**
+1. Right-click the Canvas
+2. Select **Add Node**
+3. Choose from: Actions, Agents, sub-Flows
+4. Drag to position
+
+### Connecting nodes
+
+1. Click and drag from an output port
+2. Drop on an input port of another node
+3. The edge shows data flow direction
+4. Orange edges = control flow, Blue edges = data flow
+
+### Modifying the structure
+
+**Serial to parallel conversion:**
+
+Before (serial):
+```
+Input → Action A → Action B → Action C → Output
+```
+
+After (parallel):
+```
+Input → Action A ↘
+                  Action B → Merge → Output
+        Action C ↗
+```
+
+Steps:
+1. Add a Merge/Join node
+2. Disconnect B and C from serial chain
+3. Connect both to Merge
+4. Connect Merge to Output
+
+### Conditional routing
+
+Add branching logic:
+
+1. Add a Router node (or use Agent to decide)
+2. Connect multiple output paths
+3. Each path processes different scenarios
+4. Reconnect at a Merge node if needed
+
+Example:
+```
+Input → Router → [if premium] → Enhanced Processing → Output
+              → [if basic]   → Standard Processing → Output
+```
+
+### Best practices for Flows
+
+> **Left to right** — Arrange nodes in execution order
+
+> **Group visually** — Related nodes should be close together
+
+> **Name clearly** — Label nodes with their purpose
+
+> **Test incrementally** — Verify each section works before adding more
+
+## Editing Agents
+
+Agents are LLM-powered components with prompts and tools.
+
+### Opening an Agent
+
+1. Double-click the Agent node
+2. Properties Panel shows:
+   - **Content tab** — Prompts and model config
+   - **Toolbox** — Available tools (Actions/Flows)
+   - **Execute tab** — Testing interface
+
+### Modifying the System Prompt
+
+The System Prompt defines the Agent's behavior.
+
+**Example:** Improve a customer service Agent
+
+Before:
+```
+You are a helpful assistant.
+```
+
+After:
+```
+You are a customer service expert for TechCorp, specializing in
+subscription management and technical support. 
+
+Guidelines:
+- Always be polite and professional
+- Verify the user's identity before accessing account information
+- Offer solutions, not just explanations
+- Escalate to human support if unable to resolve
+- Document all actions taken in the conversation
+
+Available tools:
+- check_subscription_status: Get current subscription details
+- update_billing: Modify billing information
+- reset_password: Send password reset email
+- escalate_to_human: Transfer to human support
+
+Always confirm actions before executing them.
+```
+
+### Adding/removing tools
+
+1. Go to Properties → Content → Toolbox
+2. Click **Add Tool**
+3. Select from available Actions/Flows
+4. Tools appear in the Agent's context
+5. Update the System Prompt to mention new tools
+
+### Configuring model parameters
+
+Adjust for your use case:
+
+| Parameter | Low Value | High Value | Use Case |
+|-----------|-----------|------------|----------|
+| Temperature | 0.0-0.3 | 0.7-1.0 | Low: factual, consistent<br/>High: creative, varied |
+| Top P | 0.1-0.5 | 0.9-1.0 | Low: focused<br/>High: exploratory |
+| Max Tokens | 100-500 | 2000-4000 | Low: concise<br/>High: detailed |
+
+### Testing Agent changes
+
+1. Go to Properties → Execute
+2. Enter a test message or payload:
+   ```json
+   {
+     "messages": [
+       {"role": "user", "content": "I need to cancel my subscription"}
+     ]
+   }
+   ```
+
+3. Click **Execute**
+4. Review:
+   - Agent's response
+   - Tools called
+   - Reasoning/chain of thought
+   - Token usage
+
+5. Iterate on prompts based on results
+
+### Best practices for Agents
+
+> **Be specific** — Vague prompts lead to unpredictable behavior
+
+> **Limit tools** — Too many options confuse the Agent
+
+> **Test edge cases** — Try to break it with unusual inputs
+
+> **Monitor usage** — Track token costs and latency
+
+## Using Triton for edits
+
+Triton can help with all component types:
+
+### For Actions
+- _"Add error handling to this Action"_
+- _"Optimize this function for large datasets"_
+- _"Add logging at each step"_
+
+### For Flows
+- _"Add parallel processing to this Flow"_
+- _"Insert a validation step after the input"_
+- _"Add error routing to this Flow"_
+
+### For Agents
+- _"Make this Agent more concise in responses"_
+- _"Add a tool for checking inventory"_
+- _"Improve the prompt for customer service"_
+
+## Version management
+
+Track changes to components:
+
+1. **Export before major changes**
+   - Right-click component → Export
+   - Save the JSON locally
+
+2. **Meaningful naming**
+   - Rename nodes with version info if needed
+   - `CustomerServiceAgent_v2`
+
+3. **Test before overwriting**
+   - Create a copy to test changes
+   - Compare performance
+   - Merge if improvement is confirmed
+
+## Common editing scenarios
+
+### Scenario 1: Action is too slow
+
+**Diagnosis:** Profile the Action, find bottlenecks
+
+**Solutions:**
+- Add caching for expensive operations
+- Use async/await for I/O operations
+- Batch API calls instead of one-by-one
+- Optimize algorithms (O(n²) → O(n log n))
+
+### Scenario 2: Flow produces wrong output
+
+**Diagnosis:** Trace the data through each node
+
+**Solutions:**
+- Check schema mismatches between nodes
+- Add logging to intermediate nodes
+- Test each node individually
+- Verify edge connections are correct
+
+### Scenario 3: Agent doesn't use tools
+
+**Diagnosis:** Prompt doesn't encourage tool use
+
+**Solutions:**
+- Explicitly instruct: "Use available tools to answer"
+- Provide examples of tool usage in prompt
+- Reduce temperature for more deterministic behavior
+- Simplify tool descriptions
+
+### Scenario 4: Component works in test, fails in production
+
+**Diagnosis:** Environment differences
+
+**Solutions:**
+- Check Global Variables are set in production
+- Verify API keys and credentials
+- Review rate limits and quotas
+- Check for hardcoded values (don't do this!)
+
+## Next steps
+
+- [Build a New Project](/tutorials/build-a-new-project)
+- [Integrate Project into Your App](/tutorials/integrate-project-into-your-app)
+- [Understanding Actions](/concepts/actions)
+- [Understanding Agents](/concepts/agents)
+- [Understanding Flows](/concepts/flows)
+
