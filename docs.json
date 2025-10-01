@@ -210,19 +210,6 @@
       "discord": "https://discord.gg/triform",
       "linkedin": "https://linkedin.com/company/triformai"
     }
-  },
-  "redirects": [
-    {
-      "from": "/concepts/depployments",
-      "to": "/concepts/deployments"
-    },
-    {
-      "from": "/accounts/admin",
-      "to": "/users/admin"
-    },
-    {
-      "from": "/roadmap/alerting",
-      "to": "/roadmap/alerts"
-    }
-  ]
+  }
+
 }
