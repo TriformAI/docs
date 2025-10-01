@@ -106,7 +106,7 @@ Execute at specific times or intervals.
 
 ### Manual Triggers
 
-Execute via button or API call.
+Execute via Execution button.
 
 **Use cases:**
 - On-demand processing
@@ -114,57 +114,12 @@ Execute via button or API call.
 - Testing
 - User-initiated workflows
 
-**Setup:**
-1. Default for all Projects
-2. Execute via:
-   - UI Execute button
-   - API call
-   - CLI command
-
-**API call:**
-```bash
-curl -X POST https://api.triform.ai/v1/projects/your-project/execute \
-  -H "Authorization: Bearer YOUR_API_KEY" \
-  -d '{"user_id": "123"}'
-```
-
-### Event Triggers
-
-Execute when specific events occur within Triform.
-
-**Use cases:**
-- Chain Projects together
-- Respond to execution failures
-- Auto-remediation
-- Notifications
-
-**Setup:**
-1. Go to Project → Triggers
-2. Click **Add Trigger → Event**
-3. Select event type:
-   - Project execution completed
-   - Execution failed
-   - Deployment succeeded
-   - Variable updated
-4. Filter conditions (optional)
-5. Define payload
-6. Save
-
-**Example: Error notification**
-- Event: Any execution failed
-- Filter: Project = "Customer Onboarding"
-- Action: Execute "Send Alert" Project
-
-## Managing Triggers
 
 ### Viewing Triggers
 
-1. Go to Project → Triggers
+1. Go to Project → Executions
 2. See list of all triggers:
-   - Type (webhook, schedule, event)
-   - Status (active, paused, disabled)
-   - Last triggered
-   - Success rate
+   - Type (webhook, schedule)
 
 ### Editing Triggers
 
@@ -175,19 +130,6 @@ Execute when specific events occur within Triform.
 
 **Note:** Schedule changes apply to future executions, not currently running ones.
 
-### Pausing Triggers
-
-Temporarily stop a trigger without deleting it:
-
-1. Select trigger
-2. Click **Pause**
-3. Trigger stops executing
-4. Click **Resume** to reactivate
-
-**Use cases:**
-- During maintenance
-- Troubleshooting
-- Temporarily disable feature
 
 ### Deleting Triggers
 
@@ -231,25 +173,11 @@ Define what data the triggered execution receives.
 }
 ```
 
-### Retry policy
-
-Configure what happens on failure.
-
-**Options:**
-- **No retry** — Fail and move on
-- **Retry with backoff** — Try again with increasing delays
-- **Fixed retry** — Retry N times with fixed delay
-
-**Example:**
-- Max retries: 3
-- Initial delay: 5 seconds
-- Backoff multiplier: 2 (5s, 10s, 20s)
-
 ### Timeout
 
 Set maximum execution time:
 
-- Default: 30 seconds
+- Default: 60 seconds
 - Max: 15 minutes (Pro), 60 minutes (Enterprise)
 
 **If timeout reached:**
@@ -257,19 +185,6 @@ Set maximum execution time:
 - Error logged
 - Retry policy applies (if configured)
 
-### Concurrency
-
-Control how many executions can run simultaneously.
-
-**Options:**
-- **Unlimited** — No limit (default)
-- **Limited** — Max N concurrent executions
-- **Serial** — One at a time (queue others)
-
-**Use serial for:**
-- Order-dependent operations
-- Resource constraints
-- Rate limit compliance
 
 ## Webhook authentication
 
@@ -289,113 +204,6 @@ curl -X POST https://api.triform.ai/v1/webhooks/your-endpoint \
 1. Enable API key authentication
 2. Provide key to webhook sender
 3. Triform validates before execution
-
-### HMAC Signature
-
-Verify request came from expected source:
-
-**How it works:**
-1. Sender signs payload with shared secret
-2. Includes signature in header
-3. Triform recomputes and verifies
-
-**Example (Stripe-style):**
-```python
-import hmac
-import hashlib
-
-payload = '{"event": "payment.success"}'
-secret = "your_webhook_secret"
-
-signature = hmac.new(
-    secret.encode(),
-    payload.encode(),
-    hashlib.sha256
-).hexdigest()
-
-# Include in request header
-headers = {
-    "X-Webhook-Signature": signature
-}
-```
-
-**Configuration:**
-1. Enable HMAC authentication
-2. Set shared secret
-3. Configure header name (e.g., `X-Webhook-Signature`)
-4. Triform validates before execution
-
-### IP Allowlist
-
-Restrict to specific IP addresses:
-
-**Configuration:**
-1. Enable IP allowlist
-2. Add allowed IPs: `203.0.113.1`, `203.0.113.2`
-3. Requests from other IPs are rejected
-
-**Use case:** Known, fixed-IP services (internal systems, specific vendors)
-
-## Monitoring Triggers
-
-### Trigger dashboard
-
-View trigger performance:
-
-- **Executions today** — Count
-- **Success rate** — Percentage
-- **Avg duration** — Time
-- **Errors** — Types and counts
-
-### Alerts
-
-Set up notifications:
-
-**Alert conditions:**
-- Success rate drops below 90%
-- Execution takes longer than 1 minute
-- Webhook returns error 3+ times
-- Schedule misses execution
-
-**Notification channels:**
-- Email
-- Slack
-- Discord
-- Webhook (meta!)
-- PagerDuty (Enterprise)
-
-### Logs
-
-All trigger executions are logged:
-
-1. Go to Project → Executions
-2. Filter by trigger type
-3. View execution details
-
-**Webhook-specific logs:**
-- Incoming payload
-- Headers received
-- IP address
-- Timestamp
-- Response sent
-
-## Best practices
-
-> **Secure webhooks** — Always use authentication (API key or HMAC)
-
-> **Handle failures gracefully** — Configure retries for transient errors
-
-> **Log extensively** — Track all trigger executions for debugging
-
-> **Test thoroughly** — Verify triggers work before going live
-
-> **Monitor actively** — Set up alerts for failures
-
-> **Document webhooks** — Note what sends them and expected format
-
-> **Use idempotency** — Handle duplicate webhook deliveries
-
-> **Rate limit** — Protect against webhook floods
 
 ## Common patterns
 
@@ -453,16 +261,7 @@ Project fails
 **Problem:** Trigger fires but execution fails  
 **Solution:** Check payload format, verify required fields, review execution logs
 
-**Problem:** Too many concurrent executions  
-**Solution:** Enable serial execution or set concurrency limit
-
-**Problem:** Webhook receiving duplicates  
-**Solution:** Implement idempotency checks using unique event IDs
-
 ## Next steps
 
-- [Understanding Executions](/concepts/executions)
-- [Understanding Deployments](/concepts/deployments)
-- [API Reference - Webhooks](/api-reference/endpoint/webhook)
-- [Monitoring (Roadmap)](/roadmap/monitoring)
+Continue exploring the documentation to learn about Executions and webhook configuration.
 

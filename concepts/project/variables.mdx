@@ -1,51 +1,36 @@
 ---
 title: "Variables"
-description: "Manage configuration and secrets across Projects with Global Variables"
+description: "Manage configuration and secrets with Project Variables"
 ---
 
-## What are Global Variables?
+## What are Project Variables?
 
-Global Variables are environment-specific values accessible across all components in your Organization. They store:
+Project Variables are project-specific values accessible across all components in your Project. They store:
 
 - **API keys and secrets** — Credentials for external services
 - **Configuration** — Environment-specific settings
 - **Constants** — Shared values used across Projects
 - **Feature flags** — Toggle features on/off
 
-## Why use Global Variables?
+## Why use Project Variables?
 
 **Security** — Keep secrets out of code  
 **Flexibility** — Change config without redeploying  
 **Environments** — Different values for dev/staging/prod  
 **Reusability** — One variable, many usages  
-**Auditability** — Track who changed what when
 
 ## Creating Variables
 
 ### Via UI
 
-1. Go to **Profile → Organization → Global Variables**
+1. Go to **Project → Variables**
 2. Click **Add Variable**
 3. Configure:
    - **Name:** `OPENAI_API_KEY`
    - **Value:** `sk-...` (hidden)
    - **Type:** Secret
    - **Description:** API key for OpenAI
-   - **Scope:** All Projects
 4. Click **Save**
-
-### Via API
-
-```bash
-POST /v1/organizations/{org_id}/variables
-
-{
-  "name": "OPENAI_API_KEY",
-  "value": "sk-...",
-  "type": "secret",
-  "description": "API key for OpenAI"
-}
-```
 
 ### Variable names
 
@@ -56,53 +41,6 @@ POST /v1/organizations/{org_id}/variables
 
 **Reserved names:**
 Avoid system variables: `PATH`, `HOME`, `USER`
-
-## Variable types
-
-### Secrets
-
-Sensitive data that should be hidden.
-
-**Examples:**
-- API keys
-- Database passwords
-- OAuth tokens
-- Private keys
-
-**Behavior:**
-- Value is encrypted at rest
-- Never visible in logs
-- Masked in UI (shows `***`)
-- Audited access
-
-### Configuration
-
-Non-sensitive settings.
-
-**Examples:**
-- API base URLs
-- Feature flags
-- Timeouts
-- Thresholds
-
-**Behavior:**
-- Value visible in UI
-- Can be viewed in logs
-- Not encrypted (but secured)
-
-### Constants
-
-Immutable values.
-
-**Examples:**
-- Company name
-- Support email
-- Version numbers
-
-**Behavior:**
-- Cannot be changed after creation (must delete and recreate)
-- Visible everywhere
-- No encryption needed
 
 ## Using Variables
 
@@ -134,14 +72,6 @@ Variables in `{{VAR_NAME}}` format are replaced before execution.
 
 ### In Flow configurations
 
-**Input node default value:**
-```json
-{
-  "api_endpoint": "{{API_BASE_URL}}/users",
-  "timeout": "{{REQUEST_TIMEOUT}}"
-}
-```
-
 **Conditional routing:**
 ```
 If {{ENVIRONMENT}} == "production":
@@ -160,48 +90,12 @@ Else:
 }
 ```
 
-## Variable scopes
-
-### Organization-wide
-
-Available to all Projects in the Organization.
-
-**Use for:**
-- Shared API keys
-- Company-wide constants
-- Organization settings
-
-**Example:** `OPENAI_API_KEY` used by multiple Projects
-
-### Project-specific
-
-Available only within a specific Project.
-
-**Use for:**
-- Project-unique config
-- Overrides of Organization variables
-- Isolated secrets
-
-**Example:** `DATABASE_NAME` unique to each Project
-
-### Environment-specific
-
-Different values per environment (dev, staging, prod).
-
-**Use for:**
-- API endpoints (dev vs. prod)
-- Feature flags
-- Resource identifiers
-
-**Example:**
-- Dev: `API_URL = https://api-dev.example.com`
-- Prod: `API_URL = https://api.example.com`
 
 ## Managing Variables
 
 ### Viewing Variables
 
-1. Go to **Organization → Global Variables**
+1. Go to **Organization → Project Variables**
 2. See list of all variables
 3. Secrets show as `***`
 4. Click to view metadata (not secret values)
@@ -239,7 +133,6 @@ Triform provides built-in environment variables:
 
 | Variable | Value | Description |
 |----------|-------|-------------|
-| `TRIFORM_ENV` | `production`, `staging`, `dev` | Current environment |
 | `TRIFORM_PROJECT_ID` | `proj_abc123` | Current Project ID |
 | `TRIFORM_EXECUTION_ID` | `exec_xyz789` | Current execution ID |
 | `TRIFORM_ORG_ID` | `org_abc123` | Organization ID |
@@ -258,109 +151,22 @@ print(f"Running in project {project_id}, execution {execution_id}")
 
 ## Best practices
 
-> **Never hardcode secrets** — Always use Global Variables
+> **Never hardcode secrets** — Always use Project Variables
 
 > **Use descriptive names** — Clear what each variable is for
 
 > **Document variables** — Add descriptions explaining usage
 
-> **Least privilege** — Limit scope to what's needed
-
 > **Rotate secrets regularly** — Update API keys periodically
 
-> **Audit changes** — Review variable change logs
-
 > **Test with dummy values** — Use fake keys in dev/staging
-
-> **Version control config** — Track non-secret config in git
-
-## Variable patterns
-
-### Pattern 1: API configuration
-
-```
-API_BASE_URL = "https://api.example.com"
-API_KEY = "secret_key" (secret)
-API_TIMEOUT = "30"
-API_RETRIES = "3"
-```
-
-**Usage in Action:**
-```python
-import os
-import requests
-
-def call_api(endpoint: str):
-    base_url = os.environ.get('API_BASE_URL')
-    api_key = os.environ.get('API_KEY')
-    timeout = int(os.environ.get('API_TIMEOUT', '30'))
-    
-    response = requests.get(
-        f"{base_url}/{endpoint}",
-        headers={"Authorization": f"Bearer {api_key}"},
-        timeout=timeout
-    )
-    return response.json()
-```
-
-### Pattern 2: Feature flags
-
-```
-FEATURE_NEW_UI = "true"
-FEATURE_BETA_AGENT = "false"
-FEATURE_ANALYTICS = "true"
-```
-
-**Usage in Flow:**
-```
-If {{FEATURE_BETA_AGENT}} == "true":
-  → Use new Agent
-Else:
-  → Use legacy Agent
-```
-
-### Pattern 3: Environment-specific
-
-```
-# Development
-DATABASE_URL = "postgres://localhost/myapp_dev"
-LOG_LEVEL = "debug"
-ENABLE_DEBUG = "true"
-
-# Production
-DATABASE_URL = "postgres://prod-server/myapp"
-LOG_LEVEL = "info"
-ENABLE_DEBUG = "false"
-```
-
-**Usage:**
-```python
-import os
-
-db_url = os.environ.get('DATABASE_URL')
-log_level = os.environ.get('LOG_LEVEL', 'info')
-
-if os.environ.get('ENABLE_DEBUG') == 'true':
-    enable_debugging()
-```
-
-### Pattern 4: Multi-service credentials
-
-```
-STRIPE_SECRET_KEY = "sk_..." (secret)
-STRIPE_PUBLISHABLE_KEY = "pk_..." (config)
-SENDGRID_API_KEY = "SG..." (secret)
-OPENAI_API_KEY = "sk-..." (secret)
-AWS_ACCESS_KEY = "AKIA..." (secret)
-AWS_SECRET_KEY = "..." (secret)
-```
 
 ## Security considerations
 
 ### Secret handling
 
 **Do:**
-- ✅ Store all secrets in Global Variables
+- ✅ Store all secrets in Project Variables
 - ✅ Use `secret` type for sensitive data
 - ✅ Limit access to who can view secrets
 - ✅ Rotate secrets regularly
@@ -391,7 +197,7 @@ All variable operations are logged:
 - Deleted by whom, when
 
 **View audit log:**
-1. Go to Organization → Global Variables
+1. Go to Organization → Project Variables
 2. Select variable
 3. Click **Audit Log**
 
@@ -414,36 +220,16 @@ def send_notification():
 ```
 
 **Steps:**
-1. Create Global Variable
+1. Create Project Variable
 2. Update code to use `os.environ.get()`
 3. Test
 4. Remove hardcoded value
 5. Deploy
 
-### Between environments
-
-Export/import variables:
-
-**Export:**
-```bash
-GET /v1/organizations/{org_id}/variables/export
-
-# Returns JSON file
-```
-
-**Import:**
-```bash
-POST /v1/organizations/{org_id}/variables/import
-
-# Upload JSON file
-```
-
-**Use case:** Set up new environment with same variables (secrets excluded for security)
-
 ## Troubleshooting
 
 **Problem:** Variable not found  
-**Solution:** Check variable name, scope (Organization vs. Project), and environment
+**Solution:** Check variable name and project
 
 **Problem:** Secret value showing as `***`  
 **Solution:** Intentional for security. Re-enter to update.
@@ -451,13 +237,7 @@ POST /v1/organizations/{org_id}/variables/import
 **Problem:** Variable changes not taking effect  
 **Solution:** Redeploy Project, or restart execution
 
-**Problem:** Access denied when viewing variable  
-**Solution:** Check permissions, must be Admin to view secrets
-
 ## Next steps
 
-- [Understanding Deployments](/concepts/deployments)
-- [Understanding API Keys](/concepts/api-keys)
-- [Security Overview](/security/overview)
-- [Organizations](/orgs/overview)
+Continue exploring the documentation to learn about deployments, API keys, security, and organization management.
 

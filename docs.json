@@ -36,8 +36,7 @@
           "triton/overview",
           "triton/defining",
           "triton/building",
-          "triton/editing",
-          "triton/debugging"
+          "triton/editing"
         ]
       },
       {
@@ -71,8 +70,7 @@
                 ]
               }
             ]
-          },
-          "workspace/navigation"
+          }
         ]
       },
       {
@@ -85,40 +83,19 @@
           "concepts/executions",
           "concepts/payloads",
           "concepts/triggers",
-          "concepts/variables",
-          "concepts/deployments",
-          "concepts/api-keys",
-          "concepts/requirements",
           "concepts/glossary"
         ]
       },
       {
-        "group": "Project Administration",
+        "group": "Organizations",
         "pages": [
-          "project-admin/projects-list"
-        ]
-      },
-      {
-        "group": "Organizations & Users",
-        "pages": [
-          {
-            "group": "Organizations",
-            "pages": [
-              "orgs/overview",
-              "orgs/admin",
-              "orgs/affiliations",
-              "orgs/roles-permissions",
-              "orgs/members",
-              "orgs/github-integration",
-              "orgs/billing-settings"
-            ]
-          },
-          {
-            "group": "Users",
-            "pages": [
-              "users/account-settings"
-            ]
-          }
+          "orgs/overview",
+          "orgs/admin",
+          "orgs/affiliations",
+          "orgs/roles-permissions",
+          "orgs/members",
+          "orgs/github-integration",
+          "orgs/billing-settings"
         ]
       },
       {
@@ -165,16 +142,13 @@
         "group": "Support",
         "pages": [
           "support/overview",
-          "support/faq",
-          "support/report-a-bug",
-          "support/request-a-feature",
           "support/contact-us"
         ]
       },
       {
-        "group": "Status",
+        "group": "Appendix",
         "pages": [
-          "status/index"
+          "appendix/quick-reference"
         ]
       }
     ]

@@ -5,12 +5,11 @@ description: "Organize and deploy AI systems as cohesive units"
 
 ## What is a Project?
 
-A Project is a complete, deployable AI system in Triform. It's a container that holds all the components (Agents, Flows, Actions) needed to accomplish a specific goal.
+A Project is a complete, deployable AI system in Triform. It's a repository that holds all the components (Agents, Flows, Actions) needed to accomplish a specific goal.
 
 Think of a Project as:
-- A **microservice** for AI workloads
 - A **package** of related functionality
-- A **deployable unit** with its own API endpoint
+- A **deployable unit** with its own variables and triggers
 
 ## Project structure
 
@@ -22,6 +21,8 @@ Projects contain:
 **Agents** — LLM-powered components with tools  
 **Flows** — Orchestration graphs connecting components  
 **Sub-Projects** — Nested Projects for modularity
+**Variables** — Information accessible to all components in the project.
+**Triggers** — What makes your executions start.
 
 ### Organization
 
@@ -37,7 +38,7 @@ Project: Customer Support System
 │   ├── fetch_ticket
 │   ├── update_status
 │   └── send_notification
-└── Global Variables
+└── Project Variables
     ├── API_KEYS
     └── CONFIG
 ```
@@ -85,7 +86,7 @@ Select template → Customize → Deploy
 
 ### Configuration
 
-**Global Variables** — Environment-specific values  
+**Project Variables** — Environment-specific values  
 **API Keys** — Credentials for external services  
 **Quotas** — Resource limits  
 **Permissions** — Who can view/edit/execute
@@ -312,85 +313,10 @@ Trigger (webhook, schedule)
 
 **Rule of thumb:** If you can't explain what the Project does in one sentence, it's too large.
 
-## Sharing and collaboration
-
-### Within Organization
-
-All Organization members can:
-- View Projects (if permissions allow)
-- Edit Projects (if editor/admin)
-- Execute Projects (if permissions allow)
-
-### Inviting teammates
-
-1. Go to Organization → Members
-2. Invite by email
-3. Assign role (Viewer, Editor, Admin)
-4. They can now access Projects
-
-### Project-specific permissions
-
-Fine-grained control:
-
-- **Viewer** — Can view but not edit
-- **Editor** — Can edit and test
-- **Deployer** — Can deploy to staging/production
-- **Admin** — Full control
-
-## Versioning Projects
-
-While Triform auto-saves, consider:
-
-### Naming conventions
-
-- `customer-support-v1`
-- `customer-support-v2` (major changes)
-
-### Exporting snapshots
-
-1. Right-click Project → Export
-2. Save JSON locally
-3. Use as backup or for version control
-
-### Git integration (if enabled)
-
-- Connect Organization to GitHub
-- Projects sync to repo
-- Use branches for features
-- Pull requests for review
-
-## Deleting Projects
-
-**Caution:** Deletion is permanent.
-
-1. Open Project
-2. Project menu → Delete
-3. Confirm by typing Project name
-4. Project and all components are removed
-
-**Before deleting:**
-- Export as backup
-- Check if used by other Projects
-- Notify team
-- Verify no production traffic
-
-## Migrating Projects
-
-### Between Environments
-
-Export from dev → Import to staging → Test → Import to production
-
-### Between Organizations
-
-1. Export Project from Org A
-2. Share JSON file
-3. Import into Org B
-4. Update environment-specific variables
-
 ## Troubleshooting
 
 **Problem:** Project won't deploy  
-**Solution:** Check all components are configured, Global Variables are set, no circular dependencies
+**Solution:** Check all components are configured, Project Variables are set, no circular dependencies
 
 **Problem:** Execution fails in Project but components work individually  
 **Solution:** Check connections, field mappings, and data flow
@@ -399,13 +325,9 @@ Export from dev → Import to staging → Test → Import to production
 **Solution:** Profile execution, identify bottlenecks, add parallel processing or caching
 
 **Problem:** Can't find my Project  
-**Solution:** Check filters (All vs. Favorites), search by name, verify you're in the right Organization
+**Solution:** Check filters, search by name, verify you're in the right Organization
 
 ## Next steps
 
-- [Understanding Agents](/concepts/agents)
-- [Understanding Flows](/concepts/flows)
-- [Understanding Actions](/concepts/actions)
-- [Build a New Project Tutorial](/tutorials/build-a-new-project)
-- [Deploying Projects](/concepts/deployments)
+Continue exploring the documentation to learn about Agents, Flows, Actions, building new Projects, and deploying them.
 

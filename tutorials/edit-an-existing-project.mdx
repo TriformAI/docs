@@ -39,7 +39,7 @@ Common modification scenarios:
 1. Create a new Action: `send_email`
 2. Add it to the relevant Flow
 3. Connect it after the processing step
-4. Configure SMTP settings in Global Variables
+4. Configure SMTP settings in Project Variables
 
 ### Modifying an existing component
 
@@ -192,7 +192,7 @@ After deploying:
 
 ### Adding authentication
 
-1. Create Global Variable for API key
+1. Create Project Variable for API key
 2. Update relevant Actions to use the key
 3. Test with valid and invalid keys
 
@@ -241,12 +241,9 @@ After deploying:
 **Solution:** Ask Triton to explain it, check for documentation, trace execution flow
 
 **Problem:** Changes work locally but fail in production  
-**Solution:** Check environment differences, verify Global Variables are set, review logs
+**Solution:** Check environment differences, verify Project Variables are set, review logs
 
 ## Next steps
 
-- [Edit a Specific Component](/tutorials/edit-a-specific-component)
-- [Integrate Project into Your App](/tutorials/integrate-project-into-your-app)
-- [Understanding Deployments](/concepts/deployments)
-- [Debugging Best Practices](/triton/debugging)
+Continue exploring the documentation to learn about editing specific components, integrating Projects into your apps, and deployment best practices.
 

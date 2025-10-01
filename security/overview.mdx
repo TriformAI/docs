@@ -16,7 +16,7 @@ All data stored in Triform is encrypted using **AES-256** encryption.
 **Encrypted data includes:**
 - Project code and configurations
 - Execution logs and traces
-- Global Variables (especially secrets)
+- Project Variables
 - API keys
 - User information
 
@@ -42,9 +42,8 @@ All communication with Triform uses **TLS 1.2+** encryption.
 **OAuth 2.0 providers:**
 - Discord
 - GitHub  
-- Google (Enterprise)
 
-**Magic Link:** Passwordless email authentication
+**Email:** Passwordless email authentication
 
 **Benefits:**
 - No password management burden
@@ -115,8 +114,6 @@ All communication with Triform uses **TLS 1.2+** encryption.
 **Protection mechanisms:**
 - Rate limiting (prevents abuse)
 - DDoS mitigation
-- IP allowlisting (Enterprise)
-- Request signature verification (HMAC)
 - Input validation and sanitization
 
 **Monitoring:**
@@ -128,39 +125,11 @@ All communication with Triform uses **TLS 1.2+** encryption.
 
 **Verification options:**
 - API key authentication
-- HMAC signature validation
-- IP allowlisting
-- Request origin validation
 
 **Replay attack prevention:**
 - Timestamp validation
 - Nonce tracking
 - Request idempotency
-
-## Secrets management
-
-### Global Variables
-
-**Secret Variables:**
-- Encrypted at rest with separate keys
-- Never visible in logs
-- Masked in UI (shown as `***`)
-- Access audited
-- Retrieved only at runtime
-
-**Best practices:**
-- Use secrets for all credentials
-- Rotate secrets regularly
-- Audit secret access logs
-- Limit secret access by role
-
-### Environment isolation
-
-**Development:** Test credentials only  
-**Staging:** Near-production, isolated  
-**Production:** Production credentials, separate
-
-**Benefit:** Credential compromise in one environment doesn't affect others.
 
 ## Code execution security
 
@@ -201,39 +170,6 @@ Actions run in isolated environments:
 - Peer review before deployment
 - Automated security scanning
 - Manual audit of high-risk components
-
-## Compliance
-
-### Standards
-
-We follow industry-standard security frameworks:
-
-**ISO 27001** — Information security management  
-**SOC 2 Type II** — Trust services criteria (in progress)  
-**GDPR** — EU data protection (compliant)
-
-### Data residency
-
-**Default:** US-based data centers  
-**Enterprise:** Regional options available (EU, Asia-Pacific)
-
-**Data localization:** Customer data stored in specified region only.
-
-### Audit logs
-
-All security-relevant actions are logged:
-
-**Logged events:**
-- Authentication events (login, logout, failures)
-- Authorization changes (role grants, permissions)
-- API key lifecycle (create, revoke, usage)
-- Secret access (who accessed what when)
-- Deployment events
-- Configuration changes
-
-**Log retention:** 90 days (standard), longer for Enterprise
-
-**Access:** Organization Admins can export audit logs
 
 ## Vulnerability management
 
@@ -308,8 +244,6 @@ Found a security issue? We appreciate responsible disclosure.
 
 ### Account security
 
-> **Enable 2FA** — Protects against stolen passwords
-
 > **Use strong passwords** — If using email authentication
 
 > **Monitor sessions** — Review and revoke suspicious sessions
@@ -334,17 +268,13 @@ Found a security issue? We appreciate responsible disclosure.
 
 > **Review dependencies** — Check for vulnerabilities
 
-> **Keep secrets in Global Variables** — Never hardcode
+> **Keep secrets in Project Variables** — Never hardcode
 
 ### Organization security
 
 > **Audit members regularly** — Remove ex-employees
 
 > **Follow least privilege** — Grant minimum necessary permissions
-
-> **Review access logs** — Monitor for unusual activity
-
-> **Require 2FA** — Especially for Admins
 
 ## Security features roadmap
 
@@ -358,18 +288,10 @@ Found a security issue? We appreciate responsible disclosure.
 
 ## Security resources
 
-### Documentation
-
-- [Data Retention](/security/data-retention)
-- [Compliance](/security/compliance)
-- [API Keys](/concepts/api-keys)
-- [Global Variables](/concepts/variables)
-
 ### Contact
 
 **Security issues:** security@triform.ai  
-**General support:** support@triform.ai  
-**Status page:** status.triform.ai
+**General support:** Join our [Discord community](https://discord.gg/triform)
 
 ### External resources
 
@@ -381,8 +303,7 @@ Found a security issue? We appreciate responsible disclosure.
 
 If you have security questions or concerns:
 
-1. Review our [detailed security docs](/security/data-retention)
-2. Check [compliance information](/security/compliance)
-3. Contact security@triform.ai
-4. For Enterprise, contact your account manager
+1. Review the security documentation
+2. Contact security@triform.ai
+3. For Enterprise, contact your account manager
 

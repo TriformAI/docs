@@ -29,7 +29,7 @@ A single run of a Project, Flow, Agent, or Action. Each execution has inputs, ou
 ### Flow
 An orchestration graph that connects Actions, Agents, and sub-Flows. Flows define multi-step logic with inputs, outputs, and data flow between components.
 
-### Global Variable
+### Project Variable
 An environment-specific value (API keys, config, secrets) accessible across Projects. Variables keep sensitive data out of code and enable environment-specific configuration.
 
 ### Node
@@ -65,7 +65,7 @@ The exit point of a Flow, defining what data the Flow returns. Output nodes shap
 A panel showing detailed configuration for selected components. Properties include content (code, prompts), input/output schemas, executions, and settings.
 
 ### Top Bar
-The navigation bar showing breadcrumbs, home, profile, and deploy controls. The Top Bar provides global navigation and actions.
+The navigation bar showing breadcrumbs, home, profile, and deploy controls. The Top Bar provides Project navigation and actions.
 
 ### Triton
 Triform's built-in AI assistant that helps you build, modify, and debug Projects through natural conversation.
@@ -80,12 +80,6 @@ A time-based schedule format for triggering periodic executions. Example: `0 6 *
 
 ### Dependency
 An external Python package required by an Action. Dependencies are listed in `requirements.txt`.
-
-### HMAC Signature
-A cryptographic signature used to verify webhook authenticity. Ensures requests came from expected sources.
-
-### Idempotency
-The property where performing the same operation multiple times produces the same result. Important for handling duplicate webhooks.
 
 ### Port
 An input or output connection point on a node. Data flows from output ports to input ports via edges.
@@ -124,9 +118,6 @@ An HTTP endpoint that receives event notifications from external services. Trigg
 
 ### Branching
 When a Flow splits into multiple paths based on conditions. Example: route by user tier (free vs. premium).
-
-### Canary Deployment
-Gradual rollout of changes to a percentage of traffic before full deployment. Reduces risk of bad deployments.
 
 ### Cold Start
 The initial delay when executing a component that hasn't run recently. Caused by environment setup and dependency loading.
@@ -240,7 +231,6 @@ Checking input data meets expected format and constraints before processing. Fai
 
 If a term isn't listed here:
 - Ask Triton in the Chat Panel
-- Check relevant concept pages
-- Visit [Support](/support/overview)
+- Check relevant concept pages in the documentation
 - Join our [Discord community](https://discord.gg/triform)
 

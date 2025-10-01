@@ -59,7 +59,6 @@ description: "Compact cheat sheet for everyday Triform tasks"
 
 - Mismatched I/O: Align port names and types on both ends.
 - Over‑large payload: Split into batches; toggle Parallel.
-- Rate limit (429): Retry with exponential backoff + jitter.
 - Agent drift: Reduce tools, tighten System Prompt, re‑test with saved Payloads.
 
 > tip: Golden path for a new Flow — 1) Input `text` → 2) Action `summarize_text` → 3) Output `summary`. Save `minimal` and `edge` Payloads, validate, then wire it into a larger Flow or expose it as an API.

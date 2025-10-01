@@ -65,14 +65,6 @@ Input → validate → [if valid] → process → format → Output
 **Branching** — Multiple outgoing edges = conditional routing  
 **Merging** — Multiple incoming edges = combining results
 
-### Tracing a specific execution
-
-1. Select the Flow node in Project view
-2. Go to Properties → Executions
-3. Click an execution to see its trace
-4. The Canvas highlights which path was taken
-5. Node colors indicate: success (green), failure (red), skipped (gray)
-
 ## Common Flow patterns
 
 ### Linear Flow
@@ -87,7 +79,7 @@ Sequential processing, simple and predictable.
 ```
 Input → Action A ↘
               Action B → Merge → Output
-        Action C ↗
+      → Action C ↗
 ```
 Independent operations run simultaneously, then results combine.
 
@@ -120,7 +112,7 @@ Separate paths for success and failure scenarios.
 ### Adding nodes
 
 **Method 1: Via Triton**
-- _"Add a validation Action to this Flow"_
+- _"Add a Action that validates output to this Flow"_
 - Triton adds and suggests connections
 
 **Method 2: Right-click menu**
@@ -128,11 +120,6 @@ Separate paths for success and failure scenarios.
 2. Select **Add Node**
 3. Choose: Action, Agent, Flow, Control
 4. Position the node
-
-**Method 3: Drag from Toolbox**
-1. Open Agent Toolbox panel
-2. Find the component
-3. Drag onto Canvas
 
 ### Connecting nodes
 

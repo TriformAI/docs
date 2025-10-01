@@ -37,7 +37,7 @@ Triform retains different types of data for varying periods based on product fun
 
 **User control:** Export before deletion, star important executions for longer retention
 
-### Global Variables
+### Project Variables
 
 **What:** Configuration values, secrets, API keys
 
@@ -127,7 +127,7 @@ Some data types use soft deletion for recovery.
 
 ✅ **Projects** — 30-day recovery window  
 ✅ **User accounts** — 30-day recovery window  
-❌ **Global Variables** — Immediate deletion (security)  
+❌ **Project Variables** — Immediate deletion (security)  
 ❌ **API keys** — Immediate revocation  
 ❌ **Executions** — Immediate deletion after retention period
 
@@ -141,57 +141,6 @@ Some data types use soft deletion for recovery.
 
 **After grace period:** Cannot be recovered
 
-## Data export
-
-Export your data before it's deleted.
-
-### What you can export
-
-**Projects:**
-- Project structure (JSON)
-- All components (Actions, Agents, Flows)
-- Configurations
-- Global Variables (config only, not secrets)
-
-**Executions:**
-- Input/output payloads
-- Logs and traces
-- Metrics
-- Timestamps
-
-**Account data:**
-- Profile information
-- Organization memberships
-- API key metadata (not secrets)
-- Audit logs
-
-### How to export
-
-**Via UI:**
-1. Select what to export
-2. Click **Export**
-3. Choose format (JSON, CSV for executions)
-4. Download file
-
-**Via API:**
-```bash
-GET /v1/projects/{project_id}/export
-GET /v1/executions/export?start_date=2025-01-01
-GET /v1/account/export
-```
-
-**Bulk export:**
-1. Account Settings → Privacy
-2. Click **Request Data Export**
-3. Receive email when ready (up to 24 hours)
-4. Download ZIP file
-
-### Export formats
-
-**JSON** — Projects, configurations (structured, machine-readable)  
-**CSV** — Executions, logs (tabular, spreadsheet-compatible)  
-**PDF** — Reports, invoices (human-readable)
-
 ## Data minimization
 
 We collect and retain only what's necessary.
@@ -200,7 +149,7 @@ We collect and retain only what's necessary.
 
 ✅ **Necessary for service:**
 - Project code and config
-- Execution data for debugging
+- Execution data for debugging and AI model training (only free community version)
 - Account info for authentication
 - Billing info for payments
 
@@ -208,11 +157,11 @@ We collect and retain only what's necessary.
 - Personal data beyond account basics
 - Tracking cookies (beyond essential)
 - Browsing history outside Triform
-- Third-party service credentials (unless you provide in Global Variables)
+- Third-party service credentials (unless you provide in Project Variables)
 
 ### Anonymization
 
-**Analytics data** is anonymized:
+**Analytics and training data** is anonymized:
 - User IDs replaced with random identifiers
 - IP addresses hashed
 - Names and emails removed
@@ -222,22 +171,15 @@ We collect and retain only what's necessary.
 
 ### Data residency
 
-**Standard:** US-based data centers (AWS us-east-1, us-west-2)
+**Standard:** EU-based data centers
 
-**Enterprise options:**
-- EU (Frankfurt, Dublin)
-- Asia-Pacific (Singapore, Tokyo)
-- UK (London)
-
-**Data localization:** Customer data stays in specified region.
+**Data localization:** Customer data stays in EU.
 
 ### Data transfer
 
 **Within region:** No cross-border transfer
 
-**Cross-region:** Only with explicit configuration (multi-region deployments)
-
-**GDPR compliance:** EU data stored in EU if requested
+**GDPR compliance:** Data stored in EU
 
 ## Deletion procedures
 
@@ -252,7 +194,6 @@ We collect and retain only what's necessary.
 **What happens:**
 - Project removed from UI
 - Executions deleted per retention policy
-- Global Variables remain (unless Project-specific)
 - Audit logs retained
 
 ### Deleting account
@@ -306,7 +247,7 @@ If a data breach occurs:
 
 **If notified of a breach:**
 1. **Rotate API keys** immediately
-2. **Update Global Variables** (especially secrets)
+2. **Update Project Variables** (especially secrets)
 3. **Review audit logs** for suspicious activity
 4. **Enable 2FA** if not already
 5. **Monitor for unusual activity**
@@ -324,33 +265,9 @@ If a data breach occurs:
 
 **Exercise rights:** Account Settings → Privacy or email privacy@triform.ai
 
-### CCPA (California)
-
-**Rights you have:**
-- **Know:** What data we collect
-- **Delete:** Request deletion
-- **Opt-out:** Opt out of "sale" (we don't sell data)
-- **Non-discrimination:** Equal service regardless of privacy choices
-
-**Exercise rights:** Email privacy@triform.ai
-
 ### Other regulations
 
-We comply with applicable data protection laws in your jurisdiction.
-
-## Data retention best practices
-
-> **Export regularly** — Don't rely on indefinite retention
-
-> **Delete unused Projects** — Reduce data footprint
-
-> **Rotate secrets** — Even within retention period
-
-> **Star important executions** — Extend retention for critical ones
-
-> **Review audit logs** — Before they expire
-
-> **Set reminders** — For data export before deletion
+We comply with applicable data protection laws in EU.
 
 ## FAQs
 
@@ -369,9 +286,6 @@ A: Yes, contact support for manual deletion requests.
 **Q: Is deleted data truly unrecoverable?**  
 A: After permanent deletion, yes. We use secure deletion methods.
 
-**Q: What if I'm under legal hold?**  
-A: Contact us immediately. We can freeze deletions if legally required.
-
 ## Contact
 
 **Data requests:** privacy@triform.ai  
@@ -382,8 +296,5 @@ A: Contact us immediately. We can freeze deletions if legally required.
 
 ## Related
 
-- [Security Overview](/security/overview)
-- [Compliance](/security/compliance)
-- [Account Settings](/users/account-settings)
-- [Organizations](/orgs/overview)
+Continue exploring the security documentation to learn about compliance and data protection measures.
 

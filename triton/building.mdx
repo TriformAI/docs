@@ -5,7 +5,7 @@ description: "Create Projects, Agents, Flows, and Actions through conversation"
 
 ## Overview
 
-Once you've defined your Project structure, Triton can build it for you. This guide covers how to effectively use Triton to generate components, connect them, and get a working system.
+Once you've defined your Project description (and possibly requirements), Triton can build it for you. This guide covers how to effectively use Triton to generate components, connect them, and get a working system.
 
 ## Building Actions
 
@@ -66,7 +66,7 @@ def fetch_data(url: str, headers: Dict[str, str] = None) -> Dict[str, Any]:
 - Generates regex pattern
 - Adds Global Variable reference
 - Includes validation logic
-- Provides test cases
+- Tests it
 
 ### Data transformation Action
 
@@ -180,36 +180,6 @@ Includes:
 - Parallel execution of fetch Actions
 - Combine node that waits for all inputs
 - Proper error handling if any source fails
-
-### Conditional Flow
-
-**You:** _"Create a Flow that routes urgent requests to a fast-track process and normal requests to standard processing"_
-
-**Triton creates:**
-```
-Input → check_priority → [if urgent] → fast_track → Output
-                       → [if normal] → standard_process → Output
-```
-
-With router logic based on input field `priority`.
-
-### Complex orchestration
-
-**You:** _"Create a Flow for customer onboarding: validate account, create database entry, send welcome email, provision services, notify team"_
-
-**Triton creates:**
-```
-Input
-  → validate_account_info
-  → create_database_entry
-  → [parallel start]
-       → send_welcome_email
-       → provision_services
-       → notify_team
-  → [parallel end]
-  → generate_summary
-  → Output
-```
 
 ## Building complete Projects
 
@@ -381,12 +351,9 @@ Triton understands your existing work.
 
 After building:
 1. Test each component with Execute panel
-2. [Edit and refine](/triton/editing) as needed
-3. [Debug any issues](/triton/debugging)
+2. Edit and refine as needed
+3. Debug any issues
 4. Deploy your Project
 
-Related:
-- [Defining Projects with Triton](/triton/defining)
-- [Triton Overview](/triton/overview)
-- [Build a New Project Tutorial](/tutorials/build-a-new-project)
+Continue exploring the Triton documentation to learn about defining Projects, editing components, and debugging.
 
