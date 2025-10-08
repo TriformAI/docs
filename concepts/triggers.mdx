@@ -31,17 +31,17 @@ Execute when an HTTP request hits your webhook endpoint.
 
 **Example URL:**
 ```
-https://api.triform.ai/v1/webhooks/your-org/payment-received
+https://app.triform.ai/api/in/31460071-17aa-43e8-a0e6-fb22984c0bdc/26420f15-2143-443f-bca9-45c5b0720784
 ```
 
-**Incoming webhook:**
-```json
-POST /v1/webhooks/your-org/payment-received
-{
-  "event": "payment.success",
-  "amount": 99.99,
-  "customer_id": "cust_123"
-}
+This is an API-call that would trigger a certain flow with the 
+{"event": "payment.success", "amount": 99.99, "customer_id": "cust_123"} payload:
+
+```bash
+curl -X POST 'https://app.triform.ai/api/in/31460071-17aa-43e8-a0e6-fb22984c0bdc/26420f15-2143-443f-bca9-45c5b0720784' \
+  --header 'Authorization: 88ffe8398f972837ccc6e0a6cd31c5c92689040c' \
+  --header 'Content-Type: application/json' \
+  --data '{"event": "payment.success", "amount": 99.99, "customer_id": "cust_123"}'
 ```
 
 **Your Project receives:**
@@ -194,10 +194,14 @@ Secure your webhook endpoints.
 
 Require API key in header:
 
+This is an API-call that would trigger a certain flow with the 
+{"data": "value"} payload:
+
 ```bash
-curl -X POST https://api.triform.ai/v1/webhooks/your-endpoint \
-  -H "Authorization: Bearer YOUR_API_KEY" \
-  -d '{"data": "value"}'
+curl -X POST 'https://app.triform.ai/api/in/31460071-17aa-43e8-a0e6-fb22984c0bdc/26420f15-2143-443f-bca9-45c5b0720784' \
+  --header 'Authorization: 88ffe8398f972837ccc6e0a6cd31c5c92689040c' \
+  --header 'Content-Type: application/json' \
+  --data '{"data": "value"}'
 ```
 
 **Configuration:**

@@ -30,7 +30,7 @@ Before integrating, deploy your Project:
 5. Click **Deploy Now**
 6. Copy the generated endpoint URL:
    ```
-   https://api.triform.ai/v1/your-org/news-digest
+   https://app.triform.ai/api/in/31460071-17aa-43e8-a0e6-fb22984c0bdc/26420f15-2143-443f-bca9-45c5b0720784
    ```
 
 ## Step 2: Generate an API key
@@ -48,16 +48,14 @@ Before integrating, deploy your Project:
 
 ### Using cURL
 
+This is an API-call that would trigger a certain flow with the 
+{"sources": ["https://newsapi.org/v2/top-headlines?country=us", "https://api.example.com/tech-news"]} payload:
+
 ```bash
-curl -X POST https://api.triform.ai/v1/your-org/news-digest \
-  -H "Authorization: Bearer YOUR_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "sources": [
-      "https://newsapi.org/v2/top-headlines?country=us",
-      "https://api.example.com/tech-news"
-    ]
-  }'
+curl -X POST 'https://app.triform.ai/api/in/31460071-17aa-43e8-a0e6-fb22984c0bdc/26420f15-2143-443f-bca9-45c5b0720784' \
+  --header 'Authorization: 88ffe8398f972837ccc6e0a6cd31c5c92689040c' \
+  --header 'Content-Type: application/json' \
+  --data '{"sources": ["https://newsapi.org/v2/top-headlines?country=us", "https://api.example.com/tech-news"]}'
 ```
 
 ### Using Python
@@ -67,10 +65,10 @@ import requests
 import os
 
 API_KEY = os.environ.get('TRIFORM_API_KEY')
-ENDPOINT = 'https://api.triform.ai/v1/your-org/news-digest'
+ENDPOINT = 'https://app.triform.ai/api/in/31460071-17aa-43e8-a0e6-fb22984c0bdc/26420f15-2143-443f-bca9-45c5b0720784'
 
 headers = {
-    'Authorization': f'Bearer {API_KEY}',
+    'Authorization': API_KEY,
     'Content-Type': 'application/json'
 }
 
@@ -96,10 +94,10 @@ else:
 const axios = require('axios');
 
 const API_KEY = process.env.TRIFORM_API_KEY;
-const ENDPOINT = 'https://api.triform.ai/v1/your-org/news-digest';
+const ENDPOINT = 'https://app.triform.ai/api/in/31460071-17aa-43e8-a0e6-fb22984c0bdc/26420f15-2143-443f-bca9-45c5b0720784';
 
 const headers = {
-  'Authorization': `Bearer ${API_KEY}`,
+  'Authorization': API_KEY,
   'Content-Type': 'application/json'
 };
 
@@ -124,13 +122,13 @@ axios.post(ENDPOINT, payload, { headers })
 ```javascript
 const callTriformAPI = async () => {
   const API_KEY = process.env.REACT_APP_TRIFORM_API_KEY;
-  const ENDPOINT = 'https://api.triform.ai/v1/your-org/news-digest';
+  const ENDPOINT = 'https://app.triform.ai/api/in/31460071-17aa-43e8-a0e6-fb22984c0bdc/26420f15-2143-443f-bca9-45c5b0720784';
   
   try {
     const response = await fetch(ENDPOINT, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${API_KEY}`,
+        'Authorization': API_KEY,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({

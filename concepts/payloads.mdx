@@ -162,15 +162,14 @@ In your Project/Flow Input node:
 
 ### Via API
 
+This is an API-call that would trigger a certain flow with the 
+{"user_id": "123", "action": "process", "data": {"value": 42}} payload:
+
 ```bash
-curl -X POST https://api.triform.ai/v1/your-project/execute \
-  -H "Authorization: Bearer YOUR_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "user_id": "123",
-    "action": "process",
-    "data": {"value": 42}
-  }'
+curl -X POST 'https://app.triform.ai/api/in/31460071-17aa-43e8-a0e6-fb22984c0bdc/26420f15-2143-443f-bca9-45c5b0720784' \
+  --header 'Authorization: 88ffe8398f972837ccc6e0a6cd31c5c92689040c' \
+  --header 'Content-Type: application/json' \
+  --data '{"user_id": "123", "action": "process", "data": {"value": 42}}'
 ```
 
 ### Programmatically
@@ -186,9 +185,9 @@ payload = {
 }
 
 response = requests.post(
-    "https://api.triform.ai/v1/your-project/execute",
+    "https://app.triform.ai/api/in/31460071-17aa-43e8-a0e6-fb22984c0bdc/26420f15-2143-443f-bca9-45c5b0720784",
     headers={
-        "Authorization": f"Bearer {API_KEY}",
+        "Authorization": API_KEY,
         "Content-Type": "application/json"
     },
     json=payload
@@ -206,11 +205,11 @@ const payload = {
 };
 
 const response = await fetch(
-  "https://api.triform.ai/v1/your-project/execute",
+  "https://app.triform.ai/api/in/31460071-17aa-43e8-a0e6-fb22984c0bdc/26420f15-2143-443f-bca9-45c5b0720784",
   {
     method: "POST",
     headers: {
-      "Authorization": `Bearer ${API_KEY}`,
+      "Authorization": API_KEY,
       "Content-Type": "application/json"
     },
     body: JSON.stringify(payload)

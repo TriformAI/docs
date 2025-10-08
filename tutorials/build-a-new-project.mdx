@@ -136,11 +136,15 @@ Make your Project accessible:
 4. Click **Deploy Now**
 5. Copy the generated endpoint URL
 6. Test with curl:
+
+This is an API-call that would trigger a certain flow with the 
+{"sources": ["..."]} payload:
+
    ```bash
-   curl -X POST https://api.triform.ai/v1/your-project/daily-digest \
-     -H "Authorization: Bearer YOUR_API_KEY" \
-     -H "Content-Type: application/json" \
-     -d '{"sources": ["..."]}'
+   curl -X POST 'https://app.triform.ai/api/in/31460071-17aa-43e8-a0e6-fb22984c0bdc/26420f15-2143-443f-bca9-45c5b0720784' \
+     --header 'Authorization: 88ffe8398f972837ccc6e0a6cd31c5c92689040c' \
+     --header 'Content-Type: application/json' \
+     --data '{"sources": ["..."]}'
    ```
 
 ## Step 9: Schedule daily execution
