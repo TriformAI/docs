@@ -146,6 +146,12 @@
         ]
       },
       {
+        "group": "Legal",
+        "pages": [
+          "legal/community-terms"
+        ]
+      },
+      {
         "group": "Appendix",
         "pages": [
           "appendix/quick-reference"
