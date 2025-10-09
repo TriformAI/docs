@@ -154,7 +154,8 @@
       {
         "group": "Appendix",
         "pages": [
-          "appendix/quick-reference"
+          "appendix/quick-reference",
+          "llms"
         ]
       }
     ]

@@ -7,25 +7,18 @@ description: "Organize and deploy AI systems as cohesive units"
 
 A Project is a complete, deployable AI system in Triform. It's a repository that holds all the components (Agents, Flows, Actions) needed to accomplish a specific goal.
 
-Think of a Project as:
-- A **package** of related functionality
-- A **deployable unit** with its own variables and triggers
-
 ## Project structure
-
-### Components
 
 Projects contain:
 
 **Actions** — Python functions for deterministic logic  
 **Agents** — LLM-powered components with tools  
 **Flows** — Orchestration graphs connecting components  
-**Sub-Projects** — Nested Projects for modularity
-**Variables** — Information accessible to all components in the project.
-**Triggers** — What makes your executions start.
+**Sub-Projects** — Nested Projects for modularity  
+**Variables** — Configuration accessible to all components  
+**Triggers** — What starts executions
 
-### Organization
-
+Example structure:
 ```
 Project: Customer Support System
 ├── Flows
@@ -49,77 +42,25 @@ Project: Customer Support System
 
 1. Click **Home** in Top Bar
 2. Click **New Project**
-3. Name it: `Customer Support System`
-4. Add description: `Automated ticket triage and response`
-5. Click **Create**
+3. Name it and add a description
+4. Click **Create**
 
 ### Via Triton
 
 Ask: _"Create a new Project for processing customer feedback"_
 
-Triton will:
-- Create the Project structure
-- Ask clarifying questions
-- Suggest initial components
-- Set up basic configuration
-
-### From template
-
-Start with common patterns:
-
-- **Data Processing Pipeline** — ETL workflows
-- **Customer Support** — Ticket handling
-- **Content Generation** — Writing and editing
-- **Research Assistant** — Information gathering
-- **API Integration** — Connect external services
-
-Select template → Customize → Deploy
-
-## Project properties
-
-### Basic information
-
-**Name** — Unique identifier within Organization  
-**Description** — What this Project does  
-**Tags** — Categorization (e.g., `production`, `customer-facing`, `experimental`)  
-**Owner** — Person or team responsible
-
-### Configuration
-
-**Project Variables** — Environment-specific values  
-**API Keys** — Credentials for external services  
-**Quotas** — Resource limits  
-**Permissions** — Who can view/edit/execute
-
-### Deployment settings
-
-**Entry point** — Which Flow to expose as API  
-**Authentication** — API key, OAuth, or public  
-**Rate limiting** — Requests per minute/hour  
-**Timeout** — Maximum execution time
+Triton will create the structure, ask clarifying questions, and suggest initial components.
 
 ## Working with Projects
 
-### Opening a Project
+### Opening and navigating
 
 1. Navigate to **Home**
-2. Find your Project in the list
-3. Click to open on Canvas
-
-You'll see the Project's component graph.
-
-### Navigating within
-
-**Double-click** nodes to drill into:
-- Flows — See internal structure
-- Agents — View configuration
-- Actions — Edit code
-
-**Breadcrumbs** at top show current location.
+2. Click your Project to open on Canvas
+3. **Double-click** nodes to drill into Flows, Agents, or Actions
+4. Use **breadcrumbs** at top to track your location
 
 ### Building in a Project
-
-Add components:
 
 **Via Triton:**
 - _"Add a validation Flow to this Project"_
@@ -127,73 +68,46 @@ Add components:
 
 **Via UI:**
 - Right-click Canvas → Add Node
-- Choose component type
-- Configure and connect
-
-**Via Toolbox:**
-- Drag existing components from Agent Toolbox
-- Position and wire up
+- Choose component type, configure, and connect
 
 ## Project lifecycle
 
-### 1. Design
+**1. Design** — Plan inputs, outputs, and data flow  
+**2. Build** — Create Actions, configure Agents, build Flows  
+**3. Integrate** — Wire components together  
+**4. Test** — Validate with sample payloads  
+**5. Deploy** — Push to staging, then production  
+**6. Monitor** — Track execution success rate and performance  
+**7. Iterate** — Add features and optimize
 
-Plan the system:
-- Define inputs and outputs
-- Identify required components
-- Sketch data flow
-- Consider error handling
+## Common patterns
 
-### 2. Build
+### Request-Response API
+```
+Input → Validate → Process → Format → Output
+```
+Use case: API endpoints, data transformations
 
-Create components:
-- Write Actions for specific tasks
-- Configure Agents for decision-making
-- Build Flows to orchestrate
-- Test individually
+### Multi-stage pipeline
+```
+Input → Extract → Transform → Load → Output
+```
+Use case: ETL, data processing, content generation
 
-### 3. Integrate
+### Agent with tools
+```
+Input (query) → Agent (with tools) → Output (response)
+  Tools: search_database, call_api, send_email
+```
+Use case: Conversational interfaces, decision support
 
-Connect components:
-- Wire Flows
-- Map data between nodes
-- Handle errors gracefully
-- Add logging
+### Parallel processing
+```
+Input → Split → [Process A, B, C] → Merge → Output
+```
+Use case: High-volume processing, independent tasks
 
-### 4. Test
-
-Validate functionality:
-- Test with sample payloads
-- Check edge cases
-- Monitor execution logs
-- Iterate and fix
-
-### 5. Deploy
-
-Make it live:
-- Configure deployment settings
-- Set environment variables
-- Deploy to staging first
-- Test in staging
-- Deploy to production
-
-### 6. Monitor
-
-Watch it run:
-- Track execution success rate
-- Monitor performance
-- Set up alerts
-- Review logs regularly
-
-### 7. Iterate
-
-Improve over time:
-- Add features
-- Optimize performance
-- Fix bugs
-- Update based on feedback
-
-## Project best practices
+## Best practices
 
 > **Single responsibility** — Each Project should have one clear purpose
 
@@ -205,129 +119,34 @@ Improve over time:
 
 > **Monitored** — Track success rates and performance
 
-> **Versioned** — Use meaningful names and descriptions when updating
-
-## Project patterns
-
-### Pattern 1: Request-Response API
-
-**Structure:**
-```
-Input (API request)
-  → Validate
-  → Process
-  → Format
-  → Output (API response)
-```
-
-**Use case:** Simple API endpoints, data transformations
-
-**Example:** Currency converter, text summarizer
-
-### Pattern 2: Multi-stage pipeline
-
-**Structure:**
-```
-Input
-  → Stage 1 (Extract)
-  → Stage 2 (Transform)
-  → Stage 3 (Load)
-  → Output
-```
-
-**Use case:** ETL, data processing, content generation
-
-**Example:** News aggregator, report generator
-
-### Pattern 3: Agent with tools
-
-**Structure:**
-```
-Input (user query)
-  → Agent (with tools)
-      ├── Tool 1: search_database
-      ├── Tool 2: call_api
-      └── Tool 3: send_email
-  → Output (agent response)
-```
-
-**Use case:** Conversational interfaces, decision support
-
-**Example:** Customer support bot, research assistant
-
-### Pattern 4: Parallel processing
-
-**Structure:**
-```
-Input
-  → Split
-      ├── Process A
-      ├── Process B
-      └── Process C
-  → Merge
-  → Output
-```
-
-**Use case:** High-volume processing, independent tasks
-
-**Example:** Batch image processing, multi-source data collection
-
-### Pattern 5: Event-driven workflow
-
-**Structure:**
-```
-Trigger (webhook, schedule)
-  → Route by event type
-      ├── Type A → Handler A
-      ├── Type B → Handler B
-      └── Type C → Handler C
-  → Log and notify
-```
-
-**Use case:** Webhooks, scheduled jobs, event processing
-
-**Example:** Payment processor, notification system
-
 ## Project scope guidelines
 
-### Too small (anti-pattern)
+**Too small** ❌  
+Project: "Uppercase a string" → Should be an Action
 
-❌ Project: "Uppercase a string"  
-→ This should be an Action within a larger Project
+**Just right** ✅  
+Project: "User Onboarding" → Includes validation, account creation, welcome email, setup
 
-❌ Project: "Validate email"  
-→ This should be an Action
-
-### Just right
-
-✅ Project: "User Onboarding"  
-→ Includes validation, account creation, welcome email, setup
-
-✅ Project: "Content Moderation"  
-→ Includes detection, classification, action, notification
-
-### Too large (anti-pattern)
-
-❌ Project: "Entire Customer Platform"  
-→ Split into multiple Projects: Support, Billing, Notifications, etc.
+**Too large** ❌  
+Project: "Entire Customer Platform" → Split into multiple Projects: Support, Billing, Notifications
 
 **Rule of thumb:** If you can't explain what the Project does in one sentence, it's too large.
 
 ## Troubleshooting
 
-**Problem:** Project won't deploy  
-**Solution:** Check all components are configured, Project Variables are set, no circular dependencies
+**Project won't deploy**  
+Check all components are configured, Project Variables are set, no circular dependencies
 
-**Problem:** Execution fails in Project but components work individually  
-**Solution:** Check connections, field mappings, and data flow
+**Execution fails in Project but components work individually**  
+Check connections, field mappings, and data flow
 
-**Problem:** Project is slow  
-**Solution:** Profile execution, identify bottlenecks, add parallel processing or caching
+**Project is slow**  
+Profile execution, identify bottlenecks, add parallel processing or caching
 
-**Problem:** Can't find my Project  
-**Solution:** Check filters, search by name, verify you're in the right Organization
+**Can't find my Project**  
+Check filters, search by name, verify you're in the right Organization
 
 ## Next steps
 
-Continue exploring the documentation to learn about Agents, Flows, Actions, building new Projects, and deploying them.
+See [Agents](/concepts/agents), [Flows](/concepts/flows), [Actions](/concepts/actions), and [Build a New Project](/tutorials/build-a-new-project).
 

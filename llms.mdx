@@ -1,0 +1,85 @@
+---
+title: "LLMs.txt"
+description: "Standardized file for LLM access to Triform documentation"
+---
+
+# Triform
+
+> Triform is a visual platform for building, running, and monitoring AI-powered systems. Users compose logic on a Canvas using Nodes (Agents, Flows, Actions) connected by Edges. Triton, the built-in AI assistant, helps build, modify, and debug Projects through natural conversation.
+
+## Core Concepts
+
+**Projects** are complete, deployable AI systems containing Actions, Agents, and Flows. **Agents** are LLM-powered components with prompts, model configs, and tools. **Actions** are atomic Python functions with typed inputs/outputs. **Flows** are orchestration graphs connecting components with edges defining data flow.
+
+**Important notes:**
+- The Canvas is the visual workspace; Chat Panel (Cmd/Ctrl+K) accesses Triton
+- All components live within Organizations → Projects → Library hierarchy
+- Executions are tracked with logs, traces, and metrics for debugging
+- Projects deploy to staging/production and expose API endpoints
+- Dependencies must be pure Python (no binary installs)
+
+## Getting Started
+
+- [Quickstart](/getting-started/quickstart): 5-minute guide to sign in, create a Flow with Triton, and execute it
+- [Workspace Overview](/getting-started/workspace-overview): Canvas, Properties Panel, Chat Panel, and navigation
+- [Login](/getting-started/login): Authentication via Discord or GitHub
+
+## Core Concepts
+
+- [Agents](/concepts/agents): LLM logic with prompts, tools, and observability patterns
+- [Flows](/concepts/flows): Graph building blocks (Input/Output nodes, edges) and patterns (linear, branching, parallel)
+- [Actions](/concepts/actions): Python structure, I/O contracts, and workflow
+- [Glossary](/concepts/glossary): Comprehensive definitions of all Triform terms
+- [Projects](/concepts/projects): Organization, structure, and deployment
+- [Executions](/concepts/executions): Running components, viewing results, and debugging
+- [Payloads](/concepts/payloads): JSON input data format and schema matching
+- [Triggers](/concepts/triggers): Webhooks, schedules, and manual execution
+
+## Triton AI Assistant
+
+- [Triton Overview](/triton/overview): What Triton can do, how to use effectively, workflows, and limitations
+- [Building with Triton](/triton/building): Creating Agents, Actions, Flows from natural language
+- [Defining Projects](/triton/defining): Conversational Project creation and structure
+- [Editing Components](/triton/editing): Modifying, debugging, and optimizing existing work
+
+## Workspace Interface
+
+- [Canvas Overview](/workspace/canvas/overview): Main visual workspace and navigation
+- [Flow View Basics](/workspace/canvas/flow-view/basics): Nodes, edges, and graph visualization
+- [Create and Connect](/workspace/canvas/flow-view/create-connect): Adding nodes and wiring components
+- [Node Interactions](/workspace/canvas/flow-view/node-interactions): Selection, configuration, and manipulation
+- [Properties Panel Overview](/workspace/properties/overview): Component configuration interface
+- [Execute Panel](/workspace/properties/execute): Running components with payloads and viewing results
+- [Chat Panel](/workspace/chat-panel): Interacting with Triton
+
+## Tutorials
+
+- [Build a New Project](/tutorials/build-a-new-project): End-to-end guide to creating a complete Project
+- [Edit an Existing Project](/tutorials/edit-an-existing-project): Modifying and extending Projects
+- [Edit a Specific Component](/tutorials/edit-a-specific-component): Focused changes to Actions, Agents, or Flows
+- [Integrate Project into Your App](/tutorials/integrate-project-into-your-app): API keys, endpoints, and external integration
+
+## API Reference
+
+- [API Introduction](/api-reference/introduction): Authentication with Bearer tokens
+- [OpenAPI Specification](/api-reference/openapi.json): Complete API schema
+
+## Optional
+
+- [Project Variables](/concepts/project/variables): Environment-specific configuration and secrets
+- [API Keys](/concepts/project/api-keys): Creating and managing authentication tokens
+- [Deployments](/concepts/project/deployments): Publishing to staging and production
+- [Quick Reference](/appendix/quick-reference): Cheat sheet for common operations
+- [Organization Admin](/orgs/admin): Managing Organizations
+- [Members and Roles](/orgs/members): Team collaboration and permissions
+- [Quotas Overview](/quotas/index): Account limits and resource usage
+- [Security Overview](/security/overview): Data protection and compliance
+- [Changelog](/changelog/index): Platform updates and new features
+- [Community](/community/join-discord): Discord server and support channels
+
+---
+
+## About this file
+
+This page follows the [llms.txt specification](https://llmstxt.org/) - a proposed standard for providing LLM-friendly information to help AI assistants use website documentation at inference time. The plain text version is available at `/llms.txt`.
+

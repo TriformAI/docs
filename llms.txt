@@ -1,0 +1,74 @@
+# Triform
+
+> Triform is a visual platform for building, running, and monitoring AI-powered systems. Users compose logic on a Canvas using Nodes (Agents, Flows, Actions) connected by Edges. Triton, the built-in AI assistant, helps build, modify, and debug Projects through natural conversation.
+
+## Core Concepts
+
+**Projects** are complete, deployable AI systems containing Actions, Agents, and Flows. **Agents** are LLM-powered components with prompts, model configs, and tools. **Actions** are atomic Python functions with typed inputs/outputs. **Flows** are orchestration graphs connecting components with edges defining data flow.
+
+**Important notes:**
+- The Canvas is the visual workspace; Chat Panel (Cmd/Ctrl+K) accesses Triton
+- All components live within Organizations → Projects → Library hierarchy
+- Executions are tracked with logs, traces, and metrics for debugging
+- Projects deploy to staging/production and expose API endpoints
+- Dependencies must be pure Python (no binary installs)
+
+## Getting Started
+
+- [Quickstart](https://docs.triform.ai/getting-started/quickstart): 5-minute guide to sign in, create a Flow with Triton, and execute it
+- [Workspace Overview](https://docs.triform.ai/getting-started/workspace-overview): Canvas, Properties Panel, Chat Panel, and navigation
+- [Login](https://docs.triform.ai/getting-started/login): Authentication via Discord or GitHub
+
+## Core Concepts
+
+- [Agents](https://docs.triform.ai/concepts/agents): LLM logic with prompts, tools, and observability patterns
+- [Flows](https://docs.triform.ai/concepts/flows): Graph building blocks (Input/Output nodes, edges) and patterns (linear, branching, parallel)
+- [Actions](https://docs.triform.ai/concepts/actions): Python structure, I/O contracts, and workflow
+- [Glossary](https://docs.triform.ai/concepts/glossary): Comprehensive definitions of all Triform terms
+- [Projects](https://docs.triform.ai/concepts/projects): Organization, structure, and deployment
+- [Executions](https://docs.triform.ai/concepts/executions): Running components, viewing results, and debugging
+- [Payloads](https://docs.triform.ai/concepts/payloads): JSON input data format and schema matching
+- [Triggers](https://docs.triform.ai/concepts/triggers): Webhooks, schedules, and manual execution
+
+## Triton AI Assistant
+
+- [Triton Overview](https://docs.triform.ai/triton/overview): What Triton can do, how to use effectively, workflows, and limitations
+- [Building with Triton](https://docs.triform.ai/triton/building): Creating Agents, Actions, Flows from natural language
+- [Defining Projects](https://docs.triform.ai/triton/defining): Conversational Project creation and structure
+- [Editing Components](https://docs.triform.ai/triton/editing): Modifying, debugging, and optimizing existing work
+
+## Workspace Interface
+
+- [Canvas Overview](https://docs.triform.ai/workspace/canvas/overview): Main visual workspace and navigation
+- [Flow View Basics](https://docs.triform.ai/workspace/canvas/flow-view/basics): Nodes, edges, and graph visualization
+- [Create and Connect](https://docs.triform.ai/workspace/canvas/flow-view/create-connect): Adding nodes and wiring components
+- [Node Interactions](https://docs.triform.ai/workspace/canvas/flow-view/node-interactions): Selection, configuration, and manipulation
+- [Properties Panel Overview](https://docs.triform.ai/workspace/properties/overview): Component configuration interface
+- [Execute Panel](https://docs.triform.ai/workspace/properties/execute): Running components with payloads and viewing results
+- [Chat Panel](https://docs.triform.ai/workspace/chat-panel): Interacting with Triton
+
+## Tutorials
+
+- [Build a New Project](https://docs.triform.ai/tutorials/build-a-new-project): End-to-end guide to creating a complete Project
+- [Edit an Existing Project](https://docs.triform.ai/tutorials/edit-an-existing-project): Modifying and extending Projects
+- [Edit a Specific Component](https://docs.triform.ai/tutorials/edit-a-specific-component): Focused changes to Actions, Agents, or Flows
+- [Integrate Project into Your App](https://docs.triform.ai/tutorials/integrate-project-into-your-app): API keys, endpoints, and external integration
+
+## API Reference
+
+- [API Introduction](https://docs.triform.ai/api-reference/introduction): Authentication with Bearer tokens
+- [OpenAPI Specification](https://docs.triform.ai/api-reference/openapi.json): Complete API schema
+
+## Optional
+
+- [Project Variables](https://docs.triform.ai/concepts/project/variables): Environment-specific configuration and secrets
+- [API Keys](https://docs.triform.ai/concepts/project/api-keys): Creating and managing authentication tokens
+- [Deployments](https://docs.triform.ai/concepts/project/deployments): Publishing to staging and production
+- [Quick Reference](https://docs.triform.ai/appendix/quick-reference): Cheat sheet for common operations
+- [Organization Admin](https://docs.triform.ai/orgs/admin): Managing Organizations
+- [Members and Roles](https://docs.triform.ai/orgs/members): Team collaboration and permissions
+- [Quotas Overview](https://docs.triform.ai/quotas/index): Account limits and resource usage
+- [Security Overview](https://docs.triform.ai/security/overview): Data protection and compliance
+- [Changelog](https://docs.triform.ai/changelog/index): Platform updates and new features
+- [Community](https://docs.triform.ai/community/join-discord): Discord server and support channels
+
