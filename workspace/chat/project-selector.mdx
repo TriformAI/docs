@@ -1,0 +1,72 @@
+---
+title: "Project Selector"
+description: "Enable projects to give your agent specific capabilities"
+---
+
+## What you see
+
+The right panel shows all available projects in your organization that you can enable for the current agent conversation.
+
+## How it works
+
+**Enabled projects** = **Agent capabilities**
+
+When you enable a project, you give the agent access to:
+- All flows within that project
+- All actions within that project
+- All agents within that project (for nested agent calls)
+- The project's variables and configuration
+
+## Enabling and disabling projects
+
+**Toggle on** — Click to enable a project for this chat  
+**Toggle off** — Click to disable a project  
+**Real-time updates** — Changes take effect immediately  
+**Per-chat settings** — Each chat can have different enabled projects
+
+## Project information
+
+For each project, you can see:
+- **Project name** — The identifier and title
+- **Description** — What the project does
+- **Components** — Number of agents, flows, and actions
+- **Status** — Whether it's enabled for this chat
+
+## Strategic enabling
+
+**Enable only what you need:**
+- Faster responses when fewer projects are active
+- Clearer agent focus on relevant capabilities
+- Reduced token usage and costs
+- Less chance of unintended behavior
+
+**When to enable multiple projects:**
+- Tasks that span different domains
+- Complex workflows requiring many tools
+- Exploratory conversations where scope is unclear
+
+## Permissions
+
+You can only enable projects where you have:
+- Read access at minimum
+- Projects from your organization
+- Projects shared with you
+
+> tip: Start with just one or two relevant projects enabled. You can always enable more if the agent needs additional capabilities.
+
+## Example use cases
+
+**Customer support chat:**
+- Enable: `customer_data` project
+- Enable: `ticket_management` project
+- Leave disabled: Internal tools, analytics projects
+
+**Data analysis chat:**
+- Enable: `data_processing` project
+- Enable: `visualization` project
+- Leave disabled: Customer-facing projects
+
+**General assistant chat:**
+- Enable: Multiple projects for flexibility
+- Adjust based on what you're working on
+

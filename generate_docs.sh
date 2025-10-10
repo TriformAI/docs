@@ -31,7 +31,7 @@ PAGES=(
   "workspace/canvas/flow-view/node-interactions"
   "workspace/chat-panel"
   "workspace/properties/overview"
-  "workspace/properties/global-variables"
+  "workspace/properties/project-variables"
   "workspace/properties/components/definition"
   "workspace/properties/components/content/agents"
   "workspace/properties/components/content/flows"

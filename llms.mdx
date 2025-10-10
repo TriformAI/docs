@@ -5,14 +5,15 @@ description: "Standardized file for LLM access to Triform documentation"
 
 # Triform
 
-> Triform is a visual platform for building, running, and monitoring AI-powered systems. Users compose logic on a Canvas using Nodes (Agents, Flows, Actions) connected by Edges. Triton, the built-in AI assistant, helps build, modify, and debug Projects through natural conversation.
+> Triform is a visual platform for building, running, and monitoring AI-powered systems. Users compose logic in the **Builder workspace** using a Canvas with Nodes (Agents, Flows, Actions) connected by Edges. Triton, the built-in AI assistant, helps build, modify, and debug Projects through natural conversation. The **Chat workspace** provides a conversational interface for using and interacting with completed agents.
 
 ## Core Concepts
 
 **Projects** are complete, deployable AI systems containing Actions, Agents, and Flows. **Agents** are LLM-powered components with prompts, model configs, and tools. **Actions** are atomic Python functions with typed inputs/outputs. **Flows** are orchestration graphs connecting components with edges defining data flow.
 
 **Important notes:**
-- The Canvas is the visual workspace; Chat Panel (Cmd/Ctrl+K) accesses Triton
+- The **Builder workspace** contains the Canvas, Chat Panel (Triton), and Properties Panel for building
+- The **Chat workspace** is for conversing with and using your agents (like ChatGPT)
 - All components live within Organizations → Projects → Library hierarchy
 - Executions are tracked with logs, traces, and metrics for debugging
 - Projects deploy to staging/production and expose API endpoints
@@ -20,8 +21,8 @@ description: "Standardized file for LLM access to Triform documentation"
 
 ## Getting Started
 
-- [Quickstart](/getting-started/quickstart): 5-minute guide to sign in, create a Flow with Triton, and execute it
-- [Workspace Overview](/getting-started/workspace-overview): Canvas, Properties Panel, Chat Panel, and navigation
+- [Quickstart](/getting-started/quickstart): 5-minute guide to sign in, create a Flow with Triton, and use it in Chat
+- [Workspace Overview](/getting-started/workspace-overview): Builder workspace, Chat workspace, and navigation
 - [Login](/getting-started/login): Authentication via Discord or GitHub
 
 ## Core Concepts
@@ -44,13 +45,21 @@ description: "Standardized file for LLM access to Triform documentation"
 
 ## Workspace Interface
 
-- [Canvas Overview](/workspace/canvas/overview): Main visual workspace and navigation
+### Builder Workspace (For Building)
+- [Builder Overview](/workspace/builder/overview): Main development workspace
+- [Canvas Overview](/workspace/canvas/overview): Visual workspace for building
 - [Flow View Basics](/workspace/canvas/flow-view/basics): Nodes, edges, and graph visualization
 - [Create and Connect](/workspace/canvas/flow-view/create-connect): Adding nodes and wiring components
 - [Node Interactions](/workspace/canvas/flow-view/node-interactions): Selection, configuration, and manipulation
 - [Properties Panel Overview](/workspace/properties/overview): Component configuration interface
 - [Execute Panel](/workspace/properties/execute): Running components with payloads and viewing results
-- [Chat Panel](/workspace/chat-panel): Interacting with Triton
+- [Chat Panel (Triton)](/workspace/chat-panel): Interacting with Triton for building
+
+### Chat Workspace (For Using Agents)
+- [Chat Overview](/workspace/chat/overview): Conversational workspace for using agents
+- [Chat Interface](/workspace/chat/chat-interface): Main chat area
+- [Chat History](/workspace/chat/chat-history): Managing conversations
+- [Project Selector](/workspace/chat/project-selector): Enabling projects for your agent
 
 ## Tutorials
 

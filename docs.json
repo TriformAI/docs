@@ -42,35 +42,50 @@
       {
         "group": "Workspace",
         "pages": [
-          "workspace/top-bar",
           {
-            "group": "Canvas",
+            "group": "Chat",
             "pages": [
-              "workspace/canvas/overview",
-              "workspace/canvas/project-view",
-              "workspace/canvas/agent-toolbox",
-              "workspace/canvas/flow-view"
+              "workspace/chat/overview",
+              "workspace/chat/chat-interface",
+              "workspace/chat/chat-history",
+              "workspace/chat/project-selector"
             ]
           },
-          "workspace/chat-panel",
           {
-            "group": "Properties Panel",
+            "group": "Builder",
             "pages": [
-              "workspace/properties/overview",
-              "workspace/properties/global-variables",
-              "workspace/properties/execute",
-              "workspace/properties/input-output",
+              "workspace/builder/overview",
               {
-                "group": "Content",
+                "group": "Canvas",
                 "pages": [
-                  "workspace/properties/components/content/agents",
-                  "workspace/properties/components/content/flows",
-                  "workspace/properties/components/content/actions",
-                  "workspace/properties/components/content/projects"
+                  "workspace/canvas/overview",
+                  "workspace/canvas/project-view",
+                  "workspace/canvas/agent-toolbox",
+                  "workspace/canvas/flow-view"
+                ]
+              },
+              "workspace/chat-panel",
+              {
+                "group": "Properties Panel",
+                "pages": [
+                  "workspace/properties/overview",
+                  "workspace/properties/project-variables",
+                  "workspace/properties/execute",
+                  "workspace/properties/input-output",
+                  {
+                    "group": "Content",
+                    "pages": [
+                      "workspace/properties/components/content/agents",
+                      "workspace/properties/components/content/flows",
+                      "workspace/properties/components/content/actions",
+                      "workspace/properties/components/content/projects"
+                    ]
+                  }
                 ]
               }
             ]
-          }
+          },
+          "workspace/top-bar"
         ]
       },
       {

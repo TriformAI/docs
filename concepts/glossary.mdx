@@ -15,7 +15,7 @@ An LLM-powered component that can make decisions, generate content, and use tool
 A secret token used to authenticate requests to Triform's API. Required for executing deployed Projects and accessing Triform services programmatically.
 
 ### Canvas
-The visual workspace where you build and view Projects, Flows, and their components. The Canvas displays nodes and edges showing system structure.
+The visual workspace within the **Builder workspace** where you build and view Projects, Flows, and their components. The Canvas displays nodes and edges showing system structure.
 
 ### Deployment
 The process of publishing a Project to a live environment (staging or production) where it's accessible via API or triggers.
@@ -49,11 +49,17 @@ An automated mechanism that executes a Project in response to events (webhooks, 
 
 ## Platform Components
 
+### Builder Workspace
+The workspace for designing, building, and debugging AI systems. Contains the Canvas, Chat Panel (Triton), and Properties Panel. Used for development and composition of components.
+
+### Chat Workspace
+The workspace for conversing with and using your AI agents. Contains chat history, chat interface, and project selector. Similar to using ChatGPT or other chat interfaces.
+
 ### Agent Toolbox
 A panel showing available components (Actions, Agents, Flows) that can be dragged onto the Canvas or reused across Projects.
 
 ### Chat Panel
-The interface for interacting with Triton, Triform's AI assistant. The Chat Panel enables conversational building, editing, and debugging.
+The interface within the **Builder workspace** for interacting with Triton, Triform's AI assistant. The Chat Panel enables conversational building, editing, and debugging. Different from the Chat workspace, which is for using agents.
 
 ### Input Node
 The entry point of a Flow, defining what data the Flow expects. Input nodes have schemas specifying required and optional fields.
@@ -68,7 +74,7 @@ A panel showing detailed configuration for selected components. Properties inclu
 The navigation bar showing breadcrumbs, home, profile, and deploy controls. The Top Bar provides Project navigation and actions.
 
 ### Triton
-Triform's built-in AI assistant that helps you build, modify, and debug Projects through natural conversation.
+Triform's built-in AI assistant in the **Builder workspace** that helps you build, modify, and debug Projects through natural conversation.
 
 ## Technical Terms
 
