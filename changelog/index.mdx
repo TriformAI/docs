@@ -3,91 +3,692 @@ title: "Changelog"
 description: "Latest updates, features, and improvements to Triform"
 ---
 
+## 📊 Recent Development Summary (August 22 - October 22, 2025)
+
+**2 Months of Intensive Development**
+
+This period represents a major transformation of the Triform platform with:
+- **521 total commits** (256 backend, 265 frontend)
+- **1,292+ files changed** across the platform
+- **~50,000 net lines of code added**
+- **25+ database migrations**
+- **3 contributors**: zulvskog, Hannes Fant, Patrik Engborg
+
+### 🎯 Major Achievements
+
+**Chat & AI Systems**
+- Complete chat agent implementation with tool integration
+- Variable widget system for dynamic inputs
+- Message history, cancellation, and reverting capabilities
+- Enhanced agent settings and configuration
+
+**Builder System**
+- Complete builder refactor with full chat agent integration
+- Requirements gathering and completion system
+- Flow builder with graph dependency tracking
+- Remote builder execution support
+
+**Infrastructure**
+- LiteLLM integration for AI gateway with load balancing
+- Global Loki logging implementation
+- Redis improvements (pools, pub/sub, streams)
+- Kubernetes deployment with auto-scaling
+- WebSocket tracing for real-time updates
+
+**Developer Experience**
+- Magic link authentication
+- Project variables (formerly environment variables)
+- User invite system
+- Project deletion capability
+- Mobile support (rudimentary)
+- Sample payload generation
+- Comprehensive execution tracing
+
+---
+
 ## October 2025
 
-### v2.8.0 — September 30, 2025
+### v2.10.0 — October 20-21, 2025
 
 **New Features:**
-- 🎯 **Flow View Enhancements** — Improved node handles
-- 🤖 **Triton Improvements** — Better code generation, faster responses, improved error explanations
-- 🔐 **Enhanced Security** — Improved HMAC signature validation
+- 🔧 **Build a Tool** — New functionality to create custom tools directly from the interface
+- 📝 **Variable Widget** — Added variable widget for dynamic variable handling
+- 💬 **Message Reverting** — Ability to revert messages in chat
+- 👤 **Fallback Avatar** — Added fallback avatar display for users
+- 🔄 **Default Chat Trigger** — Implemented default trigger for chat interactions
 
-**Improvements:**
-- Canvas performance optimized for large Projects (100+ nodes)
-- Faster execution startup times (30% reduction in cold starts)
-- Better error messages throughout the platform
+**UI/UX Improvements:**
+- Aligned logo positioning across interface
+- Fixed height styling (`h-full`) for better layout
+- Improved props panel scroll and transition behavior
+- Enhanced tab styling throughout the interface
+- Open button now displays on hover
+- Improved step interaction visualization
+
+**Backend:**
+- Fixed critical system bug
+- Improved tool reliability in trichat
+- Enhanced widget completion messaging
+- Better widget resume functionality
 
 **Bug Fixes:**
-- Fixed: Project Variables not updating in real-time
-- Fixed: Webhook retry logic not respecting exponential backoff
+- Fixed agent settings functionality
+- Resolved step display issues
+- Fixed potential crash scenarios
+- Fixed broken trigger chat functionality
+- Fixed missing array initialization
+- Fixed widget disclosure logic
 
-### v2.7.5 — September 25, 2025
+**Refactor:**
+- Renamed projects to toolboxes throughout codebase
+- Improved navigation to root when reverting changes
 
-**Improvements:**
-- Properties Panel tabs reorganized for better UX
-- Faster Project switching (reduced loading time)
+### v2.9.5 — October 13-17, 2025
+
+**New Features:**
+- 🛠️ **Chat with Tools** — Comprehensive chat implementation with tool integration
+- 📊 **Input/Output on Steps** — Added I/O handling for execution steps
+- 💾 **Tool Persistence** — Selected tools now persist in local storage
+
+**Backend:**
+- Widget models implementation
+- Fixed widget completion and resume functionality
+- Improved step status tracking
+- Enhanced parent ID consistency for nested steps
+
+**Performance:**
+- Optimized component library loading (don't load entire library on project load)
 
 **Bug Fixes:**
-- Fixed: Schedule triggers sometimes skipping executions
-- Fixed: Agent tool selection UI glitch
-- Fixed: API key permissions not applying immediately
+- Fixed deploy button wrapping issue
+- Fixed buttons on mobile devices
+- Fixed endpoint token creation (parts 1 and 2)
+
+**Dependencies:**
+- Bumped package dependencies across the stack
+
+### v2.9.0 — October 10-12, 2025
+
+**New Features:**
+- 💬 **Chat Panel Documentation** — Comprehensive documentation for chat interface, chat history, and project selector
+- 🛠️ **Builder Overview** — New detailed documentation for the Builder workspace
+- 🤖 **Enhanced Chat Features** — Improved chat interface with better project selection and history management
+- 📦 **Execution State Storage** — Initial implementation of execution state storage
+
+**Backend:**
+- Flow builder with complete graph dependency tracking
+- Graph writer with UIContext integration
+- Enhanced I/O builder with better validation
+
+**Improvements:**
+- Updated workspace overview with clearer navigation guidance
+- Enhanced Triton overview documentation
+- Improved tutorial documentation across all guides
+- Updated glossary with additional terms and clarifications
+- Better quickstart instructions for new users
+
+**Documentation:**
+- Added 4 new chat-related documentation pages
+- Updated 19 documentation files for clarity and consistency
+- Enhanced top-bar and chat-panel documentation
+
+**Dependencies:**
+- Updated ESLint configuration
+
+### v2.8.5 — October 8-9, 2025
+
+**New Features:**
+- 📄 **LLM.txt Support** — Added `llms.txt` and `llms.mdx` for AI-friendly documentation access
+- ⚖️ **Community Terms of Service** — Published comprehensive community terms and conditions
+- 📚 **Complete Documentation Export** — New `all.txt` file containing all documentation (11,667 lines)
+- 🤖 **AI Documentation Guidelines** — Added `.docs-guidelines.md` with 202 lines of documentation standards
+- 🌍 **Global Triggers** — Migrated triggers from flow/agent to project level
+- 🔄 **Global Trigger Implementation** — Complete global triggers system with SQL migration
+
+**Backend:**
+- Major chat refactoring for better performance
+- Fixed overlapping nodes issue
+- Enhanced trigger system architecture
+- Trigger migration SQL scripts
+
+**Frontend:**
+- Fixed invites page functionality
+- Improved chat functionality
+
+**Documentation Improvements:**
+- 🔧 **API Call Instructions Fixed** — Updated and corrected API integration examples across multiple pages
+- Improved payload documentation with better examples
+- Enhanced trigger documentation with clearer API call patterns
+- Updated tutorial documentation for API integration
+- Better glossary definitions for API-related terms
+- 8 documentation files updated with corrected API examples
+- Improved consistency across API documentation
+
+**Scripts:**
+- Added `generate_all_txt.sh` script (149 lines) for automated documentation compilation
+
+**Bug Fixes:**
+- Fixed license formatting in community terms
+- Corrected navigation structure in documentation
+
+### v2.8.0 — October 3-6, 2025
+
+**New Features:**
+- 🔧 **Project Variables** — Environment variables renamed to project variables for clarity
+- 📱 **Mobile Support** — Rudimentary mobile support added
+- 📝 **`.new` Prompt** — Added `.new` prompt functionality
+- ✉️ **User Invites** — Complete invite system implementation
+- 🗑️ **Project Deletion** — Added ability to delete projects
+
+**Backend:**
+- Environment variables support on projects (complete implementation)
+- Environment variables added to chat agent context
+- Configuration steps during agent setup
+- Ability to read and parse environment files
+- Requirements system with gathering, completion tooling, and schema improvements
+- Requirements API endpoints and event models
+
+**UI/UX:**
+- Improved chat loading states
+- Enhanced chat formatting
+- Fixed panel scrolling behavior
+- Improved deploy button functionality
+- Fixed step display issues
+- New prompt page improvements
+
+**Bug Fixes:**
+- Fixed deployment socket issues
+- Fixed select behavior on node creation
+- Fixed triggers not showing
+- Fixed project creation issue
+- Fixed chat functionality issues
+
+**Code Quality:**
+- Switched from tabs to spaces for consistency
+
+**Removed:**
+- Dropped Twipla analytics
+
+### v2.7.8 — October 1-2, 2025
+
+**Major Documentation Restructure:**
+- 🧹 **Massive Cleanup** — Removed over 7,300 lines of redundant or outdated documentation
+- 📦 **Removed Deprecated Sections** — Eliminated AI tools docs (Claude, Cursor, Windsurf guides)
+- 🗂️ **Streamlined Organization** — Consolidated project administration docs into concepts/project/
+- 🚫 **Removed Obsolete Features** — Cleaned up status pages, detailed execution docs, and extensive support pages
+
+**Documentation Removed:**
+- AI tools integration guides (cursor.mdx, claude-code.mdx, windsurf.mdx)
+- Obsolete execution documentation
+- Redundant support pages (faq.mdx, report-a-bug.mdx, request-a-feature.mdx)
+- Old triton debugging documentation
+- Excessive user account settings documentation
+- Navigation pages that were no longer needed
+
+**Documentation Improvements:**
+- Simplified concepts documentation across the board
+- Streamlined tutorials for better focus
+- Reduced complexity in workspace canvas documentation
+- Cleaner documentation structure (from 15,930+ to ~180 meaningful changes)
+
+**Reorganization:**
+- Moved project-admin files to concepts/project/ structure
+- Consolidated variables documentation
+- Renamed requirements.mdx to dependencies.mdx for clarity
+
+### v2.7.6 — September 30, 2025
+
+**Documentation Organization:**
+- 📋 **Major Restructure** — Reorganized documentation hierarchy
+- Removed library concepts (modules, triggers, variables sections)
+- Consolidated project documentation structure
+- Created new `concepts/project/` directory
+- Moved API keys, deployments, expose, and projects-list to project subdirectory
+
+**Content Updates:**
+- Updated 60+ documentation files with improved structure
+- Enhanced index page with better navigation
+- Improved getting-started guides
+- Cleaned up workspace documentation
+- Better organization of concepts documentation
+
+**Removals:**
+- Eliminated concepts/library/ directory
+- Removed development.mdx and README.md
+- Cleaned up quickstart.mdx duplicate
+- Removed redundant organization documentation
+
+**Bug Fixes:**
+- Fixed navigation inconsistencies
+- Corrected documentation links after restructure
+- Updated docs.json configuration
+
+### v2.7.5 — September 26, 2025
+
+**Initial Setup:**
+- 🎉 **Documentation Repository Initialized** — Created comprehensive documentation structure
+- Added API reference with OpenAPI specification
+- Set up Mintlify documentation framework
+- Created initial logo assets (dark/light variants)
+- Added essential documentation sections (essentials, ai-tools)
+- Configured LICENSE (MIT)
+
+**Initial Content:**
+- Created 28 initial documentation files
+- Added API endpoint documentation (create, delete, get, webhook)
+- Set up snippets and reusable content
+- Added hero images for light/dark modes
+- Configured favicon and branding
 
 ## September 2025
 
-### v2.7.0 — September 20, 2025
+### v2.7.5 — September 29-30, 2025
+
+**New Features:**
+- ⚡ **Execution Cancellation** — Complete cancellation logic with proper cleanup
+- 🎨 **Text Nodes** — Added support for text nodes on canvas
+- 📝 **Markdown Support** — Full markdown rendering support
+- 🌍 **Global Variables** — Implemented global variables system
+- 🔐 **Magic Link Login** — Passwordless authentication via magic links
+- 📊 **Running State Visualization** — Added stack trace and execution state visualization
+- 📦 **Project Nodes** — New project nodes functionality
+
+**Backend:**
+- Complete builder refactor with full integration with main chat agent
+- Action builder UX improvements and bug fixes
+- Component API client with agent message models
+- Remote builder support for execution
+- Enhanced system prompt handling
+- Fixed memory offset and duplicate decorator issues
+
+**UI/UX:**
+- Highlight for mentions in agent messages
+- Single open panel item at a time
+- Single click to open functionality
+- Hide handles in certain contexts
+- Made execute button sticky
+- Improved error display
+- Fixed props panel growth issues
+- Fixed metadata text display
+- Fixed input docstring display
+- Fixed nullish value handling
+
+**Integrations:**
+- Added Featurebase user identification
+
+**Bug Fixes:**
+- Fixed loop detection logic
+- Let agent handle tool errors properly
+- Migrated inputs schema
+
+### v2.7.0 — September 25-26, 2025
 
 **New Features:**
 - 🔄 **Auto-Retry Logic** — Automatic retries with exponential backoff for Actions
 - 📦 **Component Library** — Share and reuse Actions/Flows across Projects (backend, FE comes later)
+- 🌐 **WebSocket Execution Tracing** — Real-time execution tracing via WebSocket
+
+**Backend:**
+- Added current container to execution context
+- Enhanced chat functionality
 
 **Improvements:**
 - Triton now suggests optimizations for slow Flows
 - API response time improvements (20% faster)
+- Fixed highlight rendering
 
 **Bug Fixes:**
 - Fixed: Parallel Flow execution sometimes deadlocking
 - Fixed: Agent token usage not tracked correctly
 - Fixed: Deployment rollback not reverting all changes
 - Fixed: Project Variables not substituting in nested objects
+- Multiple small bug fixes
 
-### v2.6.5 — September 5, 2025
+### v2.6.8 — September 22-24, 2025
+
+**New Features:**
+- 🔁 **Loop Implementation** — Initial loop support for iterative flows
+- ⚙️ **Agent Advanced Settings** — Toggle agent advanced settings
+- ▶️ **Code Editor Execute** — Added execute button directly in code editor
+
+**Backend:**
+- Loop adjustments and improvements
+- Loopable nodes support (work in progress)
+
+**UI/UX:**
+- Enhanced loop functionality
+- Better agent configuration interface
+
+### v2.6.7 — September 17-19, 2025
+
+**New Features:**
+- 📝 **Default Project README** — Auto-generated README for new projects
+- 💾 **Ctrl+S Save** — Intercept Ctrl+S for saving
+- 🎯 **Project Icons** — Added support for project icons
+- 🌐 **Project Socket** — Real-time project updates via WebSocket
+- 🔧 **Environment Variables on Projects** — Project-level environment variable support
+
+**Backend:**
+- Enhanced environment variables system
+- Project socket implementation for real-time updates
+
+**UI/UX:**
+- Centered port connections for better visual alignment
+- Allow drag start from + button
+- Hide I/O in agent view
+- Let nodes grow dynamically
+- Hide view button for non-admin members
+- Redirect to new project after creation
+- Hide generate button (temporary)
+- Various visual tweaks throughout
+- Added tooltips across interface
+- Hide + button on action I/O
+- Added canvas title display
+- Conditional handle opacity
+- Large create button design
+
+**Bug Fixes:**
+- Fixed input edges sometimes not showing
+- Fixed label display issues
+- Removed problematic auto-focus behavior
+- Build action now runs in background
+
+**Dependencies:**
+- Bumped package dependencies
+
+### v2.6.6 — September 11-15, 2025
+
+**New Features:**
+- 🔨 **Actions Without Requirements** — Build actions without specifying requirements first
+- 📊 **Execution Tracing** — Complete execution tracing visualization
+- 🔄 **Nestable Steps** — Support for nested execution steps
+- ✅ **Tab Completion** — Added tab completion support
+- 🎯 **Follow-up Completions** — Allow follow-up completions in chat
+
+**Backend:**
+- Use remote builder for actions
+- Complete requirements system implementation
+- Enhanced action template system
+
+**UI/UX:**
+- Ghost handles UX improvements
+- Progress indicators
+- Added IDs to port elements and prompt editors for better accessibility
+- Show build deps button only in requirements tab
+- Builder experience adjustments
+
+**Development:**
+- Added build context action in development mode
+
+**Bug Fixes:**
+- Reset build state on failure
+- Fixed ghost handle creation
+- Fixed I/O list display
+- Prevent port overflow
+- Fixed chat spinner
+- Remove old edges on action I/O rename
+- Fixed execution of top-level flows
+
+### v2.6.5 — September 8-10, 2025
 
 **New Features:**
 - ⚡ **Quick Actions** — Keyboard shortcuts for common operations
+- 📊 **Sample Payload Generation** — Generate sample payloads for testing
+- 🎯 **Right-Click Add Node** — Add nodes via context menu
+- 💬 **Insert Input into Prompt** — Better prompt building workflow
+- 🤖 **Multiple LLM Providers** — Added back Groq & Gemini model support
 
-**Improvements:**
-- Canvas now supports up to 500 nodes per Flow
-- Execution logs load 50% faster
-- Improved Agent prompt editor with syntax highlighting
+**Backend:**
+- Sample payload generation system
+- Default agent configuration with error catching
+- Enhanced agent message I/O with sensible defaults
+- Fixed infinite requirements loop
+
+**UI/UX:**
+- Added info tips throughout interface
+- Only open panels if minified
+- Remove provider prefix from display
+- Save model on change
+- Show only triggers for top-level nodes
+- Added data-tf-container-type attributes
+- Added IDs to UI elements for better tracking
+- Small visual tweaks throughout
+
+**Integrations:**
+- Added Featurebase (PROD)
+- Added Twipla analytics (PROD)
+- Wait for load before interactions (PROD)
 
 **Bug Fixes:**
-- Fixed: Input/Output schema validation edge cases
-- Fixed: Webhook signature verification for some providers
-- Fixed: Canvas edge rendering on high-DPI displays
+- Fixed variable listing
+- Fixed nested executions with variables
+- Context menu fixes
+- Fixed resolved agent issues
+- Temporary fix for payload issues
+
+**CI/CD:**
+- Fixed auto prod build CI
+
+**Removed:**
+- Dropped default board
+
+### v2.6.0 — September 2-5, 2025
+
+**New Features:**
+- 🎨 **Agent Prompt Redesign** — Initial redesign of agent prompt interface
+- 🔄 **Auto-Align Nodes** — Automatic node alignment on canvas
+- 📦 **Requirements on Projects** — Requirements generation moved to API and added for projects
+- 📋 **Confirm Modal** — Added confirmation modal to deploy button
+- 🎓 **Usetiful Onboarding** — User onboarding integration
+
+**Backend:**
+- Moved requirements generation to API
+- Requirements and metadata split
+- Context now supports arrays
+- Component requirements event model
+
+**UI/UX:**
+- Set isConnectable to false for handles inside agents (Patrik)
+- Made ghost input wider (Patrik)
+- Added label for create node in agent context (Patrik)
+- Improved text contrast for confirm button (Patrik)
+- Don't show input node for agents (Patrik)
+- Reset CreateNode after success (Patrik)
+- Fixed initial width and dynamic resizing of chat panel (Patrik)
+- Don't show user_message in chat (Patrik)
+- Cleaned up Navbar component (Patrik)
+- Fixed height and scroll behavior for panel items (Patrik)
+- Moved edit name functionality
+
+**Bug Fixes:**
+- Fixed disappearing trigger panel item (Patrik)
+- Fixed unaligned label (Patrik)
+- Fixed page.data error caused by Navbar (Patrik)
+- Fixed adding outputs to agents
+- Disabled SSR for specific components
+- Temporary fix for rendering issues
+- Fixed type definitions
+
+**Optimizations:**
+- Keep chat closed if empty, open on generate action (Patrik)
+- Get message history from socket instead of GET endpoint (Patrik)
+- Removed debug log statements
+
+**CI/CD:**
+- Auto-build prod image if commit starts with PROD:
 
 ## August 2025
 
-### v2.6.0 — August 18, 2025
-
-**Major Release: Triton 2.0**
+### v2.5.5 — August 26 - September 1, 2025
 
 **New Features:**
-- 🤖 **Triton 2.0** — Complete rewrite with better understanding and faster responses
+- 🔨 **Build Action Button** — Added to panel header for components (Patrik)
+- 📋 **Generate Requirements Button** — Quick requirements generation (Patrik)
+- 🚀 **Deploy Button** — One-click deployment (Patrik)
+- 📋 **JSON Schema Implementation** — Complete JSON schema system with type→schema rename
+- 📊 **Metadata and Requirements** — Added to project panel (Patrik)
+- 🔔 **Toast Notifications** — System-wide notification system
+- 💬 **Agent Messages I/O** — Enhanced agent message handling
+- 📤 **Stdout & Stderr** — Show execution output directly
+
+**Backend:**
+- Component requirements event model
+- Added component ID to requirements events
+- Updated component naming conventions
+- Agent improvements with better reliability
+
+**UI/UX:**
+- Centered breadcrumbs with icons (Patrik)
+- Color only active breadcrumb for visual hierarchy
+- Auto-open nodes on creation
+- Name step added to CreateNode (Patrik)
+- Harmonized CreateNode and SelectorNode (Patrik)
+- Show spinning logo when AI is thinking (Patrik)
+- Made editors in code panel fluid in height (Patrik)
+- Send chat messages on Enter, Shift for new line (Patrik)
+
+**Schema & Types:**
+- Copy schema when creating edges
+- Default to 'any' instead of 'string' for type inference
+- Prevent connections between I/O nodes (Patrik)
+
+**Bug Fixes:**
+- Fixed projectIsEmpty check (Patrik)
+- Fixed localStorage problem (Patrik)
+- Fixed empty item in breadcrumbs (Patrik)
+- Fixed missing array brackets
+- Fixed ordered node layout calculation
+- Fixed I/O not updating on actions
+- Fixed action build button
+- Fixed horizontal overflow in chat (Patrik)
+- Fixed logout functionality (Patrik)
+- Permanent solution for startId issue (Patrik)
+- Fixed empty chat not showing new messages - startId fix (Patrik)
+- Use latest startId value
+
+**Performance:**
+- Improved flaky loading of Monaco editor (Patrik)
+
+**Code Quality:**
+- Renamed default action function
+- Pass component ID as context
+- Adjusted spinner animation
+- Handle chat errors gracefully
+
+**CI/CD:**
+- Production build action setup
+
+**Removed:**
+- Temporarily removed component library (Patrik)
+
+### v2.5.0 — August 22-25, 2025
+
+**New Features:**
+- 💬 **Node Mentions in Chat** — Reference nodes directly in chat (Patrik)
+- 📊 **Step Parsing by Opus 4.1** — Advanced step parsing with Claude Opus
+- 🎨 **Icon Updates** — Refreshed icons throughout interface
+
+**Backend:**
+- Chat agent implementation with flow building tools
+- Chat with tools support and proper message handling
+- Chat without tools implementation
+- Trichat tools with project context
+- Message cancellation via Redis
+- Message history processing and adaptation
+- Agent settings with togglable configuration
+
+**Infrastructure:**
+- 🚀 **LiteLLM Integration** — All LLM requests routed through LiteLLM with load balancing
+- 📊 **Loki Logging** — Global logging with Loki implementation
+- 🔄 **Redis Improvements** — Pool connections, pub/sub, and streams support
+- 🐳 **Docker Optimization** — Improved container management and resource allocation
+- ☸️ **Kubernetes Deployment** — K8s specs with health checks and scaling
+
+**New Models:**
+- Added `llama-3.1-8b-instant`
+- Added `qwen3-coder-30b-a3b-instruct`
+- Added Kimi fallback via Fireworks
+- Added DeepInfra support
+- Added Moonshot pricing
+
+**UI/UX:**
+- Hide handles in agent view
+- Added gap spacing
+- Multiple small visual fixes
+- Minor visual tweaks (Patrik)
+- Improved inserting mention at right position and cursor position (Patrik)
+
+**WebSocket:**
+- Handle new user message acknowledgment
+- Fixed throttled scroll in socket.onmessage (Patrik)
+- Send to actual message correctly (Patrik)
+
+**Bug Fixes:**
+- Fixed triggers not visible when nesting
+- Semi-temporary fix for undefined startId
+- Fixed cursor jumping in editors
+- Last trigger functionality fix
+- More trigger-related fixes
+
+**Code Quality:**
+- Code refactoring and added sanitizeMessage (Patrik)
+- Biome integration for code formatting
+
+### v2.4.0 — August 18-21, 2025
+
+**Major Release: Infrastructure & Performance**
+
+**New Features:**
+- 🤖 **Complete Chat Agent** — Full chat agent with project wrapper integration
 - 🧩 **Flow Templates** — Pre-built patterns for common workflows
 - 📱 **Mobile App (Beta)** — View Projects and executions on mobile
 - 🔐 **SSO Support** — SAML integration for Enterprise (beta)
+
+**Infrastructure:**
+- Drizzle migration service
+- PostgreSQL setup scripts
+- Docker improvements with .dockerignore files
+- Kubernetes adjustments for better resource allocation
+- API logging & metrics comprehensive system
+- WebSocket tracing endpoint
+
+**Performance:**
+- Executor optimizations (network bootstrap, slirp improvements)
+- Action building speed improvements
+- Switched to `gpt-4.1-mini` for completioner
+- Concurrent builds and tests support
+- Increased buffer sizes
+- Redis pool for better performance
+
+**Backend:**
+- 25+ database migrations
+- Invites system
+- Deletable projects
+- Default project creation with README
+- Project ordering by creation date
+- Intention field on projects
+- Encrypted sessions with bearer token support
+- Polar integration for billing
 
 **Improvements:**
 - Agent system prompts can now reference Project Variables
 - Execution replay with modified payloads
 - Better webhook debugging tools
 - Organization member management UI refresh
+- Execution tracing with detailed logs
+- Stdout logging in production
 
 **Bug Fixes:**
 - Fixed: Race condition in parallel Flow execution
 - Fixed: API key scoping not working for sub-Projects
 - Fixed: Canvas performance with many edges
 - Fixed: Execution metrics occasionally showing wrong values
+- Fixed: Flow wiring and action I/O parsing
+- Fixed: Project update conflicts
+- Fixed: Missing node inputs handling
+- Fixed: Cancellation logic across system
+- Fixed: SSE buffering issues
+- Fixed: Structured output handling
 
 ## July 2025
 
@@ -204,7 +805,49 @@ Have an idea? We'd love to hear it!
 
 Popular requests often get built first!
 
+## 📈 Development Statistics
+
+### August 22 - October 22, 2025 (2 Months)
+
+**Backend (Nexus)**
+- Commits: 256
+- Files Changed: 1,292
+- Lines Added: 84,523
+- Lines Deleted: 34,611
+- Net Addition: ~50,000 lines
+
+**Frontend**
+- Commits: 265
+- Major Features: 12+
+- UI/UX Improvements: 100+
+- Bug Fixes: 75+
+
+**Documentation**
+- Pages Created: 30+
+- Pages Updated: 100+
+- Complete restructure and cleanup
+
+### Contributors
+- **zulvskog** - Backend architecture and infrastructure
+- **Hannes Fant** - Full-stack development, primary developer
+- **Patrik Engborg** - UI/UX enhancements and frontend features
+
+### Key Integrations Added
+- LiteLLM (AI Gateway)
+- Loki (Logging)
+- Redis (Caching & Pub/Sub)
+- Featurebase (User Feedback)
+- Usetiful (Onboarding)
+- Polar (Billing)
+
+### Infrastructure Improvements
+- Kubernetes deployment with auto-scaling
+- Docker optimization for all services
+- PostgreSQL migration system with Drizzle
+- WebSocket implementation for real-time features
+- Health check systems across all services
+
 ## Next up
 
-Check our Roadmap to see what's coming next.
+Check our [Roadmap](/roadmap) to see what's coming next.
 
