@@ -1,0 +1,177 @@
+# Frontend Updates: Project Management Actions Removed
+
+**Date:** 2024-01-XX  
+**Commit Range:** d21a17a → 966f3fc
+
+---
+
+## Overview
+
+This update **reverts** a set of advanced project management features that were recently added to the frontend. The following project actions have been removed from `src/lib/actions/project.ts`:
+
+- Project duplication
+- Visibility management
+- Tag management
+- Ownership transfer
+- Import/Export functionality
+
+Additionally, the automated documentation publishing workflow has been simplified, removing the AI-powered documentation generation system.
+
+---
+
+## Breaking Changes
+
+### Removed Project Management Functions
+
+The following functions are **no longer available** in `src/lib/actions/project.ts`:
+
+#### `duplicateProject(id: string, name?: string)`
+Previously allowed cloning a project with an optional new name.
+
+#### `setProjectVisibility(id: string, visibility: 'private' | 'team' | 'public')`
+Previously managed project visibility settings.
+
+#### `addProjectTag(id: string, tag: string)`
+Previously added a single tag to a project.
+
+#### `removeProjectTag(id: string, tag: string)`
+Previously removed a tag from a project.
+
+#### `setProjectTags(id: string, tags: string[])`
+Previously replaced all project tags at once.
+
+#### `transferProjectOwnership(id: string, newOwnerUserId: string)`
+Previously transferred project ownership to another user.
+
+#### `exportProject(id: string, format: 'json' | 'yaml')`
+Previously exported project configuration.
+
+#### `importProject(payload: unknown)`
+Previously imported a project from external configuration.
+
+---
+
+## Migration Guide
+
+If your code references any of the removed functions, you will need to remove those calls or implement alternative approaches.
+
+### Before (No Longer Works)
+
+```typescript
+import { duplicateProject, setProjectVisibility, addProjectTag } from '$lib/actions/project';
+
+// ❌ These functions no longer exist
+await duplicateProject('project-123', 'My Project Copy');
+await setProjectVisibility('project-123', 'public');
+await addProjectTag('project-123', 'production');
+```
+
+### After (Temporary Workaround)
+
+If you need these features, consider:
+
+1. **Duplication**: Manually recreate projects using the Builder workspace
+2. **Visibility**: Contact your organization admin for visibility changes
+3. **Tags**: Use project descriptions or naming conventions as temporary metadata
+4. **Transfer**: Contact support for ownership changes
+5. **Import/Export**: Use manual backup of project definitions
+
+---
+
+## Remaining Project Actions
+
+The following project management functions remain available:
+
+```typescript
+// ✅ Still available
+getProjects()                          // List all projects
+getProject(id: string)                 // Get single project
+createProject(data: ProjectCreate)     // Create new project
+updateProject(id: string, data)        // Update project details
+deleteProject(id: string)              // Delete project
+addMember(id, userId, role)            // Add team member
+removeMember(id, userId)               // Remove team member
+changeUserRole(id, userId, role)       // Change member role
+getProjectMembers(id)                  // List project members
+```
+
+---
+
+## Documentation Publishing Changes
+
+### Removed AI-Powered Documentation System
+
+The GitHub Actions workflow `.github/workflows/docs-publisher.yml` has been simplified:
+
+**Removed:**
+- Anthropic API integration for AI-generated documentation
+- OpenCode CLI tool installation and usage
+- Token-based documentation target discovery
+- LLM preflight checks for documentation relevance
+- Automatic in-place MDX file updates
+
+**Simplified to:**
+- Direct documentation file generation from `/tmp/docs_output.mdx`
+- Manual validation before commit
+- Straightforward PR creation against the docs repository
+
+This change does not affect user-facing functionality but may impact internal documentation workflows.
+
+---
+
+## What This Means for Users
+
+### Projects Page
+- No duplication button in project cards or detail views
+- No visibility toggle in project settings
+- No tag management interface
+- No transfer ownership option
+- No import/export buttons
+
+### Organization Admin
+- Project ownership transfers must be handled through support
+- No bulk project operations via tags
+
+### API Integration
+If you were using these endpoints via direct API calls (outside the Triform UI), those endpoints may also be unavailable. Check the [API Reference](/api-reference/introduction) for current capabilities.
+
+---
+
+## Recommendations
+
+1. **Backup Important Projects**: Use the Builder workspace to document critical project structures before making changes
+2. **Coordinate with Team**: If your workflow relied on duplication or tags, establish alternative naming and organizational conventions
+3. **Contact Support**: For ownership transfers or other administrative needs, reach out via [Discord](/community/join-discord)
+
+---
+
+## Questions?
+
+- **Need help adapting?** Join the [Discord community](/community/join-discord)
+- **Found an issue?** Report it in the #help channel
+- **Want these features back?** Let us know in the roadmap thread
+
+---
+
+# Changelog Snippet
+
+```markdown
+## 2024-01-XX
+
+### Removed
+
+- **Project duplication** — `duplicateProject()` function removed from project actions
+- **Project visibility management** — `setProjectVisibility()` no longer available
+- **Project tag management** — `addProjectTag()`, `removeProjectTag()`, and `setProjectTags()` removed
+- **Project ownership transfer** — `transferProjectOwnership()` removed; contact support for transfers
+- **Project import/export** — `exportProject()` and `importProject()` removed
+- **AI-powered docs generation** — Simplified documentation publishing workflow in CI/CD
+
+### Breaking Changes
+
+All project management actions listed above are no longer available in `src/lib/actions/project.ts`. If your code imported or used these functions, you must remove those references or implement workarounds.
+
+### Still Available
+
+Core project CRUD operations (create, read, update, delete) and team member management remain fully functional.
+```
