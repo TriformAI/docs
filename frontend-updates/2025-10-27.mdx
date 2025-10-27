@@ -1,0 +1,92 @@
+Based on the commit and diff, I'll create an MDX file for frontend updates related to project collaboration and access control.
+
+File: `frontend-updates/2024-01-15.mdx`
+
+```mdx
+---
+title: "Project Collaboration and Access Control"
+description: "New features for managing project members and invitations"
+---
+
+## Project Collaboration Updates
+
+We've added robust collaboration features to help teams manage project access and permissions more effectively.
+
+### New Project Management Actions
+
+Several new actions have been introduced to support project collaboration:
+
+#### Invite Users
+You can now invite users to a project with specific roles:
+
+```typescript
+inviteUserToProject(projectId, email, role)
+```
+
+Supported roles:
+- `'editor'`: Can modify project components
+- `'viewer'`: Read-only access
+- `'admin'`: Full project management capabilities
+
+**Example:**
+```typescript
+await inviteUserToProject(
+  "project123", 
+  "teammate@example.com", 
+  "editor"
+)
+```
+
+#### Remove Project Members
+Easily remove users from a project:
+
+```typescript
+removeUserFromProject(projectId, userId)
+```
+
+#### Change User Roles
+Adjust a team member's project permissions:
+
+```typescript
+changeUserRole(projectId, userId, newRole)
+```
+
+#### List Project Members
+Retrieve the current list of project members:
+
+```typescript
+const members = await getProjectMembers(projectId)
+```
+
+### Key Features
+
+- Granular role-based access control
+- Easy invitation and management workflow
+- Flexible permission changes
+
+## Breaking Changes
+
+None. These are additive features that extend the existing project management capabilities.
+
+## Usage Recommendations
+
+1. Always assign the minimum necessary role to team members
+2. Regularly review project membership
+3. Use admin roles sparingly
+
+## Coming Soon
+
+- Bulk invitation management
+- More granular permission controls
+
+---
+
+## Changelog Snippet
+
+```markdown
+### Project Collaboration
+- Added project collaboration APIs
+- Introduced role-based access control
+- New methods for inviting, removing, and managing project members
+```
+```
