@@ -2,6 +2,24 @@
 
 ## October 2025
 
+### Week of October 28
+- **BREAKING**: Removed legacy Canvas API, added Visual Graph API
+- **Feature**: Added automatic docs update and PR creation to docs-publisher workflow
+- **Bug Fix**: Improved Claude response parsing with better YES/NO detection
+- **Bug Fix**: Replaced claude CLI with Anthropic SDK Node.js approach
+- **Bug Fix**: Added better error handling and debugging output for git diff
+- **Bug Fix**: Fixed YAML syntax error in multiline string
+- **Feature**: Added 300 line cap to diff stats
+- **Feature**: Updated docs workflow to get relevant commits from claude
+- **Bug Fix**: Fixed diff command to get full patch content
+- **Feature**: Added diff stats to claude prompt alongside commit history
+- **Feature**: Added explicit frontend repo checkout with full git history
+- **Feature**: Added frontend commits and debug output
+- **Feature**: Updated workflow to use claude with prompt via stdin
+- **Feature**: Added claude-code installation and opening in docs repo
+- **Bug Fix**: Fixed escaped variable in workflow string
+- **Bug Fix**: Fixed workflow YAML format and completed docs-publisher workflow
+
 ### Week of October 20-21
 - **Reverted**: Toolboxes feature reverted to previous state
 - **UI**: Improved navigation to root when reverting changes
