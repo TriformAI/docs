@@ -1,0 +1,12 @@
+Looking at the commits provided, I can see there's a **BREAKING** change:
+
+- `43d697d BREAKING: Remove legacy Canvas API, add Visual Graph API`
+
+This is a breaking change that removes a legacy API and adds a new one, which absolutely requires documentation updates.
+
+Additionally, there are several significant feature additions and fixes that would benefit from documentation:
+- New automatic docs update and PR creation workflow
+- Migration from Claude CLI to Anthropic SDK Node.js
+- Improved Claude response parsing
+
+YES
