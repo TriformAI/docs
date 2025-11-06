@@ -200,6 +200,12 @@
       "vscode"
     ]
   },
+  "analytics": {
+    "plausible": {
+      "domain": "docs.triform.ai",
+      "scriptSrc": "https://plausible.io/js/pa-t8QVml51wZdI81axSO3_J.js"
+    }
+  },
   "footer": {
     "socials": {
       "x": "https://x.com/triformai",
