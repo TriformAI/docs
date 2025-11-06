@@ -15,11 +15,23 @@ description: "Connect nodes into executable graphs; patterns and practices"
 - Linear — Input → Action → Output.
 - Branching — Route by condition into multiple paths.
 - Parallel — Fan‑out work; aggregate results downstream.
+- Iterative — Loop over collections or conditional repetition using nested loop structures.
+
+## Enhanced Flow System
+
+Recent improvements to the Flow system include:
+
+- **Better validation** — Enhanced graph validation catches structural errors early
+- **Loop support** — Native support for nested flow structures with iteration
+- **Improved schema handling** — Better validation logic for complex data flows
+- **Build/edit operations** — Expanded flow interface allows iterative development
 
 ## Practices
 
 - Keep Flows legible top down.
 - Favor shallow graphs; compose via sub‑Flows for depth.
 - Remove unused ports and edges to reduce confusion.
+- Use loops for batch processing and iterative operations.
+- Validate flow structure early to catch connection issues.
 
 > tip: Design for testing — Save example Payloads at the Flow level to lock in expected shapes and make regression checks easy.

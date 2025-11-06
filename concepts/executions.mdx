@@ -15,6 +15,7 @@ description: "What runs, how it runs, and practical tips"
 - Reproducible — Inputs, modifiers, and context are logged.
 - Traceable — Inspect logs, traces, and metrics historically.
 - Evaluated — Optionally score outputs with Evaluations.
+- **Real-time visibility** — Execution steps are sent to the UI for live monitoring and debugging.
 
 ## Flow of an execution
 
@@ -23,10 +24,19 @@ description: "What runs, how it runs, and practical tips"
 3. Process — Node(s) execute and pass data along Edges.
 4. Output — Result returned or stored.
 
+## Execution visibility
+
+Recent improvements provide enhanced debugging capabilities:
+
+- **Step-by-step tracking** — See each execution step as it happens in real-time
+- **Builder context integration** — Execution data is integrated into the builder for better debugging
+- **Error tracing** — Agent-friendly error messages help identify and resolve issues quickly
+
 ## Practical tips
 
 - Save Payloads for common scenarios.
 - Keep inputs small and typed for easier regression.
 - Use consistent correlation fields to stitch traces across components.
+- Monitor execution steps in the UI to debug issues as they occur.
 
 > note: Parallelism — For components with Parallel ON, provide a list of inputs; each item is executed concurrently and aggregated downstream.

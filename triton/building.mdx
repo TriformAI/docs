@@ -68,6 +68,23 @@ def fetch_data(url: str, headers: Dict[str, str] = None) -> Dict[str, Any]:
 - Includes validation logic
 - Tests it
 
+### Action with API integration
+
+**You:** _"Create an Action that integrates with the Stripe API"_
+
+**Triton:**
+- Uses the **Knowledge Store** to research API documentation and best practices
+- Generates proper API authentication code
+- Creates comprehensive testing flows
+- Handles errors and edge cases
+- Caches API research for future reference
+
+The Knowledge Store system enables Triton to:
+- Research external APIs intelligently
+- Store and retrieve API integration patterns
+- Generate better code with real-world API understanding
+- Test API integrations comprehensively
+
 ### Data transformation Action
 
 **You:** _"Create an Action that takes a list of user objects and returns just their email addresses"_
@@ -92,6 +109,18 @@ def extract_emails(users: List[Dict]) -> List[str]:
             emails.append(user['email'])
     return emails
 ```
+
+### Action with loops
+
+**You:** _"Create an Action that processes a batch of orders with retry logic"_
+
+**Triton generates:**
+- Action with **for loop** to iterate over orders
+- **While loop** for retry logic with exponential backoff
+- Proper loop state management
+- Error handling for individual items
+
+Actions now support full loop constructs (for/while) for batch processing and iterative operations.
 
 ## Building Agents
 

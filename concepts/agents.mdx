@@ -17,10 +17,21 @@ description: "LLM logic with prompts and tools; good patterns and observability"
 - Keep System Prompts specific and outcome‑oriented.
 - Start with few high‑leverage tools; expand gradually.
 - Use Messages List when memory/context matters.
+- Leverage enhanced tool calling for more reliable agent operations.
+
+## Enhanced capabilities
+
+Recent improvements to the Agent system:
+
+- **Improved tool calling** — More reliable tool usage with better error handling
+- **Execution visibility** — Real-time execution steps sent to UI for debugging
+- **Better prompts** — Refined prompt system for clearer agent guidance
+- **Loop support in tools** — Agent tools can now use iterative operations
 
 ## Observability
 
 - Executions emit logs, traces, metrics for inspection.
 - Use Payloads to reproduce and compare runs after prompt changes.
+- Monitor execution steps in real-time through the chat interface.
 
 > tip: Tool hygiene — Name tools by verb + object (`fetch_user`, `summarize_text`). Small, predictable tools make plans more reliable.

@@ -45,6 +45,189 @@ This period represents a major transformation of the Triform platform with:
 
 ---
 
+## November 2025
+
+### v0.11.0 — October 23 - November 4, 2025
+
+**Major Development Period:** 13 days of intensive platform improvements  
+**Total Commits:** 42 (27 backend, 15 frontend)  
+**Focus:** API integration, chat enhancements, infrastructure monitoring, and developer experience
+
+---
+
+#### 🚀 Major Features & Enhancements
+
+**API Research & Testing System**
+- 🔬 **Knowledge Store** — Intelligent API research and caching system for better external API integrations
+  - Persistent knowledge storage with semantic search
+  - Automatic API documentation research and pattern recognition
+  - Integrated testing capabilities for API workflows
+  - 428 lines of new functionality for smarter API building
+
+**Enhanced Chat Agent**
+- 💬 **Execution Steps Visibility** — Real-time execution steps now displayed in chat for live debugging
+- 🔧 **Improved Tool Calling** — More reliable tool usage with better error handling
+- 🔁 **Loop Support in Actions** — Actions can now iterate over collections with for/while loops
+- 🎯 **Actions in Chat** — Interactive action buttons and UI elements within chat responses
+- ⚡ **Deploy & Chat Integration** — Seamless transition from build to test to deployment
+
+**Action Builder Modernization**
+- 🏗️ **Triform Syntax Integration** — Actions now use Triform syntax during coding phase
+- 🔄 **API-Based Execution** — Actions execute via API instead of direct executor calls for better separation of concerns
+- ✅ **Enhanced Validation** — I/O validation against API schemas ensures type safety
+- 📦 **Requirements Building** — Fixed requirements not consistently built during action build
+
+**Flow System Improvements**
+- 📊 **Better Graph Validation** — Catches structural errors early in flow design
+- 🔁 **Loop Support** — Native support for nested flow structures with iteration
+- 🎯 **Build/Edit Operations** — Expanded flow interface for iterative development
+- 🔗 **Enhanced Schema Handling** — Improved validation logic for complex data flows
+
+---
+
+#### 🎨 UI/UX Improvements
+
+**Mobile Experience**
+- 📱 Repositioned feedback button for better mobile usability
+- 🎨 Made chat button more vibrant and visually prominent
+- 📐 Fixed multiple responsiveness issues across the application
+- ✨ Enhanced mobile and tablet layout handling
+
+**Chat Interface**
+- 💡 Chat actions now render within conversation runs
+- 🎯 Better visual feedback for ongoing operations
+- 🔄 Improved chat store to handle interactive actions
+
+**Safety & Stability**
+- 🛡️ Added project ID validation before updates to prevent data corruption
+- ✅ More robust project update mechanism
+
+---
+
+#### 🏗️ Infrastructure & Deployment
+
+**Kubernetes Monitoring**
+- 📊 **Promtail Integration** — Complete log aggregation system
+  - 94-line configuration with label extraction and pipeline processing
+  - DaemonSet deployment with volume mounts for log access
+  - Secure credential management via Kubernetes secrets
+  - Real-time anomaly detection and security monitoring
+
+**Deployment Automation**
+- 🔐 **1Password Integration** — Secure, automated environment variable management
+  - Download environment from 1Password on deploy
+  - Automated dependency checks (`1pass` and `jq`)
+  - Better error handling and secure secrets management
+  - No more manual environment configuration
+
+**AI Gateway Expansion**
+- 🧠 **Cerebras AI Support** — Added new AI provider for expanded model options
+- ⚡ Enhanced routing capabilities for multi-provider setups
+
+---
+
+#### 🐛 Bug Fixes
+
+**Critical Fixes**
+- Fixed double top-level action bug that caused resource duplication on revert
+- Fixed component reading and execution for more reliable lifecycle management
+- Fixed model names in agent builder for correct model selection
+- Fixed tool calling in chat (multiple iterations for stability)
+
+**Schema & Type Fixes**
+- Fixed button variations for proper UI rendering
+- Default empty values to arrays instead of null to prevent errors
+- Multiple schema adjustments across API, builder, and worker
+
+**Reliability Improvements**
+- Better error messages for AI agents to understand and handle
+- Added clarifying code comments for maintainability
+- Improved chat route functionality
+- Fixed project ID usage in chat routes
+
+---
+
+#### 🔧 Developer Experience
+
+**Documentation Automation**
+- 📚 **GitHub Actions Workflow** — Automated documentation generation and publishing
+  - 122 lines of comprehensive workflow
+  - OpenCode integration for documentation from codebase
+  - Error handling with fallback mechanisms
+  - Automatic testing and validation
+
+**Better Error Handling**
+- 🎯 Agent-friendly error messages throughout the system
+- More descriptive errors for easier debugging
+- Better error context in execution traces
+
+**Code Quality**
+- 🧹 Removed 1,322 lines of deprecated code
+- Better file organization with new utility modules
+- Improved logging throughout the builder
+- Enhanced code comments and documentation
+
+---
+
+#### 📊 Component-Specific Changes
+
+**Builder Service** (42+ files modified)
+- Major architectural refactoring
+- New knowledge store system (428 lines)
+- Enhanced API research capabilities (331 lines in api.py)
+- Better prompt engineering across all builders
+- Improved error handling and retry mechanisms
+
+**API Service** (7 files modified)
+- Enhanced chat routes with better tool support
+- Fixed component resource handling
+- Improved authentication with Featurebase integration
+- Better schema definitions
+
+**Worker Service** (2 files modified)
+- Schema updates for chat actions
+- Better error messaging for agents
+- Improved execution handling
+
+---
+
+#### 🔐 Security & Observability
+
+**Enhanced Security**
+- Kubernetes-based log aggregation for security monitoring
+- 1Password integration for secure credential management
+- Better deployment security with automated dependency checks
+- Improved input validation and error boundaries
+
+**Better Observability**
+- Real-time execution step tracking
+- Enhanced logging with Promtail
+- Better debugging capabilities with execution context
+- Improved trace visibility for developers
+
+---
+
+#### 💡 Key Takeaways
+
+This release represents a significant maturation of the Triform platform:
+
+1. **Smarter API Integration** — Knowledge Store enables intelligent API research and caching
+2. **Better Development Experience** — Deploy & Chat integration, loop support, and execution visibility
+3. **Production-Ready Infrastructure** — Kubernetes monitoring and secure credential management
+4. **Enhanced Reliability** — Better error handling, validation, and type safety throughout
+5. **Mobile-First UX** — Continued improvements to mobile experience and responsiveness
+
+**Statistics:**
+- 27 backend commits over 13 days
+- 15 frontend commits over 8 days
+- 5,251 lines added (backend)
+- 2,495 lines removed (backend)
+- Net +2,756 lines of high-quality code
+- 8 critical bugs fixed
+- 3 new infrastructure components
+
+---
+
 ## October 2025
 
 ### v0.10.0 — October 20-21, 2025
