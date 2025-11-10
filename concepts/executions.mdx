@@ -21,8 +21,19 @@ description: "What runs, how it runs, and practical tips"
 
 1. Trigger — Manual, schedule, or API.
 2. Input — JSON payload (from trigger or saved Payload).
-3. Process — Node(s) execute and pass data along Edges.
-4. Output — Result returned or stored.
+3. **Modifiers** — OAuth credentials and configuration injected (if configured).
+4. Process — Node(s) execute and pass data along Edges.
+5. Output — Result returned or stored.
+
+### OAuth Token Propagation
+
+When modifiers are configured:
+
+- OAuth tokens are **securely injected** into the execution context
+- Tokens are **automatically refreshed** if near expiration
+- **Provider context** is available to all actions in the execution
+- Token expiration is handled transparently by the platform
+- Credentials are **encrypted in transit** during execution
 
 ## Execution visibility
 

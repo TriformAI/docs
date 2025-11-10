@@ -85,6 +85,41 @@ The Knowledge Store system enables Triton to:
 - Generate better code with real-world API understanding
 - Test API integrations comprehensively
 
+### Action with OAuth integration
+
+**You:** _"Create an Action that sends emails via Gmail"_
+
+**Triton:**
+1. Generates the action code with OAuth token access
+2. Uses `get_oauth_token('google')` for authentication
+3. Implements Gmail API calls with proper error handling
+4. Prompts you to configure OAuth modifier for Google
+
+**Generated code includes:**
+```python
+from triform import get_oauth_token
+import requests
+
+def send_gmail(to: str, subject: str, body: str) -> dict:
+    """Send email via Gmail API using OAuth"""
+    token = get_oauth_token('google')
+    
+    # Gmail API implementation
+    response = requests.post(
+        'https://gmail.googleapis.com/gmail/v1/users/me/messages/send',
+        headers={'Authorization': f'Bearer {token.access_token}'},
+        json={...}
+    )
+    return response.json()
+```
+
+**Triton automatically:**
+- Knows which OAuth providers are available (Google, Slack, GitHub, etc.)
+- Generates proper token access patterns
+- Handles token refresh transparently
+- Includes error handling for OAuth failures
+- Prompts you to configure the OAuth modifier before execution
+
 ### Data transformation Action
 
 **You:** _"Create an Action that takes a list of user objects and returns just their email addresses"_

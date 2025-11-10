@@ -19,8 +19,18 @@ All data stored in Triform is encrypted using **AES-256** encryption.
 - Project Variables
 - API keys
 - User information
+- **OAuth credentials and tokens** — Securely encrypted using Scaleway KMS
 
-**Key management:** Encryption keys are managed using industry-standard key management services, rotated regularly, and never stored alongside encrypted data.
+**Key management:** Encryption keys are managed using industry-standard key management services (Scaleway KMS), rotated regularly, and never stored alongside encrypted data.
+
+### OAuth credential encryption
+
+**Scaleway KMS Integration:**
+- Dedicated key management service for OAuth tokens
+- End-to-end encryption for third-party credentials
+- Automatic key rotation support
+- Secure encryption/decryption for token refresh
+- Organization-specific encryption keys created on signup
 
 ### In transit
 
@@ -41,7 +51,9 @@ All communication with Triform uses **TLS 1.2+** encryption.
 
 **OAuth 2.0 providers:**
 - Discord
-- GitHub  
+- GitHub
+- Google
+- Microsoft
 
 **Email:** Passwordless email authentication
 
@@ -49,6 +61,7 @@ All communication with Triform uses **TLS 1.2+** encryption.
 - No password management burden
 - Leverage provider security (2FA, etc.)
 - Single sign-on capabilities
+- Secure token refresh mechanisms
 
 ### Session management
 
@@ -106,6 +119,23 @@ All communication with Triform uses **TLS 1.2+** encryption.
 - Rotate keys regularly (90-day recommendation)
 - Revoke unused keys
 - Never commit to version control
+
+### OAuth token security
+
+**Enterprise-grade OAuth 2.0 implementation:**
+- **Secure credential storage** — All OAuth tokens encrypted with Scaleway KMS
+- **Automatic token refresh** — Transparent refresh of expired tokens
+- **Scope-based permissions** — Fine-grained control over API access
+- **Multi-provider support** — Google, Microsoft, GitHub, GitLab, Slack, Linear, Notion, and more
+- **Memcache layer** — High-performance caching with TTL management
+- **Provider-agnostic architecture** — Consistent security across all OAuth providers
+
+**Token lifecycle management:**
+- Tokens encrypted at rest using KMS
+- Secure token injection during action execution
+- Automatic refresh before expiration
+- Proper cleanup on revocation
+- Real-time token status via WebSocket
 
 ## Network security
 

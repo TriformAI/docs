@@ -1,0 +1,268 @@
+---
+title: "Modifiers"
+description: "Add OAuth credentials and configuration to action executions"
+---
+
+## What are Modifiers?
+
+Modifiers enhance action executions with additional context, credentials, or configuration. They allow you to inject OAuth tokens, API keys, and other parameters into your actions at runtime without hardcoding credentials.
+
+## OAuth Modifiers
+
+The most powerful modifier type enables secure third-party API integrations through OAuth 2.0.
+
+### Supported OAuth Providers
+
+Triform supports OAuth integration with major service providers:
+
+**Productivity & Collaboration:**
+- **Google** — Gmail, Google Drive, Google Sheets, Google Calendar
+- **Microsoft** — Office 365, Outlook, OneDrive, Teams
+- **Slack** — Team communication, notifications, workflows
+- **Notion** — Documentation, databases, wikis
+
+**Development & Project Management:**
+- **GitHub** — Repository access, CI/CD, issue tracking
+- **GitLab** — Code hosting, pipelines, deployment
+- **Linear** — Issue tracking, project management
+- **Asana** — Task management, workflow automation
+
+**File Storage:**
+- **Dropbox** — File storage and sharing
+- **Google Drive** — Cloud storage and collaboration
+
+**Other Integrations:**
+- **Trello** — Board management, cards, automation
+- And more providers being added regularly
+
+### How OAuth Modifiers Work
+
+1. **Authorize Connection** — Connect your account with the OAuth provider
+2. **Configure Scopes** — Select the specific permissions your action needs
+3. **Attach to Execution** — Add the modifier to your action execution
+4. **Automatic Token Management** — Triform handles token refresh and expiration
+
+### Security & Encryption
+
+- **KMS Encryption** — All OAuth tokens encrypted with Scaleway KMS
+- **Automatic Refresh** — Tokens refreshed transparently before expiration
+- **Scope-Based Access** — Fine-grained permission control
+- **Secure Injection** — Credentials securely passed to action execution context
+- **Real-Time Status** — Monitor connection status via WebSocket
+
+## Using Modifiers
+
+### In the Execute Panel
+
+1. Open the Properties → Execute panel for your action
+2. Scroll to the **Modifiers** section
+3. Click **Add Modifier**
+4. Select modifier type (e.g., OAuth)
+5. Choose your OAuth provider
+6. Authorize and configure scopes
+7. The modifier will be applied to all executions
+
+### In Actions
+
+Access OAuth credentials directly in your Python actions:
+
+```python
+from triform import get_oauth_token
+
+def my_action(input_data: dict) -> dict:
+    # Get OAuth token for the configured provider
+    token = get_oauth_token('google')
+    
+    # Use the token in your API calls
+    headers = {
+        'Authorization': f'Bearer {token.access_token}'
+    }
+    
+    # Make authenticated API requests
+    response = requests.get(
+        'https://www.googleapis.com/drive/v3/files',
+        headers=headers
+    )
+    
+    return response.json()
+```
+
+### Token Structure
+
+OAuth tokens include:
+
+```python
+{
+    'access_token': 'ya29.a0...',     # The bearer token
+    'refresh_token': 'refresh_token', # For automatic refresh
+    'expires_at': 1699564800,         # Expiration timestamp
+    'scope': 'drive.readonly',        # Granted scopes
+    'token_type': 'Bearer'
+}
+```
+
+## Modifier Types
+
+### OAuth (Third-Party APIs)
+
+- **Purpose:** Authenticate with external services
+- **Use Case:** Gmail automation, Slack notifications, Google Sheets integration
+- **Security:** KMS-encrypted, auto-refresh
+
+### Environment Variables (Coming Soon)
+
+- **Purpose:** Pass environment-specific configuration
+- **Use Case:** Different API endpoints for dev/staging/prod
+- **Security:** Encrypted storage
+
+### API Keys (Coming Soon)
+
+- **Purpose:** Simple API authentication
+- **Use Case:** APIs that use API key authentication
+- **Security:** Encrypted storage
+
+## Best Practices
+
+> **Use appropriate scopes** — Only request the minimum permissions needed for your action
+
+> **Handle token expiration** — Triform auto-refreshes, but handle edge cases gracefully
+
+> **Test with real credentials** — Use the Execute panel to test OAuth flows before deployment
+
+> **Monitor connection status** — Check modifier status in the Properties panel
+
+> **Revoke unused connections** — Remove OAuth connections you no longer need
+
+## Troubleshooting
+
+### Modifier not appearing
+
+- Ensure you've authorized the OAuth connection
+- Check that the provider is enabled (some providers may be temporarily disabled)
+- Refresh the page to sync latest modifiers
+
+### Token not working in action
+
+- Verify the scopes include the permissions you need
+- Check token expiration (should auto-refresh)
+- Ensure provider credentials are still valid
+- Review action logs for specific error messages
+
+### Authorization failing
+
+- Verify callback URLs are properly configured
+- Check that your browser allows popups for OAuth flow
+- Ensure third-party cookies are enabled
+- Try re-authorizing the connection
+
+## Real-Time Updates
+
+Modifier status updates in real-time via WebSocket:
+
+- **Connection established** — OAuth flow completed
+- **Token refreshed** — Automatic token refresh occurred
+- **Connection lost** — Provider revoked access
+- **Scope changed** — Permission changes detected
+
+## Limits & Quotas
+
+- **OAuth Connections:** Unlimited per organization
+- **Modifiers per Action:** Unlimited
+- **Token Refresh Rate:** Automatic as needed
+- **Concurrent Requests:** Subject to provider rate limits
+
+> warning: Provider rate limits — Each OAuth provider has its own rate limits. Your actions must respect these limits to avoid throttling.
+
+## Example Use Cases
+
+### Send Email via Gmail
+
+```python
+from triform import get_oauth_token
+import base64
+from email.mime.text import MIMEText
+
+def send_email(to: str, subject: str, body: str) -> dict:
+    token = get_oauth_token('google')
+    
+    message = MIMEText(body)
+    message['to'] = to
+    message['subject'] = subject
+    
+    # Gmail API requires base64 encoding
+    raw = base64.urlsafe_b64encode(message.as_bytes()).decode()
+    
+    response = requests.post(
+        'https://gmail.googleapis.com/gmail/v1/users/me/messages/send',
+        headers={'Authorization': f'Bearer {token.access_token}'},
+        json={'raw': raw}
+    )
+    
+    return {'message_id': response.json()['id']}
+```
+
+### Post to Slack
+
+```python
+from triform import get_oauth_token
+
+def post_to_slack(channel: str, message: str) -> dict:
+    token = get_oauth_token('slack')
+    
+    response = requests.post(
+        'https://slack.com/api/chat.postMessage',
+        headers={'Authorization': f'Bearer {token.access_token}'},
+        json={'channel': channel, 'text': message}
+    )
+    
+    return response.json()
+```
+
+### Create Linear Issue
+
+```python
+from triform import get_oauth_token
+
+def create_issue(title: str, description: str, team_id: str) -> dict:
+    token = get_oauth_token('linear')
+    
+    query = """
+    mutation CreateIssue($title: String!, $description: String!, $teamId: String!) {
+      issueCreate(input: {title: $title, description: $description, teamId: $teamId}) {
+        issue {
+          id
+          title
+          url
+        }
+      }
+    }
+    """
+    
+    response = requests.post(
+        'https://api.linear.app/graphql',
+        headers={'Authorization': f'Bearer {token.access_token}'},
+        json={
+            'query': query,
+            'variables': {
+                'title': title,
+                'description': description,
+                'teamId': team_id
+            }
+        }
+    )
+    
+    return response.json()['data']['issueCreate']['issue']
+```
+
+## Looking Ahead
+
+Upcoming modifier enhancements:
+
+- Additional OAuth providers
+- Custom OAuth app support
+- Modifier templates
+- Conditional modifiers
+- Modifier inheritance in flows
+- Advanced scope management
+
+

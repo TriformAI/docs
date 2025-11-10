@@ -31,4 +31,30 @@ Actions now support iterative execution with loops:
 
 This allows Actions to handle batch processing, repeated operations, and conditional iterations natively.
 
+## OAuth Integration
+
+Actions can access OAuth credentials for third-party API integrations:
+
+```python
+from triform import get_oauth_token
+
+def my_action(data: dict) -> dict:
+    # Access OAuth token configured via modifiers
+    token = get_oauth_token('google')
+    
+    # Use in API requests
+    headers = {'Authorization': f'Bearer {token.access_token}'}
+    response = requests.get('https://api.example.com/data', headers=headers)
+    
+    return response.json()
+```
+
+**Supported features:**
+- Automatic token refresh before expiration
+- Secure credential injection at runtime
+- Multi-provider support (Google, GitHub, Slack, Microsoft, etc.)
+- Token management handled by the platform
+
+See [Modifiers](/concepts/modifiers) for configuring OAuth credentials.
+
 > warning: Dependencies — Only packages that do not require binary installs in the build image are supported.

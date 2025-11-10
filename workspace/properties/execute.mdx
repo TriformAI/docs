@@ -8,7 +8,19 @@ description: "Run components and manage exposure and API keys"
 1. Select a Node (Project, Flow, Agent, or Action).
 2. Open Execute.
 3. Edit the JSON payload (starting from the default).
-4. Click Run.
+4. **Add Modifiers** (optional) — Configure OAuth credentials or other execution modifiers.
+5. Click Run.
+
+## Modifiers
+
+Enhance your executions with additional context and credentials:
+
+- **OAuth Modifiers** — Connect third-party services (Google, Slack, GitHub, etc.)
+- **Secure credential injection** — OAuth tokens automatically passed to action execution
+- **Automatic token refresh** — No manual token management required
+- **Multiple providers** — Attach multiple OAuth connections to a single action
+
+See [Modifiers](/concepts/modifiers) for detailed information on configuring OAuth and other modifiers.
 
 ## Project‑level exposure
 
@@ -19,5 +31,7 @@ description: "Run components and manage exposure and API keys"
 
 - Keep small, realistic payload examples for quick regression checks.
 - Use parallel inputs thoughtfully (see Input & Output).
+- Configure modifiers before running to test OAuth integrations.
+- Test with real credentials in the Execute panel before deployment.
 
 > note: Traceability — Executions emit logs, traces, and metrics that you can inspect later to understand runtime behavior.

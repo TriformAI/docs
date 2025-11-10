@@ -8,6 +8,18 @@ description: "Configure and run components; sections and context awareness"
 - Global — Organization/Project‑level settings available to all components in the Project (e.g., Variables).
 - Components — Definition/Information and Content for the selected Node.
 - Execute — Run the selected Node with a JSON payload.
+  - **Modifiers** — Configure OAuth credentials and execution modifiers (within Execute)
 - Input & Output — Define inputs/outputs, types, defaults, and parallel execution behavior.
+
+## Modifiers Panel
+
+Within the Execute section, you can configure modifiers that enhance your executions:
+
+- **OAuth Modifiers** — Connect third-party services like Google, Slack, GitHub, Microsoft, etc.
+- **Credential Management** — Securely authorize and manage OAuth connections
+- **Scope Configuration** — Set fine-grained permissions for each OAuth provider
+- **Real-time Status** — See connection status and token health
+
+Modifiers allow your actions to securely access external APIs with automatic token management and refresh.
 
 > note: Context aware — The Properties Panel shows only the sections relevant to your current selection (Project, Flow, Agent, or Action).

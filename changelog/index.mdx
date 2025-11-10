@@ -47,6 +47,352 @@ This period represents a major transformation of the Triform platform with:
 
 ## November 2025
 
+### v0.11.5 — November 4-10, 2025
+
+**Major Enterprise Feature Release:** OAuth 2.0 Integration  
+**Total Commits:** 38 (26 backend, 12 frontend)  
+**Development Period:** 7 days  
+**Focus:** Third-party integrations, enterprise authentication, platform stability
+
+**🔥 Headline Feature:** Complete OAuth 2.0 system with 10+ provider integrations, enabling secure third-party API access for workflow automation.
+
+---
+
+#### 🚀 Major Features & Enhancements
+
+**OAuth 2.0 System — Enterprise-Grade Authentication** ⭐⭐⭐
+
+The largest single feature of this period, fundamentally changing how Triform handles third-party integrations:
+
+- **📦 Complete OAuth Infrastructure** (52 files, 6,137 lines added)
+  - Full OAuth 2.0 authorization flow management
+  - Token exchange and automatic refresh
+  - Provider-specific implementations
+  - Secure credential storage with Scaleway KMS encryption
+  - Multi-provider support architecture
+
+- **🔐 Security & Encryption**
+  - **Scaleway KMS Integration** — Dedicated key management service for OAuth tokens
+  - **End-to-end encryption** for all third-party credentials
+  - **Automatic key rotation** support
+  - **Organization-specific encryption keys** created on signup
+  - **Memcache layer** for high-performance token caching with TTL management
+
+- **🌐 Supported OAuth Providers**
+  - **Google** — Gmail, Drive, Sheets, Calendar (Added Nov 10)
+  - **Microsoft** — Office 365, Outlook, OneDrive, Teams
+  - **GitHub** — Repository access, CI/CD integration
+  - **GitLab** — Code hosting, pipelines
+  - **Slack** — Team communication, workflows
+  - **Linear** — Issue tracking, project management
+  - **Notion** — Documentation, databases
+  - **Dropbox** — File storage
+  - **Trello** — Board management
+  - **Asana** — Task management
+  - And more providers being added regularly
+
+- **🔧 Executor Integration**
+  - OAuth token access from within Python actions
+  - Secure credential injection into execution context
+  - Provider-agnostic token retrieval
+  - Automatic token refresh during execution
+  - Simple API: `get_oauth_token('provider_name')`
+
+- **⚡ Real-Time Features**
+  - OAuth events over WebSocket
+  - Real-time credential status updates
+  - Provider connection monitoring
+  - Token refresh notifications
+
+**OAuth Modifiers — Frontend Integration** (1,190+ lines added)
+
+Complete UI for managing OAuth connections:
+
+- **New Components Created:**
+  - `TagSelector` — Multi-select tag component (173 lines)
+  - `Select` — Modern dropdown component (172 lines)
+  - `Modifiers/Add` — Add modifier interface (178 lines)
+  - `Modifiers/Modifier` — Individual modifier display (177 lines)
+  - `Modifiers/OAuth` — OAuth configuration UI (81 lines)
+  - `Modifiers/Root` — Modifier panel root (60 lines)
+
+- **Features:**
+  - Visual OAuth authorization flow
+  - Scope selection and management
+  - Real-time connection status
+  - Multiple provider support in UI
+  - Secure token display (masked)
+
+**Knowledge Store Evolution** (Nov 5, 9)
+
+- **Next-Generation Implementation** (617 lines — NEW FILE)
+  - Advanced semantic search capabilities
+  - Better API documentation storage
+  - Improved context retrieval algorithms
+  - Enhanced caching mechanisms
+
+- **Refactored Core** (668 lines reorganized)
+  - Better indexing strategies
+  - Improved query performance
+  - More efficient storage
+
+- **API Pipeline Enhancements** (159 lines)
+  - Better API research workflow
+  - Improved testing integration
+  - Enhanced error handling
+  - More robust API discovery
+
+**Flow Builder Improvements** (Nov 5)
+
+- **Complete Prompt Overhaul** (713 lines reorganized in `prompts.py`)
+  - Restructured prompts for better flow building
+  - Enhanced node wiring guidance
+  - Better graph creation examples
+  - Improved error messages and validation
+  - More intuitive flow design patterns
+
+- **Schema Enhancements** (42 lines added)
+  - Better validation logic
+  - Enhanced node connection rules
+  - Improved type checking
+  - More robust graph validation
+
+---
+
+#### 🤖 AI Models & Gateway
+
+**New Model Support**
+
+- **GLM-4.6 via Cerebras** (Nov 6)
+  - Integrated across action coder, API tester, and builder
+  - High-performance model option
+  - Better code generation capabilities
+
+- **Kimi-K2 as Main Coder** (Nov 10)
+  - Set as primary coder model
+  - Improved code generation performance
+  - Simplified model selection
+
+**AI Gateway Reliability**
+
+- **Fallback System** (Nov 10)
+  - Progressive fallback for GLM models
+  - Fireworks as fallback provider (replaces DeepInfra)
+  - Comprehensive fallback logic for high availability
+  - Graceful degradation ensures uptime
+
+---
+
+#### 📊 Telemetry & Monitoring
+
+**Initial Prompt Storage** (Nov 10)
+
+- Database migration for prompt tracking
+- Enables prompt analysis and optimization
+- Analytics integration for usage patterns
+- Historical prompt data for improvements
+
+**WebSocket Keepalive System** (Nov 10)
+
+- **45-second ping mechanism** prevents connection drops
+- Significantly improved connection stability
+- Better real-time reliability
+- Reduced reconnection overhead
+- Ping/pong protocol across API and worker
+
+**Benefits:**
+- Fewer unexpected disconnections
+- More stable long-running sessions
+- Better user experience
+- Lower server load from reconnections
+
+---
+
+#### 🗄️ Database & Performance
+
+**Toolbox Index** (Nov 10)
+
+- Added database index for toolboxes
+- **Significant query performance improvement**
+- Faster toolbox queries and dashboard loading
+- Better scalability for large deployments
+
+**Redis Optimization** (Nov 8)
+
+- Fixed Redis stream trimming logic
+- Better memory management
+- Prevents Redis memory overflow
+- More efficient stream handling
+
+**Executor Enhancements** (Nov 5)
+
+- Bumped max payload size
+- Supports larger action executions
+- Better handling of complex workflows
+- Reduced payload-related failures
+
+---
+
+#### 🐛 Bug Fixes & Stability
+
+**Critical Fixes**
+
+- **Infinite Loop Fix** (Nov 9) — Fixed critical infinite loop in modifier updates that caused browser freezing
+- **Agent-Friendly Errors** (Nov 4) — More descriptive error messages with better context for AI agents
+- **Double Action Fix** (Nov 4) — Fixed duplicate action creation on revert
+- **Triggers in Nested Flows** (Nov 5) — Fixed triggers not saving properly in nested flows
+
+**UI/UX Fixes**
+
+- **Modifiers List** (Nov 10) — Refactored for better reliability
+- **Disclosure Chevron** (Nov 5) — Fixed color when open
+- **Chat Step Icon** (Nov 5) — Better alignment for readability
+- **Chat Tooltip** (Nov 5) — Restored tooltip functionality
+
+**Code Cleanup**
+
+- Removed 112 lines of obsolete components
+- Cleaned up debug logging
+- Removed deprecated OAuth-related files
+- Better code organization
+
+---
+
+#### 🔐 Security & Production
+
+**Enhanced Security**
+
+- **Organization Encryption on Signup** (Nov 10)
+  - Automatic encryption key provisioning
+  - Better security initialization
+  - Fixed auth flow logging issues
+
+- **Deployment Safety** (Nov 8)
+  - Added caution message for production `.env`
+  - Prevents accidental overwrites
+  - Better deployment safeguards
+
+- **Production Configuration** (Nov 10)
+  - Secure environment variable management
+  - OAuth production settings
+  - Better configuration isolation
+
+**API & Database Migrations**
+
+- **Migration 0026:** OAuth credentials table and provider configurations
+- **Migration 0027:** Additional OAuth schema updates and indexes
+- **Migration 0028:** Toolbox index for performance
+- **Migration 0029:** Initial prompt storage column
+
+---
+
+#### 📈 Development Experience
+
+**API Research UX** (Nov 4)
+
+- Enhanced user experience in API research flow
+- Better feedback during API discovery
+- Improved error messages
+- Enhanced API testing capabilities
+
+**Schema Consistency** (Nov 10)
+
+- Automated modifier schema generation
+- Created `modifier-schema.json` (112 lines)
+- Ensures schema consistency across services
+- Reduces manual errors
+
+**Test Coverage**
+
+- **471 lines of new tests** for resource utilities
+- Comprehensive OAuth flow testing
+- Token management tests
+- Provider configuration tests
+
+---
+
+#### 📊 Impact Analysis
+
+**By Service:**
+
+- **API Service:** 31 files, ~4,500 lines — OAuth core, telemetry, WebSocket keepalive
+- **Builder Service:** 15 files, ~2,800 lines — Knowledge store v2, GLM integration, flow improvements
+- **Worker Service:** 10 files, ~400 lines — OAuth handling, schema sync, execution improvements
+- **Executor Service:** 2 files, ~200 lines — OAuth token access, payload size increase
+- **AI Gateway:** 1 file, ~50 lines — GLM-4.6, fallback system
+- **Frontend:** 21 files, ~1,190 lines — OAuth modifiers UI, bug fixes
+
+**Code Statistics:**
+
+- **Backend:** 26 commits, 12,737 lines added, 1,694 deleted, net +11,043 lines
+- **Frontend:** 12 commits, 1,350 lines added, 180 deleted, net +1,170 lines
+- **Total:** 38 commits, net +12,213 lines in 7 days
+
+---
+
+#### 💡 Key Achievements
+
+This 7-day period represents one of the most significant development sprints in Triform history:
+
+1. **Enterprise-Grade OAuth** — Complete OAuth 2.0 system with 10+ providers and KMS encryption
+2. **Knowledge Store v2** — Next-generation API research and storage system
+3. **Production Stability** — WebSocket keepalive, database optimization, comprehensive testing
+4. **Enhanced Security** — Scaleway KMS, encrypted credentials, automatic key provisioning
+5. **Better Models** — GLM-4.6, Kimi-K2, robust fallback system
+6. **Platform Maturity** — 471 lines of tests, 4 database migrations, comprehensive error handling
+
+**Development Velocity:**
+
+- **92% more lines added** than previous 13-day period (11,043 vs 2,756)
+- **5.5x larger largest commit** (6,137 lines for OAuth vs 1,492 previous)
+- **Maintained quality** with comprehensive testing and security
+- **Zero breaking changes** to existing functionality
+
+**User-Facing Impact:**
+
+- Secure third-party API integrations for Gmail, Slack, GitHub, and more
+- Automatic OAuth token management — no manual refresh needed
+- 10+ OAuth providers supported out of the box
+- Better connection stability with WebSocket keepalive
+- Faster performance with database indexing
+- Enhanced AI capabilities with new models
+
+---
+
+#### 🔮 What This Enables
+
+**For Users:**
+- Build workflows that integrate with Google, Slack, GitHub, Microsoft, Linear, Notion, and more
+- Secure, automatic token management — no manual credential handling
+- Enterprise-grade security with KMS encryption
+- Seamless OAuth authorization flows
+
+**For Developers:**
+- Simple API: `get_oauth_token('provider')` in actions
+- Automatic token refresh — transparent to your code
+- Multi-provider support in single workflow
+- Comprehensive error handling and fallbacks
+
+**For Enterprises:**
+- Secure credential storage with Scaleway KMS
+- Organization-level encryption keys
+- Audit-ready token lifecycle management
+- Production-grade reliability and monitoring
+
+---
+
+#### 🎯 Next Steps
+
+Based on this trajectory, upcoming focus areas:
+
+1. **Additional OAuth Providers** — More integrations (Stripe, Twilio, SendGrid)
+2. **Custom OAuth Apps** — Bring your own OAuth applications
+3. **Modifier Templates** — Reusable modifier configurations
+4. **Advanced Scope Management** — Fine-tuned permission control
+5. **SSO Integration** — Enterprise single sign-on via OAuth
+
+---
+
 ### v0.11.0 — October 23 - November 4, 2025
 
 **Major Development Period:** 13 days of intensive platform improvements  
