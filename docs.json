@@ -21,30 +21,40 @@
     }
   },
   "favicon": "/favicon.svg",
-  "tabs": [
-    {
-      "name": "Documentation",
-      "url": "/"
-    },
-    {
-      "name": "Tutorials",
-      "url": "/tutorials"
-    },
-    {
-      "name": "API",
-      "url": "/concepts"
+  "logo": {
+    "light": "/logo/light.svg",
+    "dark": "/logo/dark.svg",
+    "href": "https://discover.triform.ai"
+  },
+  "navbar": {
+    "links": [
+      {
+        "label": "Use Cases",
+        "href": "https://discover.triform.ai/use-cases"
+      },
+      {
+        "label": "Integrations",
+        "href": "https://discover.triform.ai/integrations"
+      },
+      {
+        "label": "News",
+        "href": "https://discover.triform.ai/news"
+      }
+    ],
+    "primary": {
+      "type": "button",
+      "label": "Sign in",
+      "href": "https://app.triform.ai"
     }
-  ],
+  },
+  "sidebar": {
+    "items": "border"
+  },
   "anchors": [
     {
       "name": "Discord",
       "icon": "discord",
       "url": "https://discord.gg/triform"
-    },
-    {
-      "name": "GitHub",
-      "icon": "github",
-      "url": "https://github.com/triformai"
     }
   ],
   "navigation": {
@@ -154,28 +164,6 @@
       }
     ]
   },
-  "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
-  },
-  "topbarLinks": [
-    {
-      "name": "Use Cases",
-      "url": "https://discover.triform.ai/use-cases"
-    },
-    {
-      "name": "Integrations",
-      "url": "https://discover.triform.ai/integrations"
-    },
-    {
-      "name": "News",
-      "url": "https://discover.triform.ai/news"
-    }
-  ],
-  "topbarCtaButton": {
-    "name": "Sign in",
-    "url": "https://app.triform.ai"
-  },
   "feedback": {
     "thumbsRating": true,
     "suggestEdit": true
@@ -190,10 +178,12 @@
       "scriptSrc": "https://plausible.io/js/pa-t8QVml51wZdI81axSO3_J.js"
     }
   },
-  "footerSocials": {
-    "x": "https://x.com/triformai",
-    "discord": "https://discord.gg/triform",
-    "linkedin": "https://linkedin.com/company/triformai"
+  "footer": {
+    "socials": {
+      "x": "https://x.com/triformai",
+      "discord": "https://discord.gg/triform",
+      "linkedin": "https://linkedin.com/company/triformai"
+    }
   },
   "css": "/styles/custom.css"
 }
