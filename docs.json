@@ -8,14 +8,7 @@
   "colors": {
     "primary": "#C4A4E8",
     "light": "#DCC8FF",
-    "dark": "#9B6DD7",
-    "background": {
-      "dark": "#0A0010"
-    },
-    "anchors": {
-      "from": "#C4A4E8",
-      "to": "#7E4DB8"
-    }
+    "dark": "#9B6DD7"
   },
   "font": {
     "headings": {
