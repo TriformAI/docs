@@ -31,6 +31,19 @@
         ]
       },
       {
+        "group": "Core Concepts",
+        "pages": [
+          "concepts/projects",
+          "concepts/agents",
+          "concepts/actions",
+          "concepts/flows",
+          "concepts/executions",
+          "concepts/payloads",
+          "concepts/triggers",
+          "concepts/glossary"
+        ]
+      },
+      {
         "group": "Triton",
         "pages": [
           "triton/overview",
@@ -55,109 +68,44 @@
             "group": "Builder",
             "pages": [
               "workspace/builder/overview",
-              {
-                "group": "Canvas",
-                "pages": [
-                  "workspace/canvas/overview",
-                  "workspace/canvas/project-view",
-                  "workspace/canvas/agent-toolbox",
-                  "workspace/canvas/flow-view"
-                ]
-              },
+              "workspace/canvas/overview",
+              "workspace/canvas/project-view",
+              "workspace/canvas/agent-toolbox",
+              "workspace/canvas/flow-view",
               "workspace/chat-panel",
-              {
-                "group": "Properties Panel",
-                "pages": [
-                  "workspace/properties/overview",
-                  "workspace/properties/project-variables",
-                  "workspace/properties/execute",
-                  "workspace/properties/input-output",
-                  {
-                    "group": "Content",
-                    "pages": [
-                      "workspace/properties/components/content/agents",
-                      "workspace/properties/components/content/flows",
-                      "workspace/properties/components/content/actions",
-                      "workspace/properties/components/content/projects"
-                    ]
-                  }
-                ]
-              }
+              "workspace/properties/overview",
+              "workspace/properties/project-variables",
+              "workspace/properties/execute",
+              "workspace/properties/input-output"
             ]
           },
           "workspace/top-bar"
         ]
       },
       {
-        "group": "Core Concepts",
-        "pages": [
-          "concepts/projects",
-          "concepts/agents",
-          "concepts/actions",
-          "concepts/flows",
-          "concepts/executions",
-          "concepts/payloads",
-          "concepts/triggers",
-          "concepts/glossary"
-        ]
-      },
-      {
         "group": "Organizations",
         "pages": [
-          "orgs/overview",
           "orgs/admin",
-          "orgs/affiliations",
           "orgs/roles-permissions",
-          "orgs/members",
-          "orgs/github-integration",
-          "orgs/billing-settings"
+          "orgs/members"
         ]
       },
       {
-        "group": "Quotas",
+        "group": "Reference",
         "pages": [
-          "quotas/index",
-          "quotas/execution-based",
-          "quotas/resource-based",
-          "quotas/api-integrations",
-          "quotas/account-specific"
-        ]
-      },
-      {
-        "group": "Security",
-        "pages": [
+          "quotas",
           "security/overview",
           "security/data-retention",
           "security/compliance"
         ]
       },
       {
-        "group": "Changelog",
+        "group": "Resources",
         "pages": [
-          "changelog/index"
-        ]
-      },
-      {
-        "group": "Roadmap",
-        "pages": [
-          "roadmap/chat-client",
-          "roadmap/community-library",
-          "roadmap/monitoring",
-          "roadmap/alerts",
-          "roadmap/persistent-storage",
-          "roadmap/evaluations",
-          "roadmap/traces",
-          "roadmap/logs",
-          "roadmap/metrics",
-          "roadmap/custom-dashboards",
-          "roadmap/schedules"
-        ]
-      },
-      {
-        "group": "Support",
-        "pages": [
-          "support/overview",
-          "support/contact-us"
+          "support",
+          "roadmap",
+          "changelog/index",
+          "llms"
         ]
       },
       {
@@ -165,13 +113,6 @@
         "pages": [
           "legal/community-terms",
           "legal/privacy-policy"
-        ]
-      },
-      {
-        "group": "Appendix",
-        "pages": [
-          "appendix/quick-reference",
-          "llms"
         ]
       }
     ]

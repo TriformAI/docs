@@ -1,0 +1,172 @@
+---
+title: "Roadmap"
+description: "Upcoming features and planned capabilities"
+---
+
+This page outlines features we're actively building or planning. Timelines are estimates and may change.
+
+## In Progress
+
+### Monitoring & Observability
+
+**Target:** Q1 2026
+
+Core observability infrastructure for understanding system behavior:
+
+- **Logs** — Structured runtime messages with contextual fields (Node, Project, Execution)
+- **Traces** — Step-by-step paths with timing across Nodes
+- **Metrics** — Quantitative indicators (counts, durations, error rates)
+
+**How you'll use it:**
+- Inspect Executions to see logs and trace waterfalls
+- Drill from an erroring Node into its Action context
+- Compare metrics across Deploys to validate improvements
+
+**Current focus:**
+- Consistent event schemas across Actions/Flows
+- Lightweight log ingestion with contextual fields
+- Trace propagation through Agent tool calls
+
+> tip: Log with intent — Emit concise, structured logs that capture what happened and why.
+
+---
+
+## Planned
+
+### Chat Client
+
+**Target:** Q2 2026
+
+A customizable, embeddable chat widget connecting end-users directly to your Triform Agents.
+
+**Key features:**
+- Single-line JavaScript integration
+- Customizable styling and branding
+- Rich media support (images, code, forms)
+- Built-in rate limiting and content filtering
+- Mobile SDKs (iOS, Android, React Native, Flutter)
+
+**Use cases:** Customer support bots, product assistants, internal tools, e-commerce
+
+---
+
+### Alerts
+
+**Target:** Q2 2026
+
+Proactive notifications when critical conditions occur.
+
+**Capabilities:**
+- Define rules on logs, metrics, or evaluation scores
+- Send to email, chat, and webhooks
+- Group, dedupe, and throttle noisy signals
+- Link alerts to remediation runbooks
+
+**Example rules:**
+- Error rate exceeds N% over M minutes
+- Evaluation score falls below threshold for k runs
+- Latency p95 exceeds T ms after deploy
+
+---
+
+### Persistent Storage
+
+**Target:** Q3 2026
+
+Managed storage for state that persists across executions.
+
+**Use cases:**
+- Session state for multi-turn conversations
+- Caching expensive computations
+- Storing user preferences
+- Accumulating data across runs
+
+---
+
+### Evaluations
+
+**Target:** Q3 2026
+
+Automated quality assessment for AI outputs.
+
+**Capabilities:**
+- Define evaluation criteria and scoring rubrics
+- Run evaluations on historical executions
+- Track quality trends over time
+- Set thresholds that trigger alerts
+
+---
+
+### Community Library
+
+**Target:** Q4 2026
+
+Shared repository of reusable components.
+
+**Features:**
+- Browse and search community contributions
+- One-click import into your Projects
+- Version management and updates
+- Rating and review system
+
+---
+
+### Advanced Logging & Metrics
+
+**Target:** Q4 2026
+
+Extended observability capabilities.
+
+**Logging:**
+- Structured logging with log levels
+- Advanced search and filtering
+- Log streaming (real-time tail)
+- External integrations (Datadog, Splunk, CloudWatch)
+
+**Metrics:**
+- Custom metric definitions (counters, gauges, histograms)
+- Custom dashboards with drag-and-drop widgets
+- Metric-based alerting
+- External export (Prometheus, Graphite)
+
+---
+
+### Traces (Advanced)
+
+**Target:** Q4 2026
+
+Enhanced execution tracing and analysis.
+
+**Capabilities:**
+- Distributed tracing with span details
+- LLM-specific tracing (prompts, tool calls, token usage)
+- Cost attribution per span
+- OpenTelemetry export (Jaeger, Zipkin)
+- Flamegraph visualization
+
+---
+
+### Schedules (Enhanced)
+
+**Target:** 2027
+
+Advanced scheduling capabilities.
+
+**Features:**
+- Complex cron expressions
+- Timezone-aware scheduling
+- Schedule dependencies
+- Pause and resume schedules
+- Schedule versioning
+
+---
+
+## Get Notified
+
+Want early access to any feature?
+
+- **Discord:** [discord.gg/triform](https://discord.gg/triform) — Join #feature-requests
+- **Email:** product@triform.ai
+
+Your feedback shapes our priorities. Let us know what matters most to you!
+

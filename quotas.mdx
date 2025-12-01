@@ -1,0 +1,85 @@
+---
+title: "Quotas"
+description: "Operational limits, enforcement, and design strategies"
+---
+
+Quotas define the operational boundaries of your Organization, Projects, and components. They provide predictability, fairness, and safety.
+
+## Quota Categories
+
+### Execution-Based (Organization)
+
+| Dimension | Description | When Exceeded |
+|-----------|-------------|---------------|
+| **Total Executions** | Runs per rolling window | New runs rejected until reset |
+| **Concurrent Executions** | Max simultaneous runs | Runs queue or fail fast |
+| **Max Duration** | Upper bound per run | Run terminated at limit |
+| **Flow Depth** | Sequential node steps | Validation error before execution |
+| **Recursion Depth** | Nested calls (Flows/Agents) | Triggering call blocked |
+
+### Resource-Based
+
+| Dimension | Description | When Exceeded |
+|-----------|-------------|---------------|
+| **Payload Size** | Max input/output size | Validation error or truncation |
+| **Script Size** | `Action.py` footprint | Build fails |
+| **Stored Payloads** | Saved examples per Node | Cannot save until pruned |
+| **Module Size** | Package size & dependencies | Publish fails |
+
+### API & Integrations
+
+| Dimension | Description | When Exceeded |
+|-----------|-------------|---------------|
+| **Request Rate** | Requests per second/minute | HTTP 429, retry with backoff |
+| **Endpoint Concurrency** | In-flight requests per endpoint | Requests queue or fail |
+| **Schedule Frequency** | Minimum interval between triggers | Skipped or delayed ticks |
+| **Build/Publish Rate** | Operations per window | Publishes deferred/rejected |
+
+### Account-Specific
+
+| Dimension | Description | When Exceeded |
+|-----------|-------------|---------------|
+| **Environments** | Named environments per Org | Cannot create more |
+| **Variables/Secrets** | Entries per environment | New entries rejected |
+| **Alerts/Evaluations** | Rules per Project | Cannot add until archived |
+
+## How Limits Are Enforced
+
+- **Hard limits:** Requests rejected (HTTP 429 or validation error)
+- **Soft limits:** Warnings issued, usage reduction encouraged
+- **Windows:** Rolling counters reset after defined time periods
+
+## Monitoring Your Usage
+
+- Review execution history and metrics for run counts and durations
+- Check project surfaces (APIs/Schedules) for request rates
+- Create a dashboard Flow to periodically snapshot usage
+
+## When You Hit a Limit
+
+1. **Backoff and retry** — Use exponential backoff for rate-limit errors
+2. **Reduce payload sizes** — Split work into smaller batches
+3. **Parallelize smaller items** — Fan-out with smaller payloads
+4. **Upgrade your plan** — If sustained traffic requires more capacity
+
+## Design Strategies
+
+> **Batch & Bound** — Break large inputs into lists; toggle Parallel on consumer Nodes
+
+> **Short-circuit** — Validate inputs early and exit fast on no-op paths
+
+> **Compose shallow** — Use sub-Flows for reuse but keep run paths short
+
+> **Time-box** — Use conservative duration expectations; handle partial progress
+
+> **Design for headroom** — Target 70-80% of limits under peak load
+
+## Good Hygiene
+
+- Review Variables quarterly; remove dead flags and stale endpoints
+- Keep secrets in secure storage; reference them, don't duplicate
+- Tag Projects and Nodes with owners for quota notifications
+- Use consistent naming (`SERVICE__ENV__KEY`) for Variables
+
+> warning: Binary dependencies — Only pure-Python packages are supported. Packages requiring binary installs are not available.
+
