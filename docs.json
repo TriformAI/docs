@@ -2,10 +2,30 @@
   "$schema": "https://mintlify.com/docs.json",
   "theme": "aspen",
   "name": "Triform",
+  "appearance": {
+    "default": "dark"
+  },
   "colors": {
-    "primary": "#432dd7",
+    "primary": "#C4A4E8",
     "light": "#DCC8FF",
-    "dark": "#7008E7"
+    "dark": "#9B6DD7",
+    "background": {
+      "dark": "#0A0010"
+    },
+    "anchors": {
+      "from": "#C4A4E8",
+      "to": "#7E4DB8"
+    }
+  },
+  "font": {
+    "headings": {
+      "family": "Clash Display",
+      "url": "https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&display=swap"
+    },
+    "body": {
+      "family": "Archivo",
+      "url": "https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&display=swap"
+    }
   },
   "favicon": "/favicon.svg",
   "navigation": {
@@ -118,10 +138,20 @@
     ]
   },
   "logo": {
-    "light": "/images/PNG-04.png",
-    "dark": "/images/PNG-04.png"
+    "light": "/logo/light.svg",
+    "dark": "/logo/dark.svg"
   },
   "navbar": {
+    "links": [
+      {
+        "label": "Use Cases",
+        "href": "https://triform.ai/use-cases"
+      },
+      {
+        "label": "Integrations",
+        "href": "https://triform.ai/integrations"
+      }
+    ],
     "socials": {
       "x": "https://x.com/triformai",
       "discord": "https://discord.gg/triform",
@@ -129,7 +159,7 @@
     },
     "primary": {
       "type": "button",
-      "label": "Triform Platform",
+      "label": "Sign in",
       "href": "https://app.triform.ai"
     }
   },
@@ -142,6 +172,7 @@
       "vscode"
     ]
   },
+  "rounded": "default",
   "analytics": {
     "plausible": {
       "domain": "docs.triform.ai",
@@ -154,5 +185,6 @@
       "discord": "https://discord.gg/triform",
       "linkedin": "https://linkedin.com/company/triformai"
     }
-  }
+  },
+  "css": "/styles/custom.css"
 }

@@ -1,0 +1,253 @@
+/* Triform Documentation - Custom Styling
+   Harmonizes with the landing page at triform.ai
+   ============================================== */
+
+/* Root color variables matching landing page's moon palette */
+:root {
+  --moon-50: oklch(94% 0.0347 302.07);
+  --moon-100: oklch(96.33% 0.021 301.15);
+  --moon-200: oklch(92.56% 0.043 303.11);
+  --moon-300: oklch(87.72% 0.072 301.93);
+  --moon-400: oklch(82.92% 0.101 301.01);
+  --moon-500: oklch(78% 0.132 300.37);
+  --moon-600: oklch(72.25% 0.169 299.1);
+  --moon-700: oklch(66.6% 0.205 297.67);
+  --moon-800: oklch(59.57% 0.247 294.35);
+  --moon-900: oklch(48.92% 0.29 282.78);
+  --moon-950: oklch(39.78% 0.235 283.42);
+}
+
+/* Dark mode background - matching landing page gradient */
+[data-theme="dark"] {
+  --background: #05000C;
+  --background-light: #0D0015;
+}
+
+[data-theme="dark"] body {
+  background: radial-gradient(ellipse at 100% 100%, #260736 0%, #05000C 50%);
+  background-attachment: fixed;
+}
+
+/* Typography refinements */
+[data-theme="dark"] h1,
+[data-theme="dark"] h2,
+[data-theme="dark"] h3,
+[data-theme="dark"] h4 {
+  color: var(--moon-100);
+  letter-spacing: -0.02em;
+}
+
+[data-theme="dark"] p,
+[data-theme="dark"] li {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+/* Link styling to match landing page */
+[data-theme="dark"] a {
+  color: var(--moon-400);
+  transition: color 0.2s ease;
+}
+
+[data-theme="dark"] a:hover {
+  color: var(--moon-200);
+}
+
+/* Sidebar styling - more translucent, matching navbar aesthetic */
+[data-theme="dark"] nav[aria-label="Main"] {
+  background: rgba(5, 0, 12, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-right: 1px solid rgba(196, 164, 232, 0.1);
+}
+
+[data-theme="dark"] nav[aria-label="Main"] a {
+  color: rgba(255, 255, 255, 0.6);
+  transition: all 0.2s ease;
+}
+
+[data-theme="dark"] nav[aria-label="Main"] a:hover {
+  color: var(--moon-200);
+  background: rgba(196, 164, 232, 0.08);
+}
+
+[data-theme="dark"] nav[aria-label="Main"] a[data-active="true"] {
+  color: var(--moon-100);
+  background: rgba(196, 164, 232, 0.12);
+  border-left: 2px solid var(--moon-500);
+}
+
+/* Header/navbar - glassmorphism effect */
+[data-theme="dark"] header {
+  background: rgba(5, 0, 12, 0.8);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid rgba(196, 164, 232, 0.1);
+}
+
+/* Code blocks - darker with purple tint */
+[data-theme="dark"] pre {
+  background: rgba(15, 0, 25, 0.8) !important;
+  border: 1px solid rgba(196, 164, 232, 0.15);
+  border-radius: 12px;
+}
+
+[data-theme="dark"] code {
+  color: var(--moon-300);
+}
+
+[data-theme="dark"] :not(pre) > code {
+  background: rgba(196, 164, 232, 0.1);
+  padding: 0.2em 0.4em;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+/* Callouts/admonitions - matching glassmorphic style */
+[data-theme="dark"] .callout,
+[data-theme="dark"] [class*="admonition"],
+[data-theme="dark"] [class*="note"],
+[data-theme="dark"] [class*="tip"],
+[data-theme="dark"] [class*="warning"] {
+  background: rgba(196, 164, 232, 0.06);
+  border: 1px solid rgba(196, 164, 232, 0.12);
+  border-radius: 12px;
+  backdrop-filter: blur(8px);
+}
+
+/* Cards - glassmorphic style */
+[data-theme="dark"] [class*="card"],
+[data-theme="dark"] .card {
+  background: rgba(15, 0, 25, 0.6);
+  border: 1px solid rgba(196, 164, 232, 0.12);
+  border-radius: 16px;
+  backdrop-filter: blur(12px);
+  transition: all 0.3s ease;
+}
+
+[data-theme="dark"] [class*="card"]:hover,
+[data-theme="dark"] .card:hover {
+  border-color: rgba(196, 164, 232, 0.25);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(126, 77, 184, 0.15);
+}
+
+/* Tables - subtle styling */
+[data-theme="dark"] table {
+  border: 1px solid rgba(196, 164, 232, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+[data-theme="dark"] th {
+  background: rgba(196, 164, 232, 0.08);
+  color: var(--moon-200);
+  font-weight: 600;
+}
+
+[data-theme="dark"] td {
+  border-color: rgba(196, 164, 232, 0.08);
+}
+
+[data-theme="dark"] tr:hover {
+  background: rgba(196, 164, 232, 0.04);
+}
+
+/* Buttons - matching landing page CTA style */
+[data-theme="dark"] button,
+[data-theme="dark"] [class*="button"] {
+  transition: all 0.2s ease;
+}
+
+[data-theme="dark"] [class*="button-primary"],
+[data-theme="dark"] button[class*="primary"] {
+  background: linear-gradient(135deg, var(--moon-600) 0%, var(--moon-800) 100%);
+  border: 1px solid rgba(196, 164, 232, 0.3);
+  color: white;
+}
+
+[data-theme="dark"] [class*="button-primary"]:hover,
+[data-theme="dark"] button[class*="primary"]:hover {
+  background: linear-gradient(135deg, var(--moon-500) 0%, var(--moon-700) 100%);
+  box-shadow: 0 4px 20px rgba(126, 77, 184, 0.3);
+}
+
+/* Search - matching glassmorphic inputs */
+[data-theme="dark"] input[type="search"],
+[data-theme="dark"] [class*="search"] input {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(196, 164, 232, 0.15);
+  border-radius: 10px;
+  color: var(--moon-100);
+  transition: all 0.2s ease;
+}
+
+[data-theme="dark"] input[type="search"]:focus,
+[data-theme="dark"] [class*="search"] input:focus {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(196, 164, 232, 0.3);
+  box-shadow: 0 0 0 3px rgba(196, 164, 232, 0.1);
+}
+
+/* Scrollbar - subtle purple tint */
+[data-theme="dark"] ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb {
+  background: rgba(196, 164, 232, 0.2);
+  border-radius: 4px;
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+  background: rgba(196, 164, 232, 0.35);
+}
+
+/* TOC (Table of Contents) styling */
+[data-theme="dark"] [class*="toc"] a {
+  color: rgba(255, 255, 255, 0.5);
+  transition: color 0.2s ease;
+}
+
+[data-theme="dark"] [class*="toc"] a:hover {
+  color: var(--moon-300);
+}
+
+[data-theme="dark"] [class*="toc"] a[data-active="true"] {
+  color: var(--moon-400);
+}
+
+/* Blockquotes */
+[data-theme="dark"] blockquote {
+  border-left: 3px solid var(--moon-600);
+  background: rgba(196, 164, 232, 0.05);
+  padding: 1rem 1.5rem;
+  border-radius: 0 8px 8px 0;
+}
+
+/* Horizontal rules */
+[data-theme="dark"] hr {
+  border-color: rgba(196, 164, 232, 0.1);
+}
+
+/* Footer - subtle */
+[data-theme="dark"] footer {
+  background: rgba(5, 0, 12, 0.9);
+  border-top: 1px solid rgba(196, 164, 232, 0.1);
+}
+
+/* Selection highlight */
+[data-theme="dark"] ::selection {
+  background: rgba(196, 164, 232, 0.3);
+  color: white;
+}
+
+/* Smooth transitions for theme switching */
+* {
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
