@@ -1,0 +1,45 @@
+name: Sync to Featurebase
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '**.mdx'
+      - '**.md'
+      - 'docs.json'
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  sync:
+    name: Sync Docs to Featurebase
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Full history for proper change detection
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Sync to Featurebase
+        env:
+          FEATUREBASE_API_KEY: ${{ secrets.FEATUREBASE_API_KEY }}
+        run: npm run sync:featurebase -- --verbose
+      
+      - name: Commit mapping changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: update Featurebase article mapping [skip ci]"
+          file_pattern: .featurebase-mapping.json
+          commit_user_name: "github-actions[bot]"
+          commit_user_email: "github-actions[bot]@users.noreply.github.com"
+

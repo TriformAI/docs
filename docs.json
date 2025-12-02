@@ -126,6 +126,8 @@
           "concepts/executions",
           "concepts/payloads",
           "concepts/triggers",
+          "concepts/modifiers",
+          "concepts/storage",
           "concepts/glossary"
         ]
       },

@@ -33,6 +33,41 @@ Agent responses can include:
 - Status updates and progress indicators
 - **Execution steps** — Real-time visibility into action execution with detailed step-by-step progress
 - **Interactive actions** — Actionable buttons and UI elements within chat responses
+- **Chat actions** — Quick reply buttons at the end of messages for common follow-up actions
+
+### OAuth Widgets
+
+When authentication is needed, interactive OAuth widgets appear directly in chat:
+
+**How it works:**
+1. The agent detects you need to connect a third-party service
+2. An OAuth button appears in the chat message
+3. Click to open the authorization popup
+4. Complete login with the provider (Google, Slack, GitHub, etc.)
+5. Popup closes automatically on success
+6. Chat continues with the new connection active
+
+**Features:**
+- **Inline authorization** — No need to leave the conversation
+- **Real-time status** — See connection progress in the chat
+- **Multiple widgets** — Connect several providers in one session
+- **Automatic completion** — Widget state tracks across messages
+- **All OAuth providers supported** — Google, Microsoft, GitHub, Slack, Linear, Notion, and more
+
+### Chat Actions (Quick Buttons)
+
+At the end of agent messages, you may see quick action buttons:
+
+- **Suggested follow-ups** — Common next steps based on context
+- **Color-coded buttons** — Visual distinction for different action types
+- **Single-click actions** — Execute actions without typing
+- **Stateful interactions** — Buttons update based on your choices
+
+**Example buttons:**
+- "Run this flow" — Execute the current workflow
+- "Deploy to production" — Quick deploy action
+- "Show me the code" — View generated Action code
+- "Edit this" — Jump to editing mode
 
 ### Context awareness
 

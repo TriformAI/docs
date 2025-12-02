@@ -54,38 +54,45 @@ curl -X POST 'https://app.triform.ai/api/in/31460071-17aa-43e8-a0e6-fb22984c0bdc
 }
 ```
 
-### Schedule Triggers
+### Cron Triggers (Schedule)
 
-Execute at specific times or intervals.
+Execute at specific times or intervals using native cron scheduling.
 
 **Use cases:**
-- Daily reports
-- Periodic data sync
-- Cleanup jobs
-- Monitoring checks
+- Daily reports and summaries
+- Periodic data sync and ETL jobs
+- Cleanup and maintenance tasks
+- Monitoring and health checks
+- Scheduled notifications
+
+**Key Features:**
+- **Native cron support** — Full cron expression syntax
+- **Timezone-aware** — Schedule in your local timezone
+- **Reliable execution** — Built-in monitoring and logging
+- **Payload mapping** — Pass context data to scheduled runs
 
 **Setup:**
 1. Go to Project → Triggers
-2. Click **Add Trigger → Schedule**
-3. Configure schedule:
+2. Click **Add Trigger → Cron**
+3. Configure:
    - **Cron expression:** `0 6 * * *` (daily at 6 AM)
-   - **Interval:** Every 15 minutes
-   - **One-time:** Specific date/time
-4. Set timezone
-5. Define payload (static or dynamic)
-6. Save
+   - **Timezone:** Select your timezone
+   - **Payload:** Define static or dynamic input data
+4. Save — Trigger is active immediately
 
 **Schedule types:**
 
-| Type | Example | Description |
-|------|---------|-------------|
-| Cron | `0 6 * * *` | Daily at 6 AM UTC |
-| Interval | `Every 15 minutes` | Repeating interval |
-| Hourly | `Every hour at :00` | Top of each hour |
-| Daily | `Daily at 9:00 AM` | Specific time daily |
-| Weekly | `Every Monday at 8:00 AM` | Specific day/time weekly |
-| Monthly | `1st of month at 00:00` | Specific day each month |
-| One-time | `2025-10-15 14:00:00` | Single execution |
+| Type | Cron Expression | Description |
+|------|-----------------|-------------|
+| Every minute | `* * * * *` | Runs every minute |
+| Every 15 min | `*/15 * * * *` | Runs at :00, :15, :30, :45 |
+| Hourly | `0 * * * *` | Top of each hour |
+| Daily at 6 AM | `0 6 * * *` | Every day at 6:00 AM |
+| Daily at 9 AM | `0 9 * * *` | Every day at 9:00 AM |
+| Weekdays 9 AM | `0 9 * * 1-5` | Monday-Friday at 9:00 AM |
+| Weekly Monday | `0 8 * * 1` | Every Monday at 8:00 AM |
+| Monthly 1st | `0 0 1 * *` | First of each month at midnight |
+| Quarterly | `0 0 1 1,4,7,10 *` | First day of each quarter |
 
 **Cron expression format:**
 ```
@@ -103,6 +110,18 @@ Execute at specific times or intervals.
 - `*/15 * * * *` — Every 15 minutes
 - `0 9 * * 1-5` — Weekdays at 9 AM
 - `0 0 1 * *` — First of each month
+- `0 6,18 * * *` — Twice daily at 6 AM and 6 PM
+- `0 0 * * 0` — Weekly on Sunday at midnight
+
+**Cron Logging & Monitoring:**
+
+All cron executions are logged with:
+- Scheduled time vs actual execution time
+- Execution duration and status
+- Payload data sent to the flow
+- Any errors or warnings
+
+View cron execution history in the Executions Dashboard.
 
 ### Manual Triggers
 

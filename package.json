@@ -1,0 +1,19 @@
+{
+  "name": "triform-docs",
+  "version": "1.0.0",
+  "description": "Triform documentation with Featurebase sync",
+  "type": "module",
+  "scripts": {
+    "sync:featurebase": "node scripts/sync-featurebase.js",
+    "sync:featurebase:dry-run": "node scripts/sync-featurebase.js --dry-run"
+  },
+  "dependencies": {
+    "gray-matter": "^4.0.3",
+    "marked": "^14.1.4"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
+

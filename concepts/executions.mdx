@@ -1,53 +1,145 @@
 ---
 title: "Executions"
-description: "What runs, how it runs, and practical tips"
+description: "Monitor, debug, and analyze your workflow runs"
 ---
 
 ## How executions start
 
-- Manual — Run from Properties → Execute.
-- API/Schedule — Triggered externally (for exposed top‑level Nodes).
-- Internal — Invoked by another Node within a Flow.
+- **Manual** — Run from Properties → Execute
+- **API/Webhook** — Triggered via HTTP request to your endpoint
+- **Cron** — Scheduled execution at specified intervals
+- **Internal** — Invoked by another Node within a Flow
 
 ## Characteristics
 
-- Isolated — No shared state between runs.
-- Reproducible — Inputs, modifiers, and context are logged.
-- Traceable — Inspect logs, traces, and metrics historically.
-- Evaluated — Optionally score outputs with Evaluations.
-- **Real-time visibility** — Execution steps are sent to the UI for live monitoring and debugging.
+- **Isolated** — No shared state between runs
+- **Reproducible** — Inputs, modifiers, and context are logged
+- **Traceable** — Inspect logs, traces, and metrics historically
+- **Evaluated** — Optionally score outputs with Evaluations
+- **Real-time visibility** — Execution steps are sent to the UI for live monitoring
+
+## Executions Dashboard
+
+The Executions Dashboard provides comprehensive monitoring across all your projects:
+
+### Accessing the Dashboard
+
+1. Click **Executions** in the top navigation
+2. View all executions across your projects in a tabbed layout
+3. Filter by project, status, trigger type, or time range
+
+### Dashboard Features
+
+- **Tabbed Layout** — Organized views for different execution states
+- **Complete History** — Full execution history with search and filtering
+- **Real-time Status** — Live updates for running executions
+- **Execution Details** — Click any execution to see full trace
+- **Empty State Handling** — Clear guidance when no executions exist
+
+### Execution List Columns
+
+| Column | Description |
+|--------|-------------|
+| Status | Success, Failed, Running, Cancelled |
+| Project | Which project was executed |
+| Trigger | How it was started (Manual, API, Cron) |
+| Duration | How long the execution took |
+| Started | When the execution began |
+| Actions | View details, retry, or cancel |
 
 ## Flow of an execution
 
-1. Trigger — Manual, schedule, or API.
-2. Input — JSON payload (from trigger or saved Payload).
-3. **Modifiers** — OAuth credentials and configuration injected (if configured).
-4. Process — Node(s) execute and pass data along Edges.
-5. Output — Result returned or stored.
+1. **Trigger** — Manual, cron, or API request
+2. **Input** — JSON payload (from trigger or saved Payload)
+3. **Modifiers** — OAuth credentials and storage access injected
+4. **Process** — Node(s) execute and pass data along Edges
+5. **Output** — Result returned or stored
 
-### OAuth Token Propagation
+### Modifier Injection
 
 When modifiers are configured:
 
-- OAuth tokens are **securely injected** into the execution context
+- **OAuth tokens** are securely injected into the execution context
+- **Storage access** is available via `save_file()` and `get_file()`
 - Tokens are **automatically refreshed** if near expiration
-- **Provider context** is available to all actions in the execution
-- Token expiration is handled transparently by the platform
 - Credentials are **encrypted in transit** during execution
 
-## Execution visibility
+## Observability & Monitoring
 
-Recent improvements provide enhanced debugging capabilities:
+### Real-time Step Tracking
 
-- **Step-by-step tracking** — See each execution step as it happens in real-time
-- **Builder context integration** — Execution data is integrated into the builder for better debugging
-- **Error tracing** — Agent-friendly error messages help identify and resolve issues quickly
+See each step as it happens:
+- Step-by-step progress in the UI
+- Input/output data for each node
+- Timing information per step
+- Error details with stack traces
+
+### Prometheus Integration
+
+Execution statistics are pushed to Prometheus for enterprise monitoring:
+- Execution counts by status
+- Duration histograms
+- Error rates by project
+- Trigger type distribution
+
+### Logging
+
+All executions generate detailed logs:
+- Structured log output (stdout/stderr)
+- Debug, info, warning, and error levels
+- Correlation IDs for request tracing
+- Cron trigger logging for scheduled runs
+
+## Execution States
+
+| State | Description |
+|-------|-------------|
+| **Queued** | Waiting to start |
+| **Running** | Currently executing |
+| **Success** | Completed without errors |
+| **Failed** | Encountered an error |
+| **Cancelled** | Manually stopped |
+| **Timeout** | Exceeded time limit |
+
+## Error Handling
+
+When executions fail:
+- **Agent-friendly errors** — Clear messages that help identify issues
+- **Automatic retries** — Configurable retry logic with backoff
+- **Error context** — Full stack trace and input data preserved
+- **Modifier resolution** — Graceful handling of unresolved credentials
 
 ## Practical tips
 
-- Save Payloads for common scenarios.
-- Keep inputs small and typed for easier regression.
-- Use consistent correlation fields to stitch traces across components.
-- Monitor execution steps in the UI to debug issues as they occur.
+> **Save Payloads** — Create saved payloads for common test scenarios
 
-> note: Parallelism — For components with Parallel ON, provide a list of inputs; each item is executed concurrently and aggregated downstream.
+> **Keep inputs typed** — Use schemas for easier debugging and regression testing
+
+> **Use correlation IDs** — Stitch traces across components for complex flows
+
+> **Monitor the dashboard** — Check execution trends for early issue detection
+
+> **Set appropriate timeouts** — Balance between allowing long operations and catching hangs
+
+## Filtering & Search
+
+Find specific executions by:
+- **Project name** — Filter to a single project
+- **Status** — Show only failed, successful, etc.
+- **Date range** — Last hour, day, week, or custom
+- **Trigger type** — Manual, API, or cron
+- **Search** — Text search in execution metadata
+
+## Retrying Executions
+
+To retry a failed execution:
+1. Find the execution in the dashboard
+2. Click the execution to view details
+3. Click **Retry** to run with the same payload
+4. Or **Retry with modifications** to change the input
+
+## Next Steps
+
+- Learn about [Triggers](/concepts/triggers) for automating executions
+- See [Modifiers](/concepts/modifiers) for credential injection
+- Check [Storage](/concepts/storage) for file handling in executions

@@ -26,14 +26,20 @@ A connection between two nodes in a Flow, showing data or control flow direction
 ### Execution
 A single run of a Project, Flow, Agent, or Action. Each execution has inputs, outputs, logs, and metrics. Executions are tracked for observability and debugging.
 
+### Executions Dashboard
+A centralized view for monitoring all executions across projects. Features tabbed layout, filtering, search, and real-time status updates. Access via the top navigation bar.
+
 ### Flow
 An orchestration graph that connects Actions, Agents, and sub-Flows. Flows define multi-step logic with inputs, outputs, and data flow between components.
 
-### Project Variable
-An environment-specific value (API keys, config, secrets) accessible across Projects. Variables keep sensitive data out of code and enable environment-specific configuration.
+### Modifier
+A configuration that injects credentials or capabilities into executions. OAuth modifiers provide third-party API access, storage modifiers enable file operations. See [Modifiers](/concepts/modifiers).
 
 ### Node
 A visual element on the Canvas representing a component (Action, Agent, Flow, Project) or control structure (Router, Merge, Loop).
+
+### OAuth Widget
+An interactive element that appears in chat for authorizing third-party services. Enables inline OAuth flows without leaving the conversation. See [Chat Interface](/workspace/chat/chat-interface).
 
 ### Organization
 The top-level entity that owns Projects, members, and billing. Organizations provide team collaboration and access control.
@@ -44,8 +50,11 @@ The JSON input data provided when executing a component. Payloads must match the
 ### Project
 A complete, deployable AI system containing Actions, Agents, and Flows. Projects are the primary unit of work in Triform.
 
+### Storage
+Triform's file management system for saving and retrieving files in workflows. Uses S3-compatible backends with project-scoped access. See [Storage](/concepts/storage).
+
 ### Trigger
-An automated mechanism that executes a Project in response to events (webhooks, schedules, manual API calls).
+An automated mechanism that executes a Project in response to events (webhooks, cron schedules, manual API calls).
 
 ## Platform Components
 
@@ -81,8 +90,14 @@ Triform's built-in AI assistant in the **Builder workspace** that helps you buil
 ### Breadcrumb
 Navigation elements showing your current location in the hierarchy (e.g., Home > Project > Flow > Agent). Click any level to jump back.
 
+### Chat Actions
+Quick reply buttons that appear at the end of agent messages. Provide one-click access to common follow-up actions like running flows or deploying projects.
+
 ### Cron Expression
 A time-based schedule format for triggering periodic executions. Example: `0 6 * * *` means daily at 6 AM.
+
+### Cron Trigger
+A native scheduling mechanism for automated workflow execution. Supports full cron syntax, timezone awareness, and payload mapping. See [Triggers](/concepts/triggers).
 
 ### Dependency
 An external Python package required by an Action. Dependencies are listed in `requirements.txt`.

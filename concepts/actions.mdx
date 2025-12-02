@@ -57,4 +57,31 @@ def my_action(data: dict) -> dict:
 
 See [Modifiers](/concepts/modifiers) for configuring OAuth credentials.
 
+## File Storage
+
+Actions can save and retrieve files using the Storage system:
+
+```python
+from triform import save_file, get_file
+
+def process_document(data: dict) -> dict:
+    # Save a generated file
+    report_path = save_file(
+        filename="report.pdf",
+        content=generate_pdf(data),
+        content_type="application/pdf"
+    )
+    
+    # Retrieve a file
+    template = get_file(data["template_path"])
+    
+    return {"report": report_path}
+```
+
+**Available functions:**
+- `save_file(filename, content, content_type)` — Store a file
+- `get_file(path)` — Retrieve a file's content
+
+See [Storage](/concepts/storage) for complete documentation.
+
 > warning: Dependencies — Only packages that do not require binary installs in the build image are supported.

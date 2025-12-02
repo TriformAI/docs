@@ -1,0 +1,206 @@
+---
+title: "Storage"
+description: "Store and retrieve files in your workflows with S3-compatible storage"
+---
+
+## What is Storage?
+
+Storage is Triform's built-in file management system that enables your Actions to save and retrieve files. Whether you're processing documents, generating reports, or handling uploads, Storage provides a simple, secure way to work with files in your workflows.
+
+## Key Features
+
+- **S3-Compatible** — Works with any S3-compatible storage backend
+- **Project-Scoped** — Files are isolated per project for security
+- **Simple API** — Two functions: `save_file()` and `get_file()`
+- **Automatic Authentication** — No manual credential management needed
+- **Secure by Default** — Encrypted storage with proper access controls
+
+## Using Storage in Actions
+
+### Saving Files
+
+Use `save_file()` to store a file in your project's storage:
+
+```python
+from triform import save_file
+
+def my_action(data: dict) -> dict:
+    # Generate content (could be a report, document, image, etc.)
+    content = generate_report(data)
+    
+    # Save to storage
+    file_path = save_file(
+        filename="report.pdf",
+        content=content,
+        content_type="application/pdf"
+    )
+    
+    return {"file_path": file_path}
+```
+
+**Parameters:**
+- `filename` — Name for the file (including extension)
+- `content` — File content (bytes, string, or file-like object)
+- `content_type` — MIME type of the file (optional, auto-detected if omitted)
+
+### Retrieving Files
+
+Use `get_file()` to retrieve a previously saved file:
+
+```python
+from triform import get_file
+
+def my_action(data: dict) -> dict:
+    # Retrieve a file by its path
+    file_content = get_file(data["file_path"])
+    
+    # Process the file content
+    result = process_document(file_content)
+    
+    return {"result": result}
+```
+
+**Parameters:**
+- `file_path` — The path returned from `save_file()` or provided via input
+
+## Common Patterns
+
+### Pattern 1: Document Processing Pipeline
+
+```python
+from triform import save_file, get_file
+
+def process_uploaded_document(data: dict) -> dict:
+    # Get the uploaded file
+    document = get_file(data["input_file"])
+    
+    # Process it (extract text, analyze, etc.)
+    processed = extract_and_analyze(document)
+    
+    # Save the processed result
+    output_path = save_file(
+        filename="processed_result.json",
+        content=json.dumps(processed),
+        content_type="application/json"
+    )
+    
+    return {"output_file": output_path, "summary": processed["summary"]}
+```
+
+### Pattern 2: Report Generation
+
+```python
+from triform import save_file
+
+def generate_weekly_report(data: dict) -> dict:
+    # Generate PDF report
+    pdf_bytes = create_pdf_report(data["metrics"])
+    
+    # Save with dated filename
+    from datetime import datetime
+    filename = f"report_{datetime.now().strftime('%Y-%m-%d')}.pdf"
+    
+    file_path = save_file(
+        filename=filename,
+        content=pdf_bytes,
+        content_type="application/pdf"
+    )
+    
+    return {"report_url": file_path}
+```
+
+### Pattern 3: Image Processing
+
+```python
+from triform import save_file, get_file
+
+def resize_image(data: dict) -> dict:
+    # Get original image
+    image_data = get_file(data["image_path"])
+    
+    # Process with PIL
+    from PIL import Image
+    from io import BytesIO
+    
+    img = Image.open(BytesIO(image_data))
+    img = img.resize((800, 600))
+    
+    # Save resized version
+    output = BytesIO()
+    img.save(output, format='PNG')
+    
+    new_path = save_file(
+        filename="resized_image.png",
+        content=output.getvalue(),
+        content_type="image/png"
+    )
+    
+    return {"resized_image": new_path}
+```
+
+## File Upload via API
+
+You can upload files to your projects via the FormData API:
+
+```bash
+curl -X POST 'https://app.triform.ai/api/files/{project-id}' \
+  --header 'Authorization: {your-api-key}' \
+  --form 'file=@/path/to/your/file.pdf'
+```
+
+The response includes the file path you can use in subsequent action executions.
+
+## Storage Configuration
+
+Storage is configured at the project level via Modifiers:
+
+1. Go to **Project → Properties → Modifiers**
+2. Click **Add Modifier → Storage**
+3. Configure your storage backend (S3 credentials, bucket, region)
+4. Save
+
+Once configured, all Actions in the project can use `save_file()` and `get_file()`.
+
+## Storage Limits
+
+| Plan | Storage Limit | File Size Limit |
+|------|---------------|-----------------|
+| Free | 1 GB | 10 MB |
+| Pro | 50 GB | 100 MB |
+| Enterprise | Custom | Custom |
+
+## Security
+
+- **Encryption at Rest** — All files are encrypted in storage
+- **Encryption in Transit** — HTTPS for all file transfers
+- **Project Isolation** — Files are scoped to projects, preventing cross-project access
+- **Access Control** — Only authenticated Actions within the project can access files
+- **Credential Management** — Storage credentials are managed by Triform, never exposed to Actions
+
+## Best Practices
+
+> **Use meaningful filenames** — Include dates, IDs, or descriptive names for easier debugging
+
+> **Clean up temporary files** — Remove files you no longer need to save storage
+
+> **Handle large files carefully** — Stream large files rather than loading entirely into memory
+
+> **Check file existence** — Handle cases where files may not exist gracefully
+
+## Troubleshooting
+
+**Problem:** `save_file()` fails with permission error  
+**Solution:** Check that storage modifiers are configured for your project
+
+**Problem:** `get_file()` returns empty or None  
+**Solution:** Verify the file path is correct and the file exists
+
+**Problem:** File uploads timeout  
+**Solution:** For large files, consider chunked uploads or compression
+
+## Next Steps
+
+- Learn about [Modifiers](/concepts/modifiers) for configuring storage
+- See [Actions](/concepts/actions) for using storage in your code
+- Check [Tutorials](/tutorials/build-a-new-project) for end-to-end examples
+

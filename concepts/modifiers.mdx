@@ -1,0 +1,224 @@
+---
+title: "Modifiers"
+description: "Configure OAuth credentials, storage, and execution context for your projects"
+---
+
+## What are Modifiers?
+
+Modifiers are configuration settings that enhance your project's capabilities. They inject credentials, storage access, and other context into your Actions at runtime, without requiring you to manage sensitive data in your code.
+
+## Types of Modifiers
+
+### OAuth Modifiers
+
+Connect third-party services to your projects with secure OAuth 2.0 authentication.
+
+**Supported Providers:**
+- **Google** — Gmail, Drive, Sheets, Calendar
+- **Microsoft** — Office 365, Outlook, OneDrive, Teams
+- **GitHub** — Repository access, CI/CD integration
+- **GitLab** — Code hosting, pipelines
+- **Slack** — Team communication, workflows
+- **Linear** — Issue tracking, project management
+- **Notion** — Documentation, databases
+- **Dropbox** — File storage
+- **Trello** — Board management
+- **Asana** — Task management
+- And more providers added regularly
+
+**How it works:**
+1. Add an OAuth modifier to your project
+2. Select provider and required scopes
+3. Complete the OAuth authorization flow
+4. Tokens are automatically managed by Triform
+
+### Storage Modifiers
+
+Enable file storage capabilities for your project.
+
+**Configuration options:**
+- S3-compatible storage backends
+- Custom bucket and region settings
+- Credential management
+
+See [Storage](/concepts/storage) for detailed usage.
+
+## Setting Up Modifiers
+
+### Via UI
+
+1. Open your **Project** in the Builder
+2. Go to **Properties Panel → Execute**
+3. Click **Add Modifier**
+4. Select modifier type (OAuth or Storage)
+5. Configure settings and authorize
+
+### OAuth Authorization Flow
+
+When adding an OAuth modifier:
+
+1. Click **Connect** next to the provider
+2. A popup opens for the provider's login
+3. Grant permissions for the requested scopes
+4. The popup closes automatically on success
+5. Status shows "Connected" with token health
+
+**OAuth Widgets in Chat:**
+
+When using Triton to build projects, OAuth authorization can happen directly in the chat:
+
+- Interactive OAuth buttons appear in chat messages
+- Click to authorize without leaving the conversation
+- Real-time status updates show connection progress
+- Multiple widgets can be active in the same session
+
+## Using Modifiers in Actions
+
+### Accessing OAuth Tokens
+
+```python
+from triform import get_oauth_token
+
+def my_action(data: dict) -> dict:
+    # Get token for a configured provider
+    token = get_oauth_token('google')
+    
+    # Use in API requests
+    headers = {'Authorization': f'Bearer {token.access_token}'}
+    response = requests.get(
+        'https://www.googleapis.com/gmail/v1/users/me/messages',
+        headers=headers
+    )
+    
+    return {"messages": response.json()}
+```
+
+### Token Properties
+
+The token object includes:
+- `access_token` — The bearer token for API requests
+- `expires_at` — Token expiration timestamp
+- `scopes` — List of granted permissions
+
+### Multi-Provider Example
+
+```python
+from triform import get_oauth_token
+
+def sync_data(data: dict) -> dict:
+    # Access multiple providers in one action
+    google_token = get_oauth_token('google')
+    slack_token = get_oauth_token('slack')
+    
+    # Fetch from Google
+    google_data = fetch_from_google(google_token)
+    
+    # Post to Slack
+    send_to_slack(slack_token, google_data)
+    
+    return {"synced": True}
+```
+
+### Accessing Storage
+
+```python
+from triform import save_file, get_file
+
+def my_action(data: dict) -> dict:
+    # Storage is automatically available when modifier is configured
+    file_path = save_file("output.json", json.dumps(data))
+    return {"saved_to": file_path}
+```
+
+## Scope Configuration
+
+OAuth scopes define what permissions your project has with each provider.
+
+### Common Scopes by Provider
+
+**Google:**
+- `gmail.readonly` — Read emails
+- `gmail.send` — Send emails
+- `drive.readonly` — Read files
+- `drive` — Full Drive access
+- `calendar.readonly` — Read calendar
+- `calendar` — Manage calendar
+
+**Microsoft:**
+- `Mail.Read` — Read emails
+- `Mail.Send` — Send emails
+- `Files.Read` — Read OneDrive files
+- `Files.ReadWrite` — Full OneDrive access
+- `Calendars.ReadWrite` — Manage calendar
+
+**GitHub:**
+- `repo` — Full repository access
+- `read:user` — Read user profile
+- `workflow` — Manage Actions workflows
+
+**Slack:**
+- `chat:write` — Post messages
+- `channels:read` — List channels
+- `files:read` — Access files
+
+### Best Practices for Scopes
+
+> **Request minimal scopes** — Only ask for permissions you actually need
+
+> **Explain to users** — When building public projects, document why each scope is needed
+
+> **Review periodically** — Remove scopes you no longer use
+
+## Token Management
+
+Triform handles token lifecycle automatically:
+
+- **Automatic Refresh** — Tokens are refreshed before expiration
+- **Secure Storage** — Credentials encrypted with Scaleway KMS
+- **Organization Isolation** — Each org has dedicated encryption keys
+- **High-Performance Cache** — Memcache layer for fast token retrieval
+
+### Token Health
+
+In the Properties Panel, you can see:
+- **Connected** — Token is valid and working
+- **Expiring Soon** — Token will be refreshed automatically
+- **Expired** — Re-authorization required
+- **Revoked** — User revoked access, re-authorize needed
+
+## Real-Time Updates
+
+Modifier changes trigger real-time events:
+
+- **WebSocket notifications** when tokens are updated
+- **Live status updates** in the UI
+- **Automatic propagation** to running executions
+
+## Security
+
+- **End-to-End Encryption** — All credentials encrypted at rest and in transit
+- **KMS Integration** — Scaleway Key Management Service for enterprise-grade security
+- **Organization Keys** — Dedicated encryption keys per organization
+- **No Code Exposure** — Tokens never appear in Action code, only at runtime
+- **Audit Trail** — All OAuth events logged for compliance
+
+## Troubleshooting
+
+**Problem:** OAuth connection fails  
+**Solution:** Check popup blockers, try a different browser, verify provider status
+
+**Problem:** Token expired immediately  
+**Solution:** Check your system clock, re-authorize the connection
+
+**Problem:** Missing scopes error  
+**Solution:** Edit the modifier and add required scopes, then re-authorize
+
+**Problem:** `get_oauth_token()` returns None  
+**Solution:** Verify the modifier is configured and the provider name matches exactly
+
+## Next Steps
+
+- See [OAuth in Actions](/concepts/actions#oauth-integration) for code examples
+- Learn about [Storage](/concepts/storage) for file handling
+- Check [Executions](/concepts/executions) for how modifiers are injected
+

@@ -1,0 +1,465 @@
+{
+  "articles": {
+    "index": {
+      "articleId": "0002984",
+      "contentHash": "36f53c2f93ddf03a51fcf991dd871170",
+      "title": "Welcome",
+      "lastSync": "2025-12-02T00:04:33.287Z",
+      "collectionPath": "Get Started",
+      "externalUrl": "https://docs.triform.ai/index"
+    },
+    "getting-started/quickstart": {
+      "articleId": "8453093",
+      "contentHash": "f19ed4c13dfc863958c4451cd9be01c8",
+      "title": "Quickstart",
+      "lastSync": "2025-12-02T00:04:34.520Z",
+      "collectionPath": "Get Started",
+      "externalUrl": "https://docs.triform.ai/getting-started/quickstart"
+    },
+    "getting-started/login": {
+      "articleId": "7887105",
+      "contentHash": "8e1994a98d3275ae8daf1dc15fe4b5d5",
+      "title": "Login & Registration",
+      "lastSync": "2025-12-02T00:04:35.371Z",
+      "collectionPath": "Get Started",
+      "externalUrl": "https://docs.triform.ai/getting-started/login"
+    },
+    "getting-started/workspace-overview": {
+      "articleId": "4042459",
+      "contentHash": "5837485ffeae897b78ff68f00b1c2f52",
+      "title": "Workspace Overview",
+      "lastSync": "2025-12-02T00:04:36.253Z",
+      "collectionPath": "Get Started",
+      "externalUrl": "https://docs.triform.ai/getting-started/workspace-overview"
+    },
+    "triton/overview": {
+      "articleId": "6890332",
+      "contentHash": "4ee5c6908984f0fdaba102725d3068c8",
+      "title": "Triton Overview",
+      "lastSync": "2025-12-02T00:04:37.379Z",
+      "collectionPath": "Triton",
+      "externalUrl": "https://docs.triform.ai/triton/overview"
+    },
+    "triton/defining": {
+      "articleId": "5469135",
+      "contentHash": "160cda14c8a51425a3aa90783a86e751",
+      "title": "Defining Projects with Triton",
+      "lastSync": "2025-12-02T00:04:38.608Z",
+      "collectionPath": "Triton",
+      "externalUrl": "https://docs.triform.ai/triton/defining"
+    },
+    "triton/building": {
+      "articleId": "2658052",
+      "contentHash": "9ec197b8f97b87651b2ca87246b1d237",
+      "title": "Building with Triton",
+      "lastSync": "2025-12-02T00:04:39.408Z",
+      "collectionPath": "Triton",
+      "externalUrl": "https://docs.triform.ai/triton/building"
+    },
+    "triton/editing": {
+      "articleId": "3629143",
+      "contentHash": "05a8b95c3686f7a1d94a767154173630",
+      "title": "Editing with Triton",
+      "lastSync": "2025-12-02T00:04:40.339Z",
+      "collectionPath": "Triton",
+      "externalUrl": "https://docs.triform.ai/triton/editing"
+    },
+    "workspace/chat/overview": {
+      "articleId": "8598654",
+      "contentHash": "30ea43a627edb7dc35b96ccaa6a848ef",
+      "title": "Chat: Overview",
+      "lastSync": "2025-12-02T00:04:41.169Z",
+      "collectionPath": "Workspace/Chat",
+      "externalUrl": "https://docs.triform.ai/workspace/chat/overview"
+    },
+    "workspace/chat/chat-interface": {
+      "articleId": "9828840",
+      "contentHash": "877e82da9ed1d77896c4cad1e3732a58",
+      "title": "Chat Interface",
+      "lastSync": "2025-12-02T00:04:42.091Z",
+      "collectionPath": "Workspace/Chat",
+      "externalUrl": "https://docs.triform.ai/workspace/chat/chat-interface"
+    },
+    "workspace/chat/chat-history": {
+      "articleId": "2283721",
+      "contentHash": "9071f02e7080b089d2c2d5ec7562d0ba",
+      "title": "Chat History",
+      "lastSync": "2025-12-02T00:04:42.939Z",
+      "collectionPath": "Workspace/Chat",
+      "externalUrl": "https://docs.triform.ai/workspace/chat/chat-history"
+    },
+    "workspace/builder/overview": {
+      "articleId": "8556493",
+      "contentHash": "a16ce95627653f1980956ee64e61a482",
+      "title": "Builder: Overview",
+      "lastSync": "2025-12-02T00:04:44.577Z",
+      "collectionPath": "Workspace/Builder",
+      "externalUrl": "https://docs.triform.ai/workspace/builder/overview"
+    },
+    "workspace/canvas/overview": {
+      "articleId": "5040699",
+      "contentHash": "9e88a92b5ad4ec34d988b9abebfa23e6",
+      "title": "Canvas: Overview",
+      "lastSync": "2025-12-02T00:04:45.410Z",
+      "collectionPath": "Workspace/Builder",
+      "externalUrl": "https://docs.triform.ai/workspace/canvas/overview"
+    },
+    "workspace/canvas/project-view": {
+      "articleId": "6569636",
+      "contentHash": "bdd718f55e1bfedca681386bb5c2354f",
+      "title": "Project View",
+      "lastSync": "2025-12-02T00:04:46.657Z",
+      "collectionPath": "Workspace/Builder",
+      "externalUrl": "https://docs.triform.ai/workspace/canvas/project-view"
+    },
+    "workspace/canvas/agent-toolbox": {
+      "articleId": "0863237",
+      "contentHash": "ab1fc7f42e73fb7b524b093bfb5879a1",
+      "title": "Agent Toolbox View",
+      "lastSync": "2025-12-02T00:04:47.685Z",
+      "collectionPath": "Workspace/Builder",
+      "externalUrl": "https://docs.triform.ai/workspace/canvas/agent-toolbox"
+    },
+    "workspace/canvas/flow-view": {
+      "articleId": "5218571",
+      "contentHash": "a88c6afb3ea248d7d7deafaa2bd3fb06",
+      "title": "Flow View",
+      "lastSync": "2025-12-02T00:04:48.673Z",
+      "collectionPath": "Workspace/Builder",
+      "externalUrl": "https://docs.triform.ai/workspace/canvas/flow-view"
+    },
+    "workspace/chat-panel": {
+      "articleId": "4884939",
+      "contentHash": "2cb7bac50e9736afa860d14d362cdade",
+      "title": "Chat Panel (Triton)",
+      "lastSync": "2025-12-02T00:04:49.511Z",
+      "collectionPath": "Workspace/Builder",
+      "externalUrl": "https://docs.triform.ai/workspace/chat-panel"
+    },
+    "workspace/properties/overview": {
+      "articleId": "3789771",
+      "contentHash": "f9a09cec97287ec8a12d52c4d84e6386",
+      "title": "Properties Panel: Overview",
+      "lastSync": "2025-12-02T00:04:50.396Z",
+      "collectionPath": "Workspace/Builder",
+      "externalUrl": "https://docs.triform.ai/workspace/properties/overview"
+    },
+    "workspace/properties/project-variables": {
+      "articleId": "3110381",
+      "contentHash": "68a08396ff25ba744b090f9c0616cd3b",
+      "title": "Properties → Project Variables",
+      "lastSync": "2025-12-02T00:04:51.302Z",
+      "collectionPath": "Workspace/Builder",
+      "externalUrl": "https://docs.triform.ai/workspace/properties/project-variables"
+    },
+    "workspace/properties/execute": {
+      "articleId": "8046379",
+      "contentHash": "36f7309e4318660aa2663d6dfd6c6d06",
+      "title": "Properties → Execute",
+      "lastSync": "2025-12-02T00:04:52.227Z",
+      "collectionPath": "Workspace/Builder",
+      "externalUrl": "https://docs.triform.ai/workspace/properties/execute"
+    },
+    "workspace/properties/input-output": {
+      "articleId": "2339512",
+      "contentHash": "aabac95a55797c7629368defa5783a29",
+      "title": "Properties → Input & Output",
+      "lastSync": "2025-12-02T00:04:53.080Z",
+      "collectionPath": "Workspace/Builder",
+      "externalUrl": "https://docs.triform.ai/workspace/properties/input-output"
+    },
+    "workspace/top-bar": {
+      "articleId": "9029611",
+      "contentHash": "840df3ba9c7e4cfd240dc5bad4ffcf68",
+      "title": "Top Bar",
+      "lastSync": "2025-12-02T00:04:53.908Z",
+      "collectionPath": "Workspace",
+      "externalUrl": "https://docs.triform.ai/workspace/top-bar"
+    },
+    "tutorials/build-a-new-project": {
+      "articleId": "5266443",
+      "contentHash": "6b3eecc152dd1969ec04ed36a2169425",
+      "title": "Build a New Project",
+      "lastSync": "2025-12-02T00:04:54.833Z",
+      "collectionPath": "Tutorials",
+      "externalUrl": "https://docs.triform.ai/tutorials/build-a-new-project"
+    },
+    "tutorials/edit-an-existing-project": {
+      "articleId": "6863784",
+      "contentHash": "0a8cd2ad5ac9cca19f242c9f27fc0db4",
+      "title": "Edit an Existing Project",
+      "lastSync": "2025-12-02T00:04:55.779Z",
+      "collectionPath": "Tutorials",
+      "externalUrl": "https://docs.triform.ai/tutorials/edit-an-existing-project"
+    },
+    "tutorials/edit-a-specific-component": {
+      "articleId": "7522042",
+      "contentHash": "bb5873376d7fc01856f06a4620dba1d1",
+      "title": "Edit a Specific Component",
+      "lastSync": "2025-12-02T00:04:57.764Z",
+      "collectionPath": "Tutorials",
+      "externalUrl": "https://docs.triform.ai/tutorials/edit-a-specific-component"
+    },
+    "tutorials/integrate-project-into-your-app": {
+      "articleId": "2795092",
+      "contentHash": "16c2cb373370ab4d452fdbedfe8aaf40",
+      "title": "Integrate Project into Your App",
+      "lastSync": "2025-12-02T00:04:59.162Z",
+      "collectionPath": "Tutorials",
+      "externalUrl": "https://docs.triform.ai/tutorials/integrate-project-into-your-app"
+    },
+    "concepts/projects": {
+      "articleId": "4164003",
+      "contentHash": "bb459c8224ef626583ede25c85f6d577",
+      "title": "Projects",
+      "lastSync": "2025-12-02T00:05:00.947Z",
+      "collectionPath": "Core Concepts",
+      "externalUrl": "https://docs.triform.ai/concepts/projects"
+    },
+    "concepts/agents": {
+      "articleId": "7750233",
+      "contentHash": "f1e617d69f8aa74d2d5b0f744ac3a405",
+      "title": "Agents",
+      "lastSync": "2025-12-02T00:05:02.271Z",
+      "collectionPath": "Core Concepts",
+      "externalUrl": "https://docs.triform.ai/concepts/agents"
+    },
+    "concepts/actions": {
+      "articleId": "4827047",
+      "contentHash": "0f8db01c2158b79e1aea0d6938f023f9",
+      "title": "Actions",
+      "lastSync": "2025-12-02T00:05:03.823Z",
+      "collectionPath": "Core Concepts",
+      "externalUrl": "https://docs.triform.ai/concepts/actions"
+    },
+    "concepts/flows": {
+      "articleId": "2761141",
+      "contentHash": "6fb305b253a89e990b51d2c7eb863bd6",
+      "title": "Flows",
+      "lastSync": "2025-12-02T00:05:04.933Z",
+      "collectionPath": "Core Concepts",
+      "externalUrl": "https://docs.triform.ai/concepts/flows"
+    },
+    "concepts/executions": {
+      "articleId": "3418354",
+      "contentHash": "74a74adea61e6575bb4efe35dd5c5449",
+      "title": "Executions",
+      "lastSync": "2025-12-02T00:05:05.955Z",
+      "collectionPath": "Core Concepts",
+      "externalUrl": "https://docs.triform.ai/concepts/executions"
+    },
+    "concepts/payloads": {
+      "articleId": "6076938",
+      "contentHash": "e5576f81148d42e5748056030513182d",
+      "title": "Payloads",
+      "lastSync": "2025-12-02T00:05:08.028Z",
+      "collectionPath": "Core Concepts",
+      "externalUrl": "https://docs.triform.ai/concepts/payloads"
+    },
+    "concepts/triggers": {
+      "articleId": "3389257",
+      "contentHash": "101d19e78e8c3ee78d86d3e0f25d3e7d",
+      "title": "Triggers",
+      "lastSync": "2025-12-02T00:05:12.183Z",
+      "collectionPath": "Core Concepts",
+      "externalUrl": "https://docs.triform.ai/concepts/triggers"
+    },
+    "concepts/modifiers": {
+      "articleId": "9348693",
+      "contentHash": "bf2716d0cb66b9260d5c240bcbdf980a",
+      "title": "Modifiers",
+      "lastSync": "2025-12-02T00:05:12.986Z",
+      "collectionPath": "Core Concepts",
+      "externalUrl": "https://docs.triform.ai/concepts/modifiers"
+    },
+    "concepts/storage": {
+      "articleId": "9212609",
+      "contentHash": "32c4a13e22a5be3f8357d25411107d54",
+      "title": "Storage",
+      "lastSync": "2025-12-02T00:05:13.810Z",
+      "collectionPath": "Core Concepts",
+      "externalUrl": "https://docs.triform.ai/concepts/storage"
+    },
+    "concepts/glossary": {
+      "articleId": "3536621",
+      "contentHash": "ccf0e2f73e89c83b7018e453b5d2ea33",
+      "title": "Glossary",
+      "lastSync": "2025-12-02T00:05:14.675Z",
+      "collectionPath": "Core Concepts",
+      "externalUrl": "https://docs.triform.ai/concepts/glossary"
+    },
+    "orgs/admin": {
+      "articleId": "1020862",
+      "contentHash": "71569b7cc9f8ee4ae6fd1dd84d163cbe",
+      "title": "Organization Admin",
+      "lastSync": "2025-12-02T00:05:15.559Z",
+      "collectionPath": "Organizations",
+      "externalUrl": "https://docs.triform.ai/orgs/admin"
+    },
+    "orgs/roles-permissions": {
+      "articleId": "1239747",
+      "contentHash": "ef2f0ad3502e6a68b1a5cf9b139aeaec",
+      "title": "Roles & Permissions",
+      "lastSync": "2025-12-02T00:05:16.497Z",
+      "collectionPath": "Organizations",
+      "externalUrl": "https://docs.triform.ai/orgs/roles-permissions"
+    },
+    "orgs/members": {
+      "articleId": "1392591",
+      "contentHash": "3a504484edb465cf88d9eaf9691ca871",
+      "title": "Members & Invitations",
+      "lastSync": "2025-12-02T00:05:17.504Z",
+      "collectionPath": "Organizations",
+      "externalUrl": "https://docs.triform.ai/orgs/members"
+    },
+    "quotas": {
+      "articleId": "9708849",
+      "contentHash": "6969492ae19a1f68acb9b9381da874fe",
+      "title": "Quotas",
+      "lastSync": "2025-12-02T00:05:18.443Z",
+      "collectionPath": "Reference",
+      "externalUrl": "https://docs.triform.ai/quotas"
+    },
+    "security/overview": {
+      "articleId": "5093146",
+      "contentHash": "0c05d42ca2365fbb5651b963546e54eb",
+      "title": "Security Overview",
+      "lastSync": "2025-12-02T00:05:19.349Z",
+      "collectionPath": "Reference",
+      "externalUrl": "https://docs.triform.ai/security/overview"
+    },
+    "security/data-retention": {
+      "articleId": "6470469",
+      "contentHash": "d4614282d1ee0954e88be4830068878e",
+      "title": "Data Retention",
+      "lastSync": "2025-12-02T00:05:20.285Z",
+      "collectionPath": "Reference",
+      "externalUrl": "https://docs.triform.ai/security/data-retention"
+    },
+    "security/compliance": {
+      "articleId": "6347227",
+      "contentHash": "30873b75802dd5abceac6d3c6bb4bbbb",
+      "title": "Compliance",
+      "lastSync": "2025-12-02T00:05:21.312Z",
+      "collectionPath": "Reference",
+      "externalUrl": "https://docs.triform.ai/security/compliance"
+    },
+    "support": {
+      "articleId": "0610928",
+      "contentHash": "f99b44d853a879365e7769b5bd621906",
+      "title": "Support",
+      "lastSync": "2025-12-02T00:05:22.089Z",
+      "collectionPath": "Resources",
+      "externalUrl": "https://docs.triform.ai/support"
+    },
+    "roadmap": {
+      "articleId": "0180412",
+      "contentHash": "7d4dff1cf2bb49ed1ad69ab621d3bd48",
+      "title": "Roadmap",
+      "lastSync": "2025-12-02T00:05:22.893Z",
+      "collectionPath": "Resources",
+      "externalUrl": "https://docs.triform.ai/roadmap"
+    },
+    "llms": {
+      "articleId": "7346740",
+      "contentHash": "e95edc8afd5fd5ee95e427b777f50f7f",
+      "title": "LLMs.txt",
+      "lastSync": "2025-12-02T00:05:25.043Z",
+      "collectionPath": "Resources",
+      "externalUrl": "https://docs.triform.ai/llms"
+    },
+    "legal/community-terms": {
+      "articleId": "3047032",
+      "contentHash": "65502fa509897facf482c8fe3ba7dd8b",
+      "title": "Triform Community Version Terms",
+      "lastSync": "2025-12-02T00:05:25.821Z",
+      "collectionPath": "Legal",
+      "externalUrl": "https://docs.triform.ai/legal/community-terms"
+    },
+    "legal/privacy-policy": {
+      "articleId": "3544392",
+      "contentHash": "8c4f24d7c2035797871a109fe8357ec6",
+      "title": "Privacy Policy - Community Version",
+      "lastSync": "2025-12-02T00:05:27.447Z",
+      "collectionPath": "Legal",
+      "externalUrl": "https://docs.triform.ai/legal/privacy-policy"
+    },
+    "workspace/chat/project-selector": {
+      "articleId": "3149057",
+      "contentHash": "31cb2a007c0a52dc23f93ff2f09e2f9a",
+      "title": "Project Selector",
+      "lastSync": "2025-12-02T00:04:43.723Z",
+      "collectionPath": "Workspace/Chat",
+      "externalUrl": "https://docs.triform.ai/workspace/chat/project-selector"
+    },
+    "changelog/index": {
+      "articleId": "8707821",
+      "contentHash": "4d02995b97b40cb751d72218a846eef1",
+      "title": "Changelog",
+      "lastSync": "2025-12-02T00:05:24.067Z",
+      "collectionPath": "Resources",
+      "externalUrl": "https://docs.triform.ai/changelog/index"
+    }
+  },
+  "collections": {
+    "Get Started": {
+      "collectionId": "4138984",
+      "name": "Get Started",
+      "parentPath": null
+    },
+    "Triton": {
+      "collectionId": "0578147",
+      "name": "Triton",
+      "parentPath": null
+    },
+    "Workspace": {
+      "collectionId": "1503098",
+      "name": "Workspace",
+      "parentPath": null
+    },
+    "Tutorials": {
+      "collectionId": "6862043",
+      "name": "Tutorials",
+      "parentPath": null
+    },
+    "Core Concepts": {
+      "collectionId": "7001047",
+      "name": "Core Concepts",
+      "parentPath": null
+    },
+    "Organizations": {
+      "collectionId": "3414826",
+      "name": "Organizations",
+      "parentPath": null
+    },
+    "Reference": {
+      "collectionId": "7514772",
+      "name": "Reference",
+      "parentPath": null
+    },
+    "Resources": {
+      "collectionId": "7257154",
+      "name": "Resources",
+      "parentPath": null
+    },
+    "Legal": {
+      "collectionId": "3045285",
+      "name": "Legal",
+      "parentPath": null
+    },
+    "Workspace/Chat": {
+      "collectionId": "2188611",
+      "name": "Chat",
+      "parentPath": "Workspace"
+    },
+    "Workspace/Builder": {
+      "collectionId": "4880020",
+      "name": "Builder",
+      "parentPath": "Workspace"
+    }
+  },
+  "_metadata": {
+    "description": "Maps Mintlify doc paths to Featurebase article IDs. DO NOT EDIT MANUALLY.",
+    "lastFullSync": null
+  }
+}
